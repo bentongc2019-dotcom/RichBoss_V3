@@ -1,0 +1,297 @@
+/* Tailwind CSS 基础指令 */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 全局样式 - 默认深色主题 */
+:root {
+  --color-royal-purple: #6A1B9A;
+  --color-gold: #FFD700;
+  --color-bg-dark: #0a0a0a;
+  --color-bg-card: #121212;
+  --color-text-primary: #f5f5f5;
+  --color-text-secondary: #a0a0a0;
+}
+
+/* 平滑滚动 */
+html {
+  scroll-behavior: smooth;
+}
+
+/* 基础 body 样式 */
+body {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-primary);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-royal-purple);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #7b1fa2;
+}
+
+/* 选中文字样式 */
+::selection {
+  background-color: rgba(106, 27, 154, 0.5);
+  color: var(--color-gold);
+}
+
+/* 链接样式 */
+a {
+  color: var(--color-gold);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: #ffe066;
+}
+
+/* 按钮基础样式 */
+@layer components {
+  .btn-primary {
+    @apply px-8 py-4 bg-royal-purple-600 text-white font-semibold rounded-xl 
+           transition-all duration-300 ease-out
+           hover:bg-royal-purple-500 hover:shadow-lg hover:shadow-royal-purple-600/30
+           active:scale-95;
+  }
+
+  .btn-gold {
+    @apply px-8 py-4 bg-gradient-to-r from-gold-400 to-gold-500 
+           text-gray-900 font-bold rounded-xl
+           transition-all duration-300 ease-out
+           hover:from-gold-300 hover:to-gold-400 
+           hover:shadow-lg hover:shadow-gold-400/40
+           active:scale-95;
+  }
+
+  /* 卡片样式 */
+  .card-glass {
+    @apply bg-gray-900/50 backdrop-blur-lg border border-gray-800/50 
+           rounded-2xl shadow-xl;
+  }
+
+  /* 标题渐变 */
+  .text-gradient-gold {
+    @apply bg-gradient-to-r from-gold-300 via-gold-400 to-gold-500 
+           bg-clip-text text-transparent;
+  }
+
+  .text-gradient-purple {
+    @apply bg-gradient-to-r from-royal-purple-400 via-royal-purple-500 to-royal-purple-600 
+           bg-clip-text text-transparent;
+  }
+}
+
+/* react-markdown prose 样式覆盖 */
+.prose {
+  --tw-prose-body: var(--color-text-primary);
+  --tw-prose-headings: var(--color-gold);
+  --tw-prose-lead: var(--color-text-secondary);
+  --tw-prose-links: var(--color-gold);
+  --tw-prose-bold: #fff;
+  --tw-prose-counters: var(--color-gold);
+  --tw-prose-bullets: var(--color-royal-purple);
+  --tw-prose-hr: #333;
+  --tw-prose-quotes: var(--color-text-primary);
+  --tw-prose-quote-borders: var(--color-royal-purple);
+  --tw-prose-captions: var(--color-text-secondary);
+  --tw-prose-code: var(--color-gold);
+  --tw-prose-pre-code: var(--color-text-primary);
+  --tw-prose-pre-bg: #1a1a1a;
+  --tw-prose-th-borders: #333;
+  --tw-prose-td-borders: #222;
+}
+
+.prose h1 {
+  @apply text-3xl md:text-4xl font-bold mb-6 text-gradient-gold;
+}
+
+.prose h2 {
+  @apply text-2xl md:text-3xl font-semibold mt-12 mb-4 text-gold-400;
+}
+
+.prose h3 {
+  @apply text-xl md:text-2xl font-medium mt-8 mb-3 text-gold-300;
+}
+
+.prose p {
+  @apply mb-6 text-gray-200 leading-relaxed text-lg;
+}
+
+.prose img {
+  @apply rounded-xl shadow-lg my-8 mx-auto max-w-full;
+}
+
+.prose blockquote {
+  @apply border-l-4 border-royal-purple-600 pl-6 italic text-gray-300 
+         my-6 bg-gray-900/30 py-4 pr-4 rounded-r-lg;
+}
+
+.prose ul, .prose ol {
+  @apply my-4 pl-6;
+}
+
+.prose li {
+  @apply mb-2 text-gray-200;
+}
+
+.prose strong {
+  @apply text-gold-400 font-semibold;
+}
+
+.prose code {
+  @apply bg-gray-800 px-2 py-1 rounded text-gold-400 text-sm;
+}
+
+.prose pre {
+  @apply bg-gray-900 rounded-xl p-4 overflow-x-auto my-6;
+}
+
+.prose a {
+  @apply text-gold-400 underline decoration-gold-400/30 
+         hover:decoration-gold-400 transition-all;
+}
+
+/* 动画辅助类 */
+.animate-delay-100 { animation-delay: 100ms; }
+.animate-delay-200 { animation-delay: 200ms; }
+.animate-delay-300 { animation-delay: 300ms; }
+.animate-delay-400 { animation-delay: 400ms; }
+.animate-delay-500 { animation-delay: 500ms; }
+
+/* =====================================================
+   E-Reader 專業排版樣式
+   ===================================================== */
+
+/* 閱讀器正文 - 使用襯線字體 */
+.ereader-content {
+  font-family: Georgia, 'Noto Serif SC', 'Source Han Serif SC', 'SimSun', serif;
+  line-height: 1.9;
+  letter-spacing: 0.02em;
+}
+
+/* 閱讀器段落優化 */
+.ereader-content p {
+  margin-bottom: 1.5em;
+  text-indent: 2em;
+  text-align: justify;
+}
+
+/* 首字下沉 (Drop Caps) 效果 */
+.drop-cap::first-letter {
+  float: left;
+  font-size: 3.5em;
+  line-height: 0.8;
+  padding-right: 0.15em;
+  padding-top: 0.1em;
+  font-weight: bold;
+  color: var(--color-gold);
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+/* 目錄側邊欄 */
+.toc-sidebar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-royal-purple) transparent;
+}
+
+.toc-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.toc-sidebar::-webkit-scrollbar-thumb {
+  background: var(--color-royal-purple);
+  border-radius: 2px;
+}
+
+.toc-item {
+  @apply block py-2 px-3 text-sm text-gray-400 
+         hover:text-gold-400 hover:bg-royal-purple-900/30
+         transition-all duration-200 rounded-lg cursor-pointer
+         border-l-2 border-transparent;
+}
+
+.toc-item.active {
+  @apply text-gold-400 bg-royal-purple-900/50 
+         border-l-2 border-gold-400 font-medium;
+}
+
+.toc-item-h1 {
+  @apply font-semibold text-gray-300;
+}
+
+.toc-item-h2 {
+  @apply pl-6 text-gray-500;
+}
+
+/* 底部導航工具欄 */
+.reader-toolbar {
+  @apply fixed bottom-0 left-0 right-0 z-50
+         bg-gray-900/95 backdrop-blur-md
+         border-t border-gray-800/80
+         py-3 px-4;
+}
+
+.toolbar-btn {
+  @apply flex items-center justify-center gap-2 px-4 py-2
+         text-gray-400 hover:text-gold-400
+         bg-gray-800/50 hover:bg-royal-purple-900/50
+         border border-gray-700/50 hover:border-royal-purple-600/50
+         rounded-lg transition-all duration-200;
+}
+
+.toolbar-btn:disabled {
+  @apply opacity-40 cursor-not-allowed hover:text-gray-400 hover:bg-gray-800/50;
+}
+
+.font-size-btn {
+  @apply w-10 h-10 flex items-center justify-center
+         text-lg font-bold text-gray-400 hover:text-gold-400
+         bg-gray-800/50 hover:bg-royal-purple-900/50
+         border border-gray-700/50 hover:border-royal-purple-600/50
+         rounded-lg transition-all duration-200;
+}
+
+/* 繼續閱讀按鈕 */
+.continue-reading-btn {
+  @apply fixed bottom-24 right-6 z-40
+         flex items-center gap-2 px-5 py-3
+         bg-gradient-to-r from-royal-purple-600 to-royal-purple-700
+         hover:from-royal-purple-500 hover:to-royal-purple-600
+         text-white font-medium rounded-full
+         shadow-lg shadow-royal-purple-900/50
+         transition-all duration-300
+         hover:scale-105 hover:shadow-xl;
+}
+
+/* 目錄切換按鈕 */
+.toc-toggle-btn {
+  @apply fixed left-4 top-1/2 -translate-y-1/2 z-40
+         w-10 h-20 flex items-center justify-center
+         bg-gray-900/90 hover:bg-royal-purple-900/90
+         border border-gray-700/50 hover:border-royal-purple-600/50
+         rounded-r-xl text-gray-400 hover:text-gold-400
+         transition-all duration-200 cursor-pointer;
+}
+
+/* 章節標題錨點偏移 */
+.chapter-heading {
+  scroll-margin-top: 80px;
+}
