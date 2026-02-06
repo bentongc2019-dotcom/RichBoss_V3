@@ -182,7 +182,7 @@ export function useChat() {
     useEffect(() => {
         const loadBookContent = async () => {
             try {
-                const response = await fetch('/book.md')
+                const response = await fetch(import.meta.env.BASE_URL + 'book.md')
                 if (response.ok) {
                     const text = await response.text()
                     // 限制上下文长度，避免 token 超限

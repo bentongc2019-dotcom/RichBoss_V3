@@ -128,7 +128,7 @@ function Reader() {
         const loadContent = async () => {
             try {
                 setIsLoading(true)
-                const response = await fetch('/book.md')
+                const response = await fetch(import.meta.env.BASE_URL + 'book.md')
 
                 if (!response.ok) {
                     throw new Error(`無法加載書籍內容 (HTTP ${response.status})`)

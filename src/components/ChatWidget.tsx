@@ -181,7 +181,7 @@ export default function ChatWidget() {
             >
                 {/* 头像 */}
                 <img
-                    src="/images/xiaolin.png"
+                    src={import.meta.env.BASE_URL + "images/xiaolin.png"}
                     alt="小林同学"
                     className="w-14 h-14 rounded-full object-cover border-2 border-gold-400/30 group-hover:border-gold-400/60 transition-colors"
                 />
@@ -221,7 +221,7 @@ export default function ChatWidget() {
                         {/* 头部 */}
                         <div className="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-royal-purple-800 to-royal-purple-900 border-b border-royal-purple-600/30">
                             <img
-                                src="/images/xiaolin.png"
+                                src={import.meta.env.BASE_URL + "images/xiaolin.png"}
                                 alt="小林同学"
                                 className="w-10 h-10 rounded-full border-2 border-gold-400/50"
                             />

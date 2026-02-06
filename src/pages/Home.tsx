@@ -71,7 +71,7 @@ function Home() {
 
                             {/* 封面图片 */}
                             <img
-                                src="/images/cover.jpg"
+                                src={import.meta.env.BASE_URL + "images/cover.jpg"}
                                 alt="《富老板，穷老板》书籍封面"
                                 className="relative w-64 md:w-80 h-auto rounded-2xl shadow-2xl shadow-royal-purple-900/50 border border-gray-700/50"
                             />
