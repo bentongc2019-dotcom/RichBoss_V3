@@ -452,7 +452,7 @@ function Reader() {
                                             img: ({ src, alt }) => {
                                                 const imageSrc = src?.startsWith('http')
                                                     ? src
-                                                    : `/images/${src?.replace(/^\.?\/?images\//, '')}`
+                                                    : `${import.meta.env.BASE_URL}images/${src?.replace(/^\.?\/?images\//, '')}`
 
                                                 return (
                                                     <img
