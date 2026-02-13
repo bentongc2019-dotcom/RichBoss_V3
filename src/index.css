@@ -66,36 +66,25 @@ a:hover {
 /* 按钮基础样式 */
 @layer components {
   .btn-primary {
-    @apply px-8 py-4 bg-royal-purple-600 text-white font-semibold rounded-xl 
-           transition-all duration-300 ease-out
-           hover:bg-royal-purple-500 hover:shadow-lg hover:shadow-royal-purple-600/30
-           active:scale-95;
+    @apply px-8 py-4 bg-royal-purple-600 text-white font-semibold rounded-xl transition-all duration-300 ease-out hover:bg-royal-purple-500 hover:shadow-lg hover:shadow-royal-purple-600/30 active:scale-95;
   }
 
   .btn-gold {
-    @apply px-8 py-4 bg-gradient-to-r from-gold-400 to-gold-500 
-           text-gray-900 font-bold rounded-xl
-           transition-all duration-300 ease-out
-           hover:from-gold-300 hover:to-gold-400 
-           hover:shadow-lg hover:shadow-gold-400/40
-           active:scale-95;
+    @apply px-8 py-4 bg-gradient-to-r from-gold-400 to-gold-500 text-gray-900 font-bold rounded-xl transition-all duration-300 ease-out hover:from-gold-300 hover:to-gold-400 hover:shadow-lg hover:shadow-gold-400/40 active:scale-95;
   }
 
   /* 卡片样式 */
   .card-glass {
-    @apply bg-gray-900/50 backdrop-blur-lg border border-gray-800/50 
-           rounded-2xl shadow-xl;
+    @apply bg-gray-900/50 backdrop-blur-lg border border-gray-800/50 rounded-2xl shadow-xl;
   }
 
   /* 标题渐变 */
   .text-gradient-gold {
-    @apply bg-gradient-to-r from-gold-300 via-gold-400 to-gold-500 
-           bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-gold-300 via-gold-400 to-gold-500 bg-clip-text text-transparent;
   }
 
   .text-gradient-purple {
-    @apply bg-gradient-to-r from-royal-purple-400 via-royal-purple-500 to-royal-purple-600 
-           bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-royal-purple-400 via-royal-purple-500 to-royal-purple-600 bg-clip-text text-transparent;
   }
 }
 
@@ -140,11 +129,11 @@ a:hover {
 }
 
 .prose blockquote {
-  @apply border-l-4 border-royal-purple-600 pl-6 italic text-gray-300 
-         my-6 bg-gray-900/30 py-4 pr-4 rounded-r-lg;
+  @apply border-l-4 border-royal-purple-600 pl-6 italic text-gray-300 my-6 bg-gray-900/30 py-4 pr-4 rounded-r-lg;
 }
 
-.prose ul, .prose ol {
+.prose ul,
+.prose ol {
   @apply my-4 pl-6;
 }
 
@@ -165,16 +154,29 @@ a:hover {
 }
 
 .prose a {
-  @apply text-gold-400 underline decoration-gold-400/30 
-         hover:decoration-gold-400 transition-all;
+  @apply text-gold-400 underline decoration-gold-400/30 hover:decoration-gold-400 transition-all;
 }
 
 /* 动画辅助类 */
-.animate-delay-100 { animation-delay: 100ms; }
-.animate-delay-200 { animation-delay: 200ms; }
-.animate-delay-300 { animation-delay: 300ms; }
-.animate-delay-400 { animation-delay: 400ms; }
-.animate-delay-500 { animation-delay: 500ms; }
+.animate-delay-100 {
+  animation-delay: 100ms;
+}
+
+.animate-delay-200 {
+  animation-delay: 200ms;
+}
+
+.animate-delay-300 {
+  animation-delay: 300ms;
+}
+
+.animate-delay-400 {
+  animation-delay: 400ms;
+}
+
+.animate-delay-500 {
+  animation-delay: 500ms;
+}
 
 /* =====================================================
    E-Reader 專業排版樣式
@@ -222,10 +224,7 @@ a:hover {
 }
 
 .toc-item {
-  @apply block py-2 px-3 text-sm text-gray-400 
-         hover:text-gold-400 hover:bg-royal-purple-900/30
-         transition-all duration-200 rounded-lg cursor-pointer
-         border-l-2 border-transparent;
+  @apply block py-2 px-3 text-sm text-gray-400 hover:text-gold-400 hover:bg-royal-purple-900/30 transition-all duration-200 rounded-lg cursor-pointer border-l-2 border-transparent;
 }
 
 .toc-item.active {
@@ -242,20 +241,17 @@ a:hover {
   @apply pl-6 text-gray-500;
 }
 
+.toc-item-h3 {
+  @apply pl-9 text-sm text-gray-500/80;
+}
+
 /* 底部導航工具欄 */
 .reader-toolbar {
-  @apply fixed bottom-0 left-0 right-0 z-50
-         bg-gray-900/95 backdrop-blur-md
-         border-t border-gray-800/80
-         py-3 px-4;
+  @apply fixed bottom-0 left-0 right-0 z-50 bg-gray-900/95 backdrop-blur-md border-t border-gray-800/80 py-3 px-4;
 }
 
 .toolbar-btn {
-  @apply flex items-center justify-center gap-2 px-4 py-2
-         text-gray-400 hover:text-gold-400
-         bg-gray-800/50 hover:bg-royal-purple-900/50
-         border border-gray-700/50 hover:border-royal-purple-600/50
-         rounded-lg transition-all duration-200;
+  @apply flex items-center justify-center gap-2 px-4 py-2 text-gray-400 hover:text-gold-400 bg-gray-800/50 hover:bg-royal-purple-900/50 border border-gray-700/50 hover:border-royal-purple-600/50 rounded-lg transition-all duration-200;
 }
 
 .toolbar-btn:disabled {
@@ -263,33 +259,17 @@ a:hover {
 }
 
 .font-size-btn {
-  @apply w-10 h-10 flex items-center justify-center
-         text-lg font-bold text-gray-400 hover:text-gold-400
-         bg-gray-800/50 hover:bg-royal-purple-900/50
-         border border-gray-700/50 hover:border-royal-purple-600/50
-         rounded-lg transition-all duration-200;
+  @apply w-10 h-10 flex items-center justify-center text-lg font-bold text-gray-400 hover:text-gold-400 bg-gray-800/50 hover:bg-royal-purple-900/50 border border-gray-700/50 hover:border-royal-purple-600/50 rounded-lg transition-all duration-200;
 }
 
 /* 繼續閱讀按鈕 */
 .continue-reading-btn {
-  @apply fixed bottom-24 right-6 z-40
-         flex items-center gap-2 px-5 py-3
-         bg-gradient-to-r from-royal-purple-600 to-royal-purple-700
-         hover:from-royal-purple-500 hover:to-royal-purple-600
-         text-white font-medium rounded-full
-         shadow-lg shadow-royal-purple-900/50
-         transition-all duration-300
-         hover:scale-105 hover:shadow-xl;
+  @apply fixed bottom-24 right-6 z-40 flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-royal-purple-600 to-royal-purple-700 hover:from-royal-purple-500 hover:to-royal-purple-600 text-white font-medium rounded-full shadow-lg shadow-royal-purple-900/50 transition-all duration-300 hover:scale-105 hover:shadow-xl;
 }
 
 /* 目錄切換按鈕 */
 .toc-toggle-btn {
-  @apply fixed left-4 top-1/2 -translate-y-1/2 z-40
-         w-10 h-20 flex items-center justify-center
-         bg-gray-900/90 hover:bg-royal-purple-900/90
-         border border-gray-700/50 hover:border-royal-purple-600/50
-         rounded-r-xl text-gray-400 hover:text-gold-400
-         transition-all duration-200 cursor-pointer;
+  @apply fixed left-4 top-1/2 -translate-y-1/2 z-40 w-10 h-20 flex items-center justify-center bg-gray-900/90 hover:bg-royal-purple-900/90 border border-gray-700/50 hover:border-royal-purple-600/50 rounded-r-xl text-gray-400 hover:text-gold-400 transition-all duration-200 cursor-pointer;
 }
 
 /* 章節標題錨點偏移 */

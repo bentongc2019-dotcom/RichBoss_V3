@@ -92,7 +92,7 @@ function Reader() {
     const [savedScrollPosition, setSavedScrollPosition] = useState<number>(0)
     const [readProgress, setReadProgress] = useState<number>(0)
 
-    const firstParagraphIds = useRef<Set<string>>(new Set())
+
     // 目录容器 ref（桌面端 + 移动端），用于自动滚动到高亮项
     const tocDesktopRef = useRef<HTMLElement>(null)
     const tocMobileRef = useRef<HTMLElement>(null)
@@ -140,7 +140,7 @@ function Reader() {
                 const text = await response.text()
                 setContent(text)
 
-                const headingRegex = /^(#{1,2})\s+(.+)$/gm
+                const headingRegex = /^(#{1,3})\s+(.+)$/gm
                 const items: TocItem[] = []
                 let match
 
@@ -153,10 +153,6 @@ function Reader() {
                         .replace(/^-|-$/g, '')
 
                     items.push({ id, text: rawText, level })
-
-                    if (level === 1 || level === 2) {
-                        firstParagraphIds.current.add(id)
-                    }
                 }
 
                 setTocItems(items)
@@ -204,6 +200,24 @@ function Reader() {
         const timer = setTimeout(() => {
             const headings = document.querySelectorAll('.chapter-heading[id]')
             if (headings.length === 0) return
+
+            // 初始状态检查：找到最后一个已经在视口上方（或接近顶部）的标题
+            // 这样即便刷新页面停留在文章中间，也能正确高亮对应的目录
+            let initialActiveId = ''
+            for (let i = headings.length - 1; i >= 0; i--) {
+                const rect = headings[i].getBoundingClientRect()
+                // 150px 是一个缓冲区，确保标题滑上去之后才切换
+                if (rect.top < 150) {
+                    initialActiveId = headings[i].id
+                    break
+                }
+            }
+            if (!initialActiveId && headings.length > 0) {
+                initialActiveId = headings[0].id
+            }
+            if (initialActiveId) {
+                setActiveTocId(initialActiveId)
+            }
 
             const observer = new IntersectionObserver(
                 (entries) => {
@@ -334,7 +348,7 @@ function Reader() {
                     key={`${item.id}-${index}`}
                     data-toc-id={item.id}
                     onClick={() => scrollToHeading(item.id)}
-                    className={`toc-item ${item.level === 1 ? 'toc-item-h1' : 'toc-item-h2'} ${activeTocId === item.id ? 'active' : ''
+                    className={`toc-item ${item.level === 1 ? 'toc-item-h1' : item.level === 2 ? 'toc-item-h2' : 'toc-item-h3'} ${activeTocId === item.id ? 'active' : ''
                         } w-full text-left`}
                 >
                     {item.text}
