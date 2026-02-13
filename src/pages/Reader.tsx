@@ -93,6 +93,9 @@ function Reader() {
     const [readProgress, setReadProgress] = useState<number>(0)
 
     const firstParagraphIds = useRef<Set<string>>(new Set())
+    // 目录容器 ref（桌面端 + 移动端），用于自动滚动到高亮项
+    const tocDesktopRef = useRef<HTMLElement>(null)
+    const tocMobileRef = useRef<HTMLElement>(null)
     const currentTheme = THEMES[theme]
 
     // 检查解锁状态
@@ -193,44 +196,64 @@ function Reader() {
         setReadProgress(progress)
     }, [])
 
+    // ====== IntersectionObserver：监听章节标题，自动更新高亮 ======
+    useEffect(() => {
+        if (isLoading || !content) return
+
+        // 等 DOM 渲染完再绑定
+        const timer = setTimeout(() => {
+            const headings = document.querySelectorAll('.chapter-heading[id]')
+            if (headings.length === 0) return
+
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    const visibleEntries = entries.filter((e) => e.isIntersecting)
+                    if (visibleEntries.length > 0) {
+                        // 取最靠近视口顶部的那个
+                        const closest = visibleEntries.reduce((prev, curr) =>
+                            prev.boundingClientRect.top < curr.boundingClientRect.top ? prev : curr
+                        )
+                        setActiveTocId(closest.target.id)
+                    }
+                },
+                { rootMargin: '-10% 0px -80% 0px', threshold: 0 }
+            )
+
+            headings.forEach((h) => observer.observe(h))
+            return () => observer.disconnect()
+        }, 300)
+
+        return () => clearTimeout(timer)
+    }, [isLoading, content, isUnlocked])
+
+    // ====== 高亮项变化时，目录容器自动滚动到可见 ======
+    useEffect(() => {
+        if (!activeTocId) return
+            ;[tocDesktopRef, tocMobileRef].forEach((ref) => {
+                if (!ref.current) return
+                const activeEl = ref.current.querySelector(`[data-toc-id="${activeTocId}"]`)
+                if (activeEl) {
+                    activeEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+                }
+            })
+    }, [activeTocId])
+
+    // ====== 滚动进度条 + 保存阅读位置 ======
     useEffect(() => {
         let timeoutId: ReturnType<typeof setTimeout>
         let rafId: number
         let lastProgress = 0
 
         const handleScroll = () => {
-            // 使用 requestAnimationFrame 節流，避免抖動
-            if (rafId) {
-                cancelAnimationFrame(rafId)
-            }
-
+            if (rafId) cancelAnimationFrame(rafId)
             rafId = requestAnimationFrame(() => {
-                // 更新當前活動的目錄項目
-                const headings = document.querySelectorAll('.chapter-heading')
-                let currentId = ''
-
-                headings.forEach((heading) => {
-                    const rect = heading.getBoundingClientRect()
-                    if (rect.top <= 120) {
-                        currentId = heading.id
-                    }
-                })
-
-                if (currentId) {
-                    setActiveTocId(currentId)
-                }
-
-                // 更新進度條 - 只有變化超過 0.5% 才更新，避免頻繁重渲染
                 const docHeight = document.documentElement.scrollHeight - window.innerHeight
                 const progress = docHeight > 0 ? Math.min(100, Math.max(0, (window.scrollY / docHeight) * 100)) : 0
-
                 if (Math.abs(progress - lastProgress) > 0.5) {
                     lastProgress = progress
                     setReadProgress(progress)
                 }
             })
-
-            // 防抖保存滾動位置
             clearTimeout(timeoutId)
             timeoutId = setTimeout(saveScrollProgress, 200)
         }
@@ -239,9 +262,7 @@ function Reader() {
         return () => {
             window.removeEventListener('scroll', handleScroll)
             clearTimeout(timeoutId)
-            if (rafId) {
-                cancelAnimationFrame(rafId)
-            }
+            if (rafId) cancelAnimationFrame(rafId)
         }
     }, [saveScrollProgress])
 
@@ -306,11 +327,12 @@ function Reader() {
     const displayContent = getDisplayContent(content)
 
     // 目錄內容組件
-    const TocContent = () => (
-        <nav className="flex-1 overflow-y-auto toc-sidebar p-4 space-y-1">
+    const TocContent = ({ containerRef }: { containerRef?: React.Ref<HTMLElement> }) => (
+        <nav ref={containerRef} className="flex-1 overflow-y-auto toc-sidebar p-4 space-y-1">
             {tocItems.map((item, index) => (
                 <button
                     key={`${item.id}-${index}`}
+                    data-toc-id={item.id}
                     onClick={() => scrollToHeading(item.id)}
                     className={`toc-item ${item.level === 1 ? 'toc-item-h1' : 'toc-item-h2'} ${activeTocId === item.id ? 'active' : ''
                         } w-full text-left`}
@@ -357,7 +379,7 @@ function Reader() {
                     <div className={`p-4 border-b ${currentTheme.border}`}>
                         <h2 className={`text-lg font-semibold ${currentTheme.heading}`}>📚 目錄</h2>
                     </div>
-                    <TocContent />
+                    <TocContent containerRef={tocDesktopRef} />
                 </aside>
 
                 {/* 主內容區域 - 居中顯示 */}
@@ -512,11 +534,15 @@ function Reader() {
                                                     </h2>
                                                 )
                                             },
-                                            h3: ({ children }) => (
-                                                <h3 className={`${currentTheme.heading} text-xl md:text-2xl font-medium mb-4 mt-10`}>
-                                                    {children}
-                                                </h3>
-                                            ),
+                                            h3: ({ children }) => {
+                                                const text = String(children)
+                                                const id = text.toLowerCase().replace(/[^\w\u4e00-\u9fff]+/g, '-').replace(/^-|-$/g, '')
+                                                return (
+                                                    <h3 id={id} className={`chapter-heading ${currentTheme.heading} text-xl md:text-2xl font-medium mb-4 mt-10`}>
+                                                        {children}
+                                                    </h3>
+                                                )
+                                            },
                                             blockquote: ({ children }) => (
                                                 <blockquote className={`border-l-4 border-royal-purple-600 ${currentTheme.cardBg} pl-6 pr-4 py-4 my-8 italic ${currentTheme.textMuted} rounded-r-lg`}>
                                                     {children}
@@ -606,7 +632,7 @@ function Reader() {
                                     </svg>
                                 </button>
                             </div>
-                            <TocContent />
+                            <TocContent containerRef={tocMobileRef} />
                         </motion.aside>
                     </>
                 )}

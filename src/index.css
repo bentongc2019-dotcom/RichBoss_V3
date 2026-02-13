@@ -229,8 +229,9 @@ a:hover {
 }
 
 .toc-item.active {
-  @apply text-gold-400 bg-royal-purple-900/50 
-         border-l-2 border-gold-400 font-medium;
+  @apply text-gold-400 font-medium;
+  background: rgba(106, 27, 154, 0.35);
+  border-left: 3px solid #FFD700;
 }
 
 .toc-item-h1 {
