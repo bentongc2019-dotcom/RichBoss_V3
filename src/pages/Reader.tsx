@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 import remarkUnwrapImages from 'remark-unwrap-images'
@@ -137,7 +137,8 @@ function Reader() {
                     throw new Error(`無法加載書籍內容 (HTTP ${response.status})`)
                 }
 
-                const text = await response.text()
+                const arrayBuffer = await response.arrayBuffer()
+                const text = new TextDecoder('utf-8').decode(arrayBuffer)
                 setContent(text)
 
                 const headingRegex = /^(#{1,3})\s+(.+)$/gm
@@ -340,6 +341,101 @@ function Reader() {
     // 获取要显示的内容
     const displayContent = getDisplayContent(content)
 
+    // Memoize the markdown components to prevent creating new objects on every render
+    const markdownComponents = useMemo(() => ({
+        img: ({ src, alt }: any) => {
+            const imageSrc = src?.startsWith('http')
+                ? src
+                : `${import.meta.env.BASE_URL}images/${src?.replace(/^\.?\/?images\//, '')}`
+
+            return (
+                <img
+                    src={imageSrc}
+                    alt={alt || ''}
+                    className="block w-full max-w-2xl mx-auto rounded-xl shadow-2xl shadow-black/50 my-10"
+                    loading="lazy"
+                />
+            )
+        },
+        p: ({ children, node }: any) => {
+            const hasImage = node?.children?.some((child: any) =>
+                child?.tagName === 'img' || (child?.type === 'element' && child?.tagName === 'img')
+            )
+
+            if (hasImage) {
+                return <div className="my-6">{children}</div>
+            }
+
+            return (
+                <p className={`${currentTheme.text} leading-relaxed mb-6`}>
+                    {children}
+                </p>
+            )
+        },
+        h1: ({ children }: any) => {
+            const text = String(children)
+            const id = text
+                .toLowerCase()
+                .replace(/[^\w\u4e00-\u9fff]+/g, '-')
+                .replace(/^-|-$/g, '')
+
+            return (
+                <h1
+                    id={id}
+                    className={`chapter-heading ${theme === 'dark' ? 'text-gradient-gold' : currentTheme.heading
+                        } text-4xl md:text-5xl font-bold mb-8 mt-16 first:mt-0`}
+                >
+                    {children}
+                </h1>
+            )
+        },
+        h2: ({ children }: any) => {
+            const text = String(children)
+            const id = text
+                .toLowerCase()
+                .replace(/[^\w\u4e00-\u9fff]+/g, '-')
+                .replace(/^-|-$/g, '')
+
+            return (
+                <h2
+                    id={id}
+                    className={`chapter-heading ${currentTheme.heading} text-2xl md:text-3xl font-semibold mb-6 mt-14 pb-3 border-b ${currentTheme.border}`}
+                >
+                    {children}
+                </h2>
+            )
+        },
+        h3: ({ children }: any) => {
+            const text = String(children)
+            const id = text.toLowerCase().replace(/[^\w\u4e00-\u9fff]+/g, '-').replace(/^-|-$/g, '')
+            return (
+                <h3 id={id} className={`chapter-heading ${currentTheme.heading} text-xl md:text-2xl font-medium mb-4 mt-10`}>
+                    {children}
+                </h3>
+            )
+        },
+        blockquote: ({ children }: any) => (
+            <blockquote className={`border-l-4 border-royal-purple-600 ${currentTheme.cardBg} pl-6 pr-4 py-4 my-8 italic ${currentTheme.textMuted} rounded-r-lg`}>
+                {children}
+            </blockquote>
+        ),
+        strong: ({ children }: any) => (
+            <strong className={`${theme === 'dark' ? 'text-gold-400' : currentTheme.heading} font-semibold`}>
+                {children}
+            </strong>
+        ),
+    }), [theme, currentTheme]) // 依賴主題
+
+    // Memoize the rendered markdown so it doesn't re-render on scroll progress updates
+    const renderedMarkdown = useMemo(() => (
+        <ReactMarkdown
+            remarkPlugins={[remarkUnwrapImages]}
+            components={markdownComponents as any}
+        >
+            {displayContent}
+        </ReactMarkdown>
+    ), [displayContent, markdownComponents])
+
     // 目錄內容組件
     const TocContent = ({ containerRef }: { containerRef?: React.Ref<HTMLElement> }) => (
         <nav ref={containerRef} className="flex-1 overflow-y-auto toc-sidebar p-4 space-y-1">
@@ -482,95 +578,7 @@ function Reader() {
                                             }
                                         `}</style>
                                     )}
-                                    <ReactMarkdown
-                                        remarkPlugins={[remarkUnwrapImages]}
-                                        components={{
-                                            img: ({ src, alt }) => {
-                                                const imageSrc = src?.startsWith('http')
-                                                    ? src
-                                                    : `${import.meta.env.BASE_URL}images/${src?.replace(/^\.?\/?images\//, '')}`
-
-                                                return (
-                                                    <img
-                                                        src={imageSrc}
-                                                        alt={alt || ''}
-                                                        className="block w-full max-w-2xl mx-auto rounded-xl shadow-2xl shadow-black/50 my-10"
-                                                        loading="lazy"
-                                                    />
-                                                )
-                                            },
-                                            p: ({ children, node }) => {
-                                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                                const hasImage = node?.children?.some((child: any) =>
-                                                    child?.tagName === 'img' || (child?.type === 'element' && child?.tagName === 'img')
-                                                )
-
-                                                if (hasImage) {
-                                                    return <div className="my-6">{children}</div>
-                                                }
-
-                                                return (
-                                                    <p className={`${currentTheme.text} leading-relaxed mb-6`}>
-                                                        {children}
-                                                    </p>
-                                                )
-                                            },
-                                            h1: ({ children }) => {
-                                                const text = String(children)
-                                                const id = text
-                                                    .toLowerCase()
-                                                    .replace(/[^\w\u4e00-\u9fff]+/g, '-')
-                                                    .replace(/^-|-$/g, '')
-
-                                                return (
-                                                    <h1
-                                                        id={id}
-                                                        className={`chapter-heading ${theme === 'dark' ? 'text-gradient-gold' : currentTheme.heading
-                                                            } text-4xl md:text-5xl font-bold mb-8 mt-16 first:mt-0`}
-                                                    >
-                                                        {children}
-                                                    </h1>
-                                                )
-                                            },
-                                            h2: ({ children }) => {
-                                                const text = String(children)
-                                                const id = text
-                                                    .toLowerCase()
-                                                    .replace(/[^\w\u4e00-\u9fff]+/g, '-')
-                                                    .replace(/^-|-$/g, '')
-
-                                                return (
-                                                    <h2
-                                                        id={id}
-                                                        className={`chapter-heading ${currentTheme.heading} text-2xl md:text-3xl font-semibold mb-6 mt-14 pb-3 border-b ${currentTheme.border}`}
-                                                    >
-                                                        {children}
-                                                    </h2>
-                                                )
-                                            },
-                                            h3: ({ children }) => {
-                                                const text = String(children)
-                                                const id = text.toLowerCase().replace(/[^\w\u4e00-\u9fff]+/g, '-').replace(/^-|-$/g, '')
-                                                return (
-                                                    <h3 id={id} className={`chapter-heading ${currentTheme.heading} text-xl md:text-2xl font-medium mb-4 mt-10`}>
-                                                        {children}
-                                                    </h3>
-                                                )
-                                            },
-                                            blockquote: ({ children }) => (
-                                                <blockquote className={`border-l-4 border-royal-purple-600 ${currentTheme.cardBg} pl-6 pr-4 py-4 my-8 italic ${currentTheme.textMuted} rounded-r-lg`}>
-                                                    {children}
-                                                </blockquote>
-                                            ),
-                                            strong: ({ children }) => (
-                                                <strong className={`${theme === 'dark' ? 'text-gold-400' : currentTheme.heading} font-semibold`}>
-                                                    {children}
-                                                </strong>
-                                            ),
-                                        }}
-                                    >
-                                        {displayContent}
-                                    </ReactMarkdown>
+                                    {renderedMarkdown}
                                 </motion.article>
 
                                 {/* 未解锁状态：显示邀请码表单 */}
