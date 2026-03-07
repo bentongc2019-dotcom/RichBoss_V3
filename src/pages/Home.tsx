@@ -1,261 +1,556 @@
-import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-// SVG 图标组件 - 替代 lucide-react
-const BrainIcon = ({ className }: { className?: string }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8V4m0 4a4 4 0 100 8 4 4 0 000-8zm-4 4a4 4 0 11-4 0m8 0a4 4 0 114 0M9 12a3 3 0 00-3 3m12-3a3 3 0 013 3" />
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19 14.5M14.25 3.104c.251.023.501.05.75.082M19 14.5l-1.5 1.5m-11-1.5L8 16m11-1.5V19a2 2 0 01-2 2H7a2 2 0 01-2-2v-4.5" />
-    </svg>
-)
-
-const TrendingUpIcon = ({ className }: { className?: string }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
-    </svg>
-)
-
-const UsersIcon = ({ className }: { className?: string }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
-    </svg>
-)
-
-// 概念卡片数据
-const conceptCards = [
-    {
-        icon: BrainIcon,
-        title: '信念原型',
-        subtitle: 'Mindset',
-        description: '重塑底层金钱逻辑，打破穷老板的思维囚笼。',
-    },
-    {
-        icon: TrendingUpIcon,
-        title: '财富流向',
-        subtitle: 'Cashflow',
-        description: '从经营生意到经营资产，掌握企业现金流的秘密。',
-    },
-    {
-        icon: UsersIcon,
-        title: '组织进化',
-        subtitle: 'Organization',
-        description: '打造自动运转的系统，让老板从日常管理中解脱。',
-    },
-]
-
-/**
- * 首页组件
- * 展示书籍封面、核心概念卡片和 CTA 按钮
- */
 function Home() {
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-royal-purple-950 relative overflow-hidden">
-            {/* 背景装饰 - 渐变光晕 */}
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-royal-purple-600/20 rounded-full blur-3xl" />
-            <div className="absolute bottom-1/3 right-1/4 w-80 h-80 bg-gold-400/10 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 left-1/3 w-64 h-64 bg-royal-purple-500/15 rounded-full blur-3xl" />
-
-            {/* ========== HERO SECTION ========== */}
-            <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-16">
-                <div className="max-w-4xl mx-auto text-center">
-                    {/* 书籍封面 */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.6, ease: 'easeOut' }}
-                        className="mb-10"
-                    >
-                        <div className="relative inline-block">
-                            {/* 封面光晕效果 */}
-                            <div className="absolute inset-0 bg-gradient-to-r from-royal-purple-600/50 to-gold-400/50 blur-2xl rounded-2xl transform scale-110" />
-
-                            {/* 封面图片 */}
-                            <img
-                                src={import.meta.env.BASE_URL + "images/cover.jpg"}
-                                alt="《富老板，穷老板》书籍封面"
-                                className="relative w-64 md:w-80 h-auto rounded-2xl shadow-2xl shadow-royal-purple-900/50 border border-gray-700/50"
-                            />
+        <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+        <header
+            className="fixed top-0 z-50 w-full border-b border-white/10 bg-background-dark/80 backdrop-blur-md px-6 lg:px-20 py-4">
+            <nav className="mx-auto flex max-w-7xl items-center justify-between">
+                <div className="flex items-center gap-3">
+                    <span className="material-symbols-outlined text-primary text-3xl">account_balance</span>
+                    <h2 className="text-xl font-bold tracking-tight text-white uppercase">富老板 <span
+                            className="text-primary">Rich Boss</span></h2>
+                </div>
+                <div className="hidden md:flex items-center gap-10">
+                    <a className="text-sm font-medium hover:text-primary transition-colors text-slate-300"
+                        href="#concept">核心象限</a>
+                    <a className="text-sm font-medium hover:text-primary transition-colors text-slate-300"
+                        href="#book">财富书籍</a>
+                    <a className="text-sm font-medium hover:text-primary transition-colors text-slate-300"
+                        href="#learning">成长模块</a>
+                    <a className="text-sm font-medium hover:text-primary transition-colors text-slate-300"
+                        href="#tools">原型测验</a>
+                </div>
+                <div className="flex items-center gap-4">
+                    <button className="hidden sm:block text-sm font-semibold text-white px-4 py-2">登录</button>
+                    <button
+                        className="bg-primary text-background-dark px-6 py-2 text-sm font-bold rounded-lg hover:brightness-110 transition-all">
+                        加入会员
+                    </button>
+                </div>
+            </nav>
+        </header>
+        <main className="flex-grow pt-24">
+            <section className="relative px-6 lg:px-20 py-20 lg:py-32 overflow-hidden">
+                <div className="mx-auto max-w-7xl grid lg:grid-cols-2 gap-16 items-center">
+                    <div className="z-10">
+                        <div
+                            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-6">
+                            <span className="relative flex h-2 w-2">
+                                <span
+                                    className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                            </span>
+                            <span className="text-xs font-bold text-primary tracking-widest uppercase">Wealth OS v2.0</span>
                         </div>
-                    </motion.div>
-
-                    {/* 标题区域 */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                    >
-                        <h1 className="text-4xl md:text-6xl font-bold mb-4">
-                            <span className="text-gradient-gold">富老板</span>
-                            <span className="text-gray-400 mx-3">·</span>
-                            <span className="text-gray-200">穷老板</span>
+                        <h1 className="text-5xl lg:text-7xl font-black leading-[1.1] mb-6 tracking-tight text-white">
+                            富老板不是赚更多钱 <br /><span className="text-primary">而是设计让钱自动流动的系统</span>
                         </h1>
-                        <p className="text-lg md:text-xl text-gray-400 mb-8 max-w-2xl mx-auto leading-relaxed">
-                            一本改变你财富思维的书籍<br className="hidden md:block" />
-                            为每一位渴望成功的老板量身打造
+                        <p className="text-xl text-slate-400 mb-10 max-w-xl leading-relaxed">
+                            90%的人努力赚钱<br />10%的人设计财富系统
                         </p>
-                    </motion.div>
+                        <div className="flex flex-wrap gap-4">
+                            <button
+                                className="bg-primary text-background-dark px-8 py-4 text-base font-bold rounded-xl hover:scale-[1.02] transition-transform">
+                                阅读书籍
+                            </button>
+                            <button
+                                className="bg-white/5 border border-white/10 text-white px-8 py-4 text-base font-bold rounded-xl hover:bg-white/10 transition-colors">
+                                财富测验
+                            </button>
+                        </div>
+                    </div>
+                    <div className="relative">
+                        <div
+                            className="aspect-square w-full bg-surface-dark border border-white/5 rounded-3xl overflow-hidden relative group flex items-center justify-center">
+                            <div
+                                className="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/10 to-transparent mix-blend-screen pointer-events-none">
+                            </div>
 
-                    {/* CTA 按钮区域 */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.4 }}
-                        className="flex flex-col sm:flex-row items-center justify-center gap-4"
-                    >
-                        {/* 主 CTA - 开始阅读 */}
-                        <Link
-                            to="/reader"
-                            className="group flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-gold-400 to-gold-500 
-                           text-gray-900 font-bold text-lg rounded-2xl
-                           transition-all duration-300 ease-out
-                           hover:from-gold-300 hover:to-gold-400 
-                           hover:shadow-2xl hover:shadow-gold-400/40 hover:scale-105
-                           active:scale-95 animate-pulse-gold"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="w-6 h-6 transition-transform group-hover:translate-x-1"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                strokeWidth={2}
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-                                />
-                            </svg>
-                            开始阅读
-                        </Link>
-                    </motion.div>
+                            
+                            <svg className="w-4/5 h-4/5 system-svg z-10 transition-transform duration-700 group-hover:scale-105"
+                                viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                                <style>
+                                    .system-svg {
+                                        filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.1));
+                                    }
 
-                    {/* 向下滚动提示 */}
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.6, delay: 0.8 }}
-                        className="mt-16"
-                    >
-                        <div className="flex flex-col items-center text-gray-500 animate-bounce">
-                            <span className="text-sm mb-2">探索核心理念</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                                    .orbit-outer {
+                                        transform-origin: 200px 200px;
+                                        animation: spin-cw 16s linear infinite;
+                                    }
+
+                                    .orbit-inner {
+                                        transform-origin: 200px 200px;
+                                        animation: spin-ccw 16s linear infinite;
+                                    }
+
+                                    .cube-layer {
+                                        transform-origin: 200px 200px;
+                                        animation: spin-cw 12s linear infinite;
+                                    }
+
+                                    .core-glow {
+                                        transform-origin: 200px 200px;
+                                        animation: pulse-core 3s ease-in-out infinite;
+                                    }
+
+                                    .particle-cw {
+                                        stroke-dasharray: 4 80;
+                                        animation: flow-dash 8s linear infinite;
+                                    }
+
+                                    .particle-ccw {
+                                        stroke-dasharray: 4 60;
+                                        animation: flow-dash-reverse 8s linear infinite;
+                                    }
+
+                                    @keyframes spin-cw {
+                                        from {
+                                            transform: rotate(0deg);
+                                        }
+
+                                        to {
+                                            transform: rotate(360deg);
+                                        }
+                                    }
+
+                                    @keyframes spin-ccw {
+                                        from {
+                                            transform: rotate(0deg);
+                                        }
+
+                                        to {
+                                            transform: rotate(-360deg);
+                                        }
+                                    }
+
+                                    @keyframes pulse-core {
+
+                                        0%,
+                                        100% {
+                                            transform: scale(1);
+                                            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.4));
+                                        }
+
+                                        50% {
+                                            transform: scale(1.08);
+                                            filter: drop-shadow(0 0 25px rgba(212, 175, 55, 0.8));
+                                        }
+                                    }
+
+                                    @keyframes flow-dash {
+                                        from {
+                                            stroke-dashoffset: 168;
+                                        }
+
+                                        to {
+                                            stroke-dashoffset: 0;
+                                        }
+                                    }
+
+                                    @keyframes flow-dash-reverse {
+                                        from {
+                                            stroke-dashoffset: 0;
+                                        }
+
+                                        to {
+                                            stroke-dashoffset: 128;
+                                        }
+                                    }
+
+                                    .group:hover .orbit-outer,
+                                    .group:hover .orbit-inner {
+                                        animation-duration: 8s;
+                                    }
+
+                                    .group:hover .cube-layer {
+                                        animation-duration: 6s;
+                                    }
+
+                                    .group:hover .particle-cw,
+                                    .group:hover .particle-ccw {
+                                        animation-duration: 4s;
+                                    }
+
+                                    .group:hover .core-glow {
+                                        animation-duration: 1.5s;
+                                        filter: drop-shadow(0 0 40px rgba(212, 175, 55, 1));
+                                    }
+                                </style>
+
+                                <rect x="50" y="50" width="300" height="300" rx="30" fill="none" stroke="#D4AF37"
+                                    strokeWidth="0.5" strokeOpacity="0.1" />
+
+                                <g className="orbit-outer">
+                                    <circle cx="200" cy="200" r="140" fill="none" stroke="#D4AF37" strokeWidth="0.5"
+                                        strokeOpacity="0.25" />
+                                    <circle cx="200" cy="200" r="140" fill="none" stroke="#D4AF37" strokeWidth="2"
+                                        strokeLinecap="round" className="particle-cw" />
+                                    <path
+                                        d="M 200 55 L 200 65 M 200 335 L 200 345 M 55 200 L 65 200 M 335 200 L 345 200"
+                                        fill="none" stroke="#D4AF37" strokeWidth="1" strokeOpacity="0.5" />
+                                </g>
+
+                                <g className="orbit-inner">
+                                    <circle cx="200" cy="200" r="100" fill="none" stroke="#D4AF37" strokeWidth="0.5"
+                                        strokeOpacity="0.3" />
+                                    <circle cx="200" cy="200" r="100" fill="none" stroke="#D4AF37" strokeWidth="1.5"
+                                        strokeLinecap="round" className="particle-ccw" />
+                                    <circle cx="200" cy="100" r="3" fill="#D4AF37" stroke="none" />
+                                    <circle cx="200" cy="300" r="3" fill="#D4AF37" stroke="none" />
+                                </g>
+
+                                <g className="cube-layer">
+                                    <polygon points="200,120 270,160 270,240 200,280 130,240 130,160" fill="none"
+                                        stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.6" />
+                                    <polygon points="200,140 250,170 250,230 200,260 150,230 150,170" fill="none"
+                                        stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.8" />
+                                    <line x1="200" y1="120" x2="200" y2="140" stroke="#D4AF37" strokeWidth="0.5"
+                                        strokeOpacity="0.5" />
+                                    <line x1="270" y1="160" x2="250" y2="170" stroke="#D4AF37" strokeWidth="0.5"
+                                        strokeOpacity="0.5" />
+                                    <line x1="270" y1="240" x2="250" y2="230" stroke="#D4AF37" strokeWidth="0.5"
+                                        strokeOpacity="0.5" />
+                                    <line x1="200" y1="280" x2="200" y2="260" stroke="#D4AF37" strokeWidth="0.5"
+                                        strokeOpacity="0.5" />
+                                    <line x1="130" y1="240" x2="150" y2="230" stroke="#D4AF37" strokeWidth="0.5"
+                                        strokeOpacity="0.5" />
+                                    <line x1="130" y1="160" x2="150" y2="170" stroke="#D4AF37" strokeWidth="0.5"
+                                        strokeOpacity="0.5" />
+                                    <line x1="200" y1="200" x2="200" y2="140" stroke="#D4AF37" strokeWidth="0.5"
+                                        strokeOpacity="0.4" />
+                                    <line x1="200" y1="200" x2="250" y2="230" stroke="#D4AF37" strokeWidth="0.5"
+                                        strokeOpacity="0.4" />
+                                    <line x1="200" y1="200" x2="150" y2="230" stroke="#D4AF37" strokeWidth="0.5"
+                                        strokeOpacity="0.4" />
+                                    <rect x="175" y="175" width="50" height="50" fill="none" stroke="#D4AF37"
+                                        strokeWidth="0.5" strokeOpacity="0.3" transform="rotate(45 200 200)" />
+                                </g>
+
+                                <g className="core-glow">
+                                    <circle cx="200" cy="200" r="30" fill="#D4AF37" fillOpacity="0.05" />
+                                    <path d="M 180 208 L 192 195 L 205 205 L 220 188" fill="none" stroke="#D4AF37"
+                                        strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                                    <circle cx="180" cy="208" r="3" fill="#D4AF37" stroke="none" />
+                                    <circle cx="192" cy="195" r="3" fill="#D4AF37" stroke="none" />
+                                    <circle cx="205" cy="205" r="3" fill="#D4AF37" stroke="none" />
+                                    <circle cx="220" cy="188" r="3" fill="#D4AF37" stroke="none" />
+                                    <path
+                                        d="M 210 180 Q 215 180 215 175 Q 215 180 220 180 Q 215 180 215 185 Q 215 180 210 180"
+                                        fill="#D4AF37" stroke="none" />
+                                    <path
+                                        d="M 225 198 Q 228 198 228 195 Q 228 198 231 198 Q 228 198 228 201 Q 228 198 225 198"
+                                        fill="#D4AF37" stroke="none" />
+                                </g>
                             </svg>
                         </div>
-                    </motion.div>
+                        <div
+                            className="absolute -bottom-6 -left-6 bg-surface-dark p-6 rounded-2xl border border-white/10 shadow-2xl hidden md:block">
+                            <div className="flex items-center gap-4">
+                                <div className="p-3 bg-primary/20 rounded-lg">
+                                    <span className="material-symbols-outlined text-primary">trending_up</span>
+                                </div>
+                                <div>
+                                    <p className="text-xs text-slate-400 uppercase tracking-wider">系统效能</p>
+                                    <p className="text-lg font-bold text-white">+312% 增长率</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
+            <section className="relative py-24 px-6 lg:px-20 overflow-hidden border-y border-white/5" id="concept"
+                style={{"backgroundColor":"#0F0F12"}}>
+                
+                <div className="absolute inset-0 opacity-20 pointer-events-none mix-blend-screen"
+                    style={{"backgroundImage":"radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px)","backgroundSize":"32px 32px","backgroundPosition":"-19px -19px"}}>
+                </div>
 
-            {/* ========== 3 CORE PILLARS SECTION ========== */}
-            <section className="relative z-10 py-24 px-4">
-                <div className="max-w-6xl mx-auto">
-                    {/* 区块标题 */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                        viewport={{ once: true }}
-                        className="text-center mb-16"
-                    >
-                        <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                            <span className="text-gradient-gold">三大核心支柱</span>
-                        </h2>
-                        <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-                            掌握这三个关键维度，从穷老板蜕变为富老板
+                <div className="relative z-10 mx-auto max-w-7xl text-center mb-20">
+                    <h2 className="text-3xl lg:text-4xl font-serif text-white mb-4 tracking-wide"
+                        style={{"fontFamily":"'Noto Serif SC', 'Songti SC', serif"}}>『钱 × 闲』餐巾纸地图</h2>
+                    <p
+                        className="text-slate-400 max-w-2xl mx-auto font-sans tracking-[0.2em] text-xs md:text-sm uppercase opacity-70 mb-6">
+                        识别你真实的财务象限，突破认知的玻璃天花板</p>
+                    <div className="inline-block bg-white/5 border border-white/10 rounded-xl px-8 py-4 backdrop-blur-sm">
+                        <p className="text-slate-300 text-sm md:text-base tracking-widest mb-2 font-medium">
+                            <span className="text-primary">财富的本质</span>只有两个维度：
                         </p>
-                    </motion.div>
+                        <p className="text-white font-bold tracking-widest text-lg">
+                            钱（Money）<span className="mx-4 text-white/20 font-light">×</span>闲（Freedom）
+                        </p>
+                    </div>
+                </div>
 
-                    {/* 概念卡片网格 */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-                        {conceptCards.map((card, index) => (
-                            <motion.div
-                                key={card.title}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5, delay: index * 0.15 }}
-                                viewport={{ once: true }}
-                                className="group relative"
-                            >
-                                {/* 卡片本体 - Dark Glassmorphism */}
-                                <div className="relative p-8 rounded-2xl 
-                                    bg-gray-900/60 backdrop-blur-xl
-                                    border border-gold-400/20
-                                    transition-all duration-500 ease-out
-                                    hover:border-gold-400/50
-                                    hover:shadow-2xl hover:shadow-gold-400/10
-                                    hover:bg-gray-900/80
-                                    hover:-translate-y-2"
-                                >
-                                    {/* 悬浮光晕效果 */}
-                                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-gold-400/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                                    {/* 图标 */}
-                                    <div className="relative mb-6">
-                                        <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-gold-400/20 to-gold-500/10 
-                                            flex items-center justify-center
-                                            group-hover:from-gold-400/30 group-hover:to-gold-500/20 
-                                            transition-all duration-300"
-                                        >
-                                            <card.icon className="w-7 h-7 text-gold-400" />
-                                        </div>
-                                    </div>
-
-                                    {/* 标题 */}
-                                    <h3 className="relative text-xl font-bold text-white mb-1 group-hover:text-gold-300 transition-colors">
-                                        {card.title}
-                                    </h3>
-                                    <p className="relative text-sm text-gold-500/70 mb-4 font-medium tracking-wider">
-                                        {card.subtitle}
-                                    </p>
-
-                                    {/* 描述 */}
-                                    <p className="relative text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">
-                                        {card.description}
-                                    </p>
-                                </div>
-                            </motion.div>
-                        ))}
+                <div
+                    className="relative z-10 mx-auto max-w-5xl rounded-[2rem] overflow-hidden border-[0.5px] border-white/10 shadow-2xl">
+                    
+                    <div
+                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-[#7C3AED] opacity-50 blur-[60px] rounded-full pointer-events-none z-0">
                     </div>
 
-                    {/* 底部 CTA */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.4 }}
-                        viewport={{ once: true }}
-                        className="text-center mt-16"
-                    >
-                        <Link
-                            to="/reader"
-                            className="inline-flex items-center gap-2 px-8 py-4 
-                                bg-transparent border-2 border-gold-400/50 
-                                text-gold-400 font-semibold rounded-xl
-                                transition-all duration-300
-                                hover:bg-gold-400/10 hover:border-gold-400 hover:shadow-lg hover:shadow-gold-400/20"
-                        >
-                            立即深入学习
-                            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                            </svg>
-                        </Link>
-                    </motion.div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 relative z-10">
+                        
+                        <div
+                            className="relative bg-white/[0.05] backdrop-blur-xl p-10 lg:p-14 border-b-[0.5px] border-white/10 md:border-r-[0.5px] group hover:bg-white/[0.07] transition duration-700 h-full">
+                            <div className="flex justify-between items-start mb-8">
+                                <h3 className="text-2xl font-serif text-white/90 group-hover:text-white transition-colors tracking-widest"
+                                    style={{"fontFamily":"'Noto Serif SC', 'Songti SC', serif"}}>没钱<span
+                                        className="text-white/20 font-light mx-3">×</span>有闲</h3>
+                                <span
+                                    className="material-symbols-outlined text-white/20 group-hover:text-white/50 text-3xl font-light transition-colors">hourglass_empty</span>
+                            </div>
+                            <p className="font-sans text-[13px] text-slate-400 tracking-[0.08em] leading-loose">
+                                空有时间却无资产杠杆。生活节奏缓慢，但也缺乏抵御风险波动的财务护城河。</p>
+                        </div>
+
+                        
+                        <div
+                            className="relative bg-white/[0.05] backdrop-blur-xl p-10 lg:p-14 border-b-[0.5px] border-white/10 group hover:bg-white/[0.07] transition duration-700 h-full">
+                            <div className="flex justify-between items-start mb-8">
+                                <h3 className="text-2xl font-serif text-white/90 group-hover:text-white transition-colors tracking-widest"
+                                    style={{"fontFamily":"'Noto Serif SC', 'Songti SC', serif"}}>有钱<span
+                                        className="text-primary font-light mx-3">×</span>有闲</h3>
+                                <span
+                                    className="material-symbols-outlined text-primary/40 group-hover:text-primary text-3xl font-light transition-colors">diamond</span>
+                            </div>
+                            <p className="font-sans text-[13px] text-slate-400 tracking-[0.08em] leading-loose"><span
+                                    className="text-primary tracking-[0.1em] block mb-1">富老板的终极蓝图。</span>金钱为你工作。系统自动创造丰沛现金流，完全掌控人生的绝对自由。
+                            </p>
+                        </div>
+
+                        
+                        <div
+                            className="relative bg-white/[0.05] backdrop-blur-xl p-10 lg:p-14 border-b-[0.5px] border-white/10 md:border-b-0 md:border-r-[0.5px] group hover:bg-white/[0.07] transition duration-700 h-full">
+                            <div className="flex justify-between items-start mb-8">
+                                <h3 className="text-2xl font-serif text-white/90 group-hover:text-white transition-colors tracking-widest"
+                                    style={{"fontFamily":"'Noto Serif SC', 'Songti SC', serif"}}>没钱<span
+                                        className="text-white/20 font-light mx-3">×</span>没闲</h3>
+                                <span
+                                    className="material-symbols-outlined text-red-500/20 group-hover:text-red-500/60 text-3xl font-light transition-colors">warning</span>
+                            </div>
+                            <p className="font-sans text-[13px] text-slate-400 tracking-[0.08em] leading-loose">
+                                深陷“老鼠赛跑”。不断用时间换取微薄薪水，同时被负债与高消费逐渐掏空资产框架。</p>
+                        </div>
+
+                        
+                        <div
+                            className="relative bg-white/[0.05] backdrop-blur-xl p-10 lg:p-14 group hover:bg-white/[0.07] transition duration-700 h-full">
+                            <div className="flex justify-between items-start mb-8">
+                                <h3 className="text-2xl font-serif text-white/90 group-hover:text-white transition-colors tracking-widest"
+                                    style={{"fontFamily":"'Noto Serif SC', 'Songti SC', serif"}}>有钱<span
+                                        className="text-white/20 font-light mx-3">×</span>没闲</h3>
+                                <span
+                                    className="material-symbols-outlined text-white/20 group-hover:text-white/50 text-3xl font-light transition-colors">business_center</span>
+                            </div>
+                            <p className="font-sans text-[13px] text-slate-400 tracking-[0.08em] leading-loose">
+                                高薪的隐形枷锁。现金流庞大但系统高度依赖你的个人时间，一旦停下，运转即刻瘫痪。</p>
+                        </div>
+                    </div>
                 </div>
             </section>
-
-            {/* ========== FOOTER ========== */}
-            <footer className="relative z-10 py-8 border-t border-gray-800/50">
-                <div className="max-w-6xl mx-auto px-4 text-center">
-                    <p className="text-gold-400/50 text-sm">
-                        © 2026 RichBoss Reader · 富老板阅读器 · Built with ❤️
-                    </p>
-                    <p className="text-gray-600 text-xs mt-2">
-                        基于《富老板，穷老板》—— 林恒毅 著
-                    </p>
+            <section className="py-24 px-6 lg:px-20 overflow-hidden" id="book">
+                <div className="mx-auto max-w-7xl">
+                    <div className="flex flex-col lg:flex-row gap-20 items-center">
+                        <div className="w-full lg:w-1/2 order-2 lg:order-1">
+                            <h4 className="text-primary font-bold tracking-widest uppercase mb-4">Core Literature</h4>
+                            <h2 className="text-4xl lg:text-5xl font-black text-white mb-6 leading-tight">
+                                《富老板，穷老板》<br />Wealth System Manifesto</h2>
+                            <p className="text-lg text-slate-400 mb-8 leading-relaxed">
+                                这不是一本教你省钱的书，这是一本教你如何构建资产大厦的蓝图。通过5个核心维度，重构你的财富认知底层代码。
+                            </p>
+                            <div className="space-y-4 mb-10">
+                                <div className="flex items-start gap-4">
+                                    <span className="material-symbols-outlined text-primary mt-1">check_circle</span>
+                                    <div>
+                                        <h5 className="font-bold text-white">资产 vs 负债</h5>
+                                        <p className="text-sm text-slate-500">重新定义每一分钱的去向。</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-start gap-4">
+                                    <span className="material-symbols-outlined text-primary mt-1">check_circle</span>
+                                    <div>
+                                        <h5 className="font-bold text-white">现金流三要素</h5>
+                                        <p className="text-sm text-slate-500">理解流入、流出与存量的动态平衡。</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="flex mt-8">
+                                <Link to="/reader" 
+                                    className="group relative inline-flex items-center justify-center gap-3 bg-[#EAB308] text-[#0F0F12] px-8 py-3.5 font-bold rounded-xl transition-all hover:bg-[#FACC15] shadow-[0_0_30px_rgba(234,179,8,0.2)] hover:shadow-[0_0_40px_rgba(250,204,21,0.3)]"><span  className="material-symbols-outlined text-xl">menu_book</span><span  className="text-base tracking-widest">开始阅读</span></Link>
+                            </div>
+                        </div>
+                        <div className="w-full lg:w-1/2 order-1 lg:order-2 flex justify-center">
+                            <div className="relative group">
+                                <div
+                                    className="absolute inset-0 bg-primary/20 blur-3xl rounded-full scale-75 group-hover:scale-100 transition-transform">
+                                </div>
+                                <div
+                                    className="relative w-72 lg:w-96 aspect-[3/4] bg-surface-dark border-4 border-white/10 rounded-2xl shadow-2xl overflow-hidden transform rotate-2 group-hover:rotate-0 transition-transform duration-500">
+                                    <img className="w-full h-full object-cover" data-alt="富老板，穷老板 书籍封面"
+                                        src="./public/images/cover.jpg" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </footer>
-        </div>
-    )
+            </section>
+            <section className="bg-surface-dark py-24 px-6 lg:px-20" id="learning">
+                <div className="mx-auto max-w-7xl">
+                    <div className="flex justify-between items-end mb-12">
+                        <div>
+                            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">进阶学习模块</h2>
+                            <p className="text-slate-400">从心态到执行，全方位的财富体系构建指南</p>
+                        </div>
+                        <button className="hidden md:flex items-center gap-2 text-primary font-bold">
+                            查看所有课程 <span className="material-symbols-outlined">arrow_forward</span>
+                        </button>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div
+                            className="bg-background-dark p-8 rounded-2xl border border-white/5 hover:border-primary/40 transition-all hover:-translate-y-1">
+                            <span className="material-symbols-outlined text-primary text-4xl mb-6">psychology</span>
+                            <h3 className="text-xl font-bold text-white mb-3">财富心态 (Mindset)</h3>
+                            <p className="text-slate-400 text-sm leading-relaxed mb-6">重构潜意识中的金钱信念，建立富人思维底层框架。</p>
+                            <a className="text-primary text-sm font-bold uppercase tracking-widest" href="#">Explore →</a>
+                        </div>
+                        <div
+                            className="bg-background-dark p-8 rounded-2xl border border-white/5 hover:border-primary/40 transition-all hover:-translate-y-1">
+                            <span className="material-symbols-outlined text-primary text-4xl mb-6">hub</span>
+                            <h3 className="text-xl font-bold text-white mb-3">系统思维 (Systems)</h3>
+                            <p className="text-slate-400 text-sm leading-relaxed mb-6">学习如何通过流程与工具，让资产实现自动化运转。</p>
+                            <a className="text-primary text-sm font-bold uppercase tracking-widest" href="#">Explore →</a>
+                        </div>
+                        <div
+                            className="bg-background-dark p-8 rounded-2xl border border-white/5 hover:border-primary/40 transition-all hover:-translate-y-1">
+                            <span className="material-symbols-outlined text-primary text-4xl mb-6">rocket_launch</span>
+                            <h3 className="text-xl font-bold text-white mb-3">创业实战 (Business)</h3>
+                            <p className="text-slate-400 text-sm leading-relaxed mb-6">从0到1构建可规模化的商业模式，跨越S象限进入B象限。</p>
+                            <a className="text-primary text-sm font-bold uppercase tracking-widest" href="#">Explore →</a>
+                        </div>
+                        <div
+                            className="bg-background-dark p-8 rounded-2xl border border-white/5 hover:border-primary/40 transition-all hover:-translate-y-1">
+                            <span className="material-symbols-outlined text-primary text-4xl mb-6">query_stats</span>
+                            <h3 className="text-xl font-bold text-white mb-3">投资策略 (Strategy)</h3>
+                            <p className="text-slate-400 text-sm leading-relaxed mb-6">宏观周期识别与资产配置，让每一分资本都为你效力。</p>
+                            <a className="text-primary text-sm font-bold uppercase tracking-widest" href="#">Explore →</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section className="py-24 px-6 lg:px-20 relative overflow-hidden" id="tools">
+                <div className="mx-auto max-w-7xl bg-primary rounded-3xl p-10 lg:p-20 relative overflow-hidden shadow-2xl">
+                    <div className="absolute top-0 right-0 w-1/3 h-full bg-black/10 -skew-x-12 transform translate-x-1/2">
+                    </div>
+                    <div className="relative z-10 max-w-2xl">
+                        <h2 className="text-4xl lg:text-5xl font-black text-background-dark mb-6 leading-tight">信念原型测验</h2>
+                        <p className="text-lg text-background-dark/80 mb-10">
+                            你是“焦虑的储蓄者”还是“冒险的投机家”？通过20道专业心理测验，揭开阻碍你财富增长的潜意识枷锁，获取定制化的进阶建议。
+                        </p>
+                        <button
+                            className="bg-background-dark text-white px-10 py-4 font-black rounded-xl hover:scale-105 transition-transform flex items-center gap-3">
+                            开始免费测验 <span className="material-symbols-outlined">quiz</span>
+                        </button>
+                    </div>
+                    <div className="absolute right-10 bottom-10 hidden lg:block opacity-20">
+                        <span className="material-symbols-outlined text-[200px] text-background-dark">fingerprint</span>
+                    </div>
+                </div>
+            </section>
+            <section className="bg-background-dark py-24 px-6 lg:px-20 border-t border-white/5">
+                <div className="mx-auto max-w-7xl">
+                    <div className="text-center mb-16">
+                        <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">加入富老板私享会</h2>
+                        <p className="text-slate-400">不仅是知识，更是高端的人脉圈层与实操工具集</p>
+                    </div>
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div
+                            className="p-8 rounded-2xl bg-surface-dark border border-white/10 flex flex-col items-center text-center">
+                            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-6">
+                                <span className="material-symbols-outlined text-primary text-3xl">library_books</span>
+                            </div>
+                            <h3 className="text-xl font-bold text-white mb-2">独家深度资料库</h3>
+                            <p className="text-slate-400 text-sm">每月更新财富白皮书、行业深度报告与私密读书会录影。</p>
+                        </div>
+                        <div
+                            className="p-8 rounded-2xl bg-surface-dark border border-primary/40 flex flex-col items-center text-center relative">
+                            <div
+                                className="absolute -top-4 bg-primary text-background-dark px-4 py-1 rounded-full text-xs font-black uppercase">
+                                Most Popular</div>
+                            <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center mb-6">
+                                <span className="material-symbols-outlined text-primary text-3xl">construction</span>
+                            </div>
+                            <h3 className="text-xl font-bold text-white mb-2">财富策略工具箱</h3>
+                            <p className="text-slate-400 text-sm">提供自动化资产配置模版、ROI计算器与系统运作SOP文档。</p>
+                        </div>
+                        <div
+                            className="p-8 rounded-2xl bg-surface-dark border border-white/10 flex flex-col items-center text-center">
+                            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-6">
+                                <span className="material-symbols-outlined text-primary text-3xl">groups</span>
+                            </div>
+                            <h3 className="text-xl font-bold text-white mb-2">高净值私密社区</h3>
+                            <p className="text-slate-400 text-sm">与同频的系统构建者共同成长，链接优质的线下投资合作机会。</p>
+                        </div>
+                    </div>
+                    <div className="mt-16 text-center">
+                        <button
+                            className="bg-primary text-background-dark px-12 py-5 text-lg font-black rounded-full hover:brightness-110 shadow-xl shadow-primary/20">
+                            申请加入年度会员计划
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <footer className="bg-background-dark py-16 px-6 lg:px-20 border-t border-white/10">
+            <div className="mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div className="col-span-1 md:col-span-2">
+                    <div className="flex items-center gap-3 mb-6">
+                        <span className="material-symbols-outlined text-primary text-3xl">account_balance</span>
+                        <h2 className="text-xl font-bold tracking-tight text-white uppercase">富老板 <span
+                                className="text-primary">Rich Boss</span></h2>
+                    </div>
+                    <p className="text-slate-500 max-w-sm mb-6">旨在通过系统化思维，帮助人们摆脱时间换金钱的死循环，构建属于自己的财富操作系统。</p>
+                    <div className="flex gap-4">
+                        <a className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-slate-400 hover:text-primary hover:border-primary transition-all"
+                            href="#">
+                            <span className="material-symbols-outlined text-lg">public</span>
+                        </a>
+                        <a className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-slate-400 hover:text-primary hover:border-primary transition-all"
+                            href="#">
+                            <span className="material-symbols-outlined text-lg">chat</span>
+                        </a>
+                        <a className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-slate-400 hover:text-primary hover:border-primary transition-all"
+                            href="#">
+                            <span className="material-symbols-outlined text-lg">mail</span>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 className="text-white font-bold mb-6">导航</h4>
+                    <ul className="space-y-4 text-slate-500 text-sm">
+                        <li><a className="hover:text-primary" href="#">核心象限</a></li>
+                        <li><a className="hover:text-primary" href="#">财富书籍</a></li>
+                        <li><a className="hover:text-primary" href="#">成长课程</a></li>
+                        <li><a className="hover:text-primary" href="#">工具中心</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 className="text-white font-bold mb-6">法律</h4>
+                    <ul className="space-y-4 text-slate-500 text-sm">
+                        <li><a className="hover:text-primary" href="#">隐私政策</a></li>
+                        <li><a className="hover:text-primary" href="#">服务条款</a></li>
+                        <li><a className="hover:text-primary" href="#">会员协议</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div className="mx-auto max-w-7xl mt-16 pt-8 border-t border-white/5 text-center text-slate-600 text-xs">
+                © 2024 Rich Boss (富老板) Wealth Systems. All rights reserved.
+            </div>
+        </footer>
+    </div>
+    );
 }
 
-export default Home
+export default Home;

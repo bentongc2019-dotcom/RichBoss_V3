@@ -6,8 +6,11 @@ export default {
     ],
     theme: {
         extend: {
-            // 自定义配色方案 - 深紫色 + 金色
             colors: {
+                "primary": "#d4a740",
+                "background-light": "#f8f7f6",
+                "background-dark": "#0B0B0B",
+                "surface-dark": "#1A1A1A",
                 'royal-purple': {
                     50: '#f5f0f9',
                     100: '#e9ddf2',
@@ -39,6 +42,8 @@ export default {
             fontFamily: {
                 'display': ['Inter', 'system-ui', 'sans-serif'],
                 'body': ['Inter', 'system-ui', 'sans-serif'],
+                'sans': ['Inter', 'sans-serif'],
+                'serif': ['Noto Serif SC', 'Songti SC', 'serif'],
             },
             // 动画
             animation: {
