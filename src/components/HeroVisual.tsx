@@ -2,9 +2,9 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 
 export default function HeroVisual({ isReading }: { isReading: boolean }) {
-    const ring1Ref = useRef<SVGCircleElement>(null);
-    const ring2Ref = useRef<SVGCircleElement>(null);
-    const ring3Ref = useRef<SVGCircleElement>(null);
+    const ring1Ref = useRef<SVGGElement>(null);
+    const ring2Ref = useRef<SVGGElement>(null);
+    const ring3Ref = useRef<SVGGElement>(null);
     const coreRef = useRef<SVGGElement>(null);
     const osTitleRef = useRef<HTMLDivElement>(null);
 
@@ -50,10 +50,36 @@ export default function HeroVisual({ isReading }: { isReading: boolean }) {
                 <div className="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/5 to-transparent mix-blend-screen pointer-events-none"></div>
 
                 <svg className="w-4/5 h-4/5 system-svg z-10" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-                    {/* Dark Grey #333333 Rat Race Rings */}
-                    <circle ref={ring1Ref} cx="200" cy="200" r="160" fill="none" stroke="#333333" strokeWidth="2" strokeDasharray="10 30 60 40 5 15" />
-                    <circle ref={ring2Ref} cx="200" cy="200" r="120" fill="none" stroke="#333333" strokeWidth="1.5" strokeDasharray="50 40 20 60" />
-                    <circle ref={ring3Ref} cx="200" cy="200" r="80" fill="none" stroke="#333333" strokeWidth="1" strokeDasharray="80 20" />
+                    {/* Dark Grey #333333 Rat Race Rings with running rats 🐁 */}
+                    <g ref={ring1Ref}>
+                        <circle cx="200" cy="200" r="160" fill="none" stroke="#333333" strokeWidth="2" strokeDasharray="10 30 60 40 5 15" />
+                        <g transform="translate(200, 40)">
+                            <path d="M-8 0 Q-8 -6 0 -6 T10 0 Q10 4 6 5 Q0 6 -8 0 Z" fill="#666666" />
+                            <path d="M-8 0 Q-15 -3 -20 2" fill="none" stroke="#666666" strokeWidth="1" />
+                            <circle cx="8" cy="-2" r="1" fill="#0F0F12" />
+                        </g>
+                    </g>
+                    <g ref={ring2Ref}>
+                        <circle cx="200" cy="200" r="120" fill="none" stroke="#333333" strokeWidth="1.5" strokeDasharray="50 40 20 60" />
+                        <g transform="translate(200, 80)">
+                            <path d="M-6 0 Q-6 -5 0 -5 T8 0 Q8 3 5 4 Q0 5 -6 0 Z" fill="#555555" />
+                            <path d="M-6 0 Q-12 -2 -15 2" fill="none" stroke="#555555" strokeWidth="1" />
+                            <circle cx="6" cy="-2" r="0.8" fill="#0F0F12" />
+                        </g>
+                        <g transform="translate(200, 320) rotate(180)">
+                            <path d="M-6 0 Q-6 -5 0 -5 T8 0 Q8 3 5 4 Q0 5 -6 0 Z" fill="#555555" />
+                            <path d="M-6 0 Q-12 -2 -15 2" fill="none" stroke="#555555" strokeWidth="1" />
+                            <circle cx="6" cy="-2" r="0.8" fill="#0F0F12" />
+                        </g>
+                    </g>
+                    <g ref={ring3Ref}>
+                        <circle cx="200" cy="200" r="80" fill="none" stroke="#333333" strokeWidth="1" strokeDasharray="80 20" />
+                        <g transform="translate(120, 200) rotate(-90)">
+                            <path d="M-5 0 Q-5 -4 0 -4 T6 0 Q6 2 4 3 Q0 4 -5 0 Z" fill="#444444" />
+                            <path d="M-5 0 Q-10 -2 -12 2" fill="none" stroke="#444444" strokeWidth="1" />
+                            <circle cx="4" cy="-1.5" r="0.6" fill="#0F0F12" />
+                        </g>
+                    </g>
 
                     {/* Central Cube - Initially dimly lit, waiting to be activated */}
                     <g ref={coreRef} opacity="0.4" stroke="#D4AF37" strokeWidth="0.5">

@@ -53,20 +53,21 @@ function Home() {
                                 </span>
                                 <span className="text-xs font-bold text-primary tracking-widest uppercase">Wealth OS v2.0</span>
                             </div>
-                            <h1 className="text-5xl lg:text-7xl font-black leading-[1.1] mb-6 tracking-tight text-white">
-                                富老板不是赚更多钱 <br /><span className="text-primary">而是设计让钱自动流动的系统</span>
+                            <h1 className="text-4xl lg:text-[3.5rem] font-black leading-[1.25] mb-8 tracking-tighter text-white">
+                                <span className="opacity-90 tracking-normal text-3xl lg:text-4xl">富老板不是赚更多钱</span>
+                                <br />
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FFD700] to-[#FACC15] mt-2 block tracking-tight shadow-sm">
+                                    而是设计让钱自动流动的系统
+                                </span>
                             </h1>
-                            <p className="text-xl text-slate-400 mb-10 max-w-xl leading-relaxed">
+                            <p className="text-xl text-slate-400 mb-10 max-w-xl leading-relaxed hidden">
                                 90%的人努力赚钱<br />10%的人设计财富系统
                             </p>
-                            <div className="flex flex-wrap gap-4">
+                            <div className="flex flex-wrap gap-4 mt-8">
                                 <button onClick={handleReadClick}
-                                    className="bg-primary text-background-dark px-8 py-4 text-base font-bold rounded-xl hover:scale-[1.02] transition-transform">
-                                    阅读书籍
-                                </button>
-                                <button
-                                    className="bg-white/5 border border-white/10 text-white px-8 py-4 text-base font-bold rounded-xl hover:bg-white/10 transition-colors">
-                                    财富测验
+                                    className="group relative inline-flex items-center justify-center gap-3 bg-gradient-to-r from-[#EAB308] to-[#FFD700] text-[#0F0F12] px-10 py-4 font-bold rounded-xl transition-all hover:scale-105 shadow-[0_0_30px_rgba(234,179,8,0.2)] hover:shadow-[0_0_40px_rgba(250,204,21,0.4)]">
+                                    <span className="material-symbols-outlined text-xl transition-transform group-hover:block">menu_book</span>
+                                    <span className="text-lg tracking-widest">开始阅读</span>
                                 </button>
                             </div>
                         </div>
