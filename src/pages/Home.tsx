@@ -1,6 +1,16 @@
-import { Link } from 'react-router-dom';
+import { useState, MouseEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
+import HeroVisual from '../components/HeroVisual';
 
 function Home() {
+    const navigate = useNavigate();
+    const [isReadingAnim, setIsReadingAnim] = useState(false);
+
+    const handleReadClick = (e: MouseEvent<HTMLElement>) => {
+        e.preventDefault();
+        setIsReadingAnim(true);
+        setTimeout(() => navigate('/reader'), 1500);
+    };
     return (
         <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden">
             <header
@@ -50,7 +60,7 @@ function Home() {
                                 90%的人努力赚钱<br />10%的人设计财富系统
                             </p>
                             <div className="flex flex-wrap gap-4">
-                                <button
+                                <button onClick={handleReadClick}
                                     className="bg-primary text-background-dark px-8 py-4 text-base font-bold rounded-xl hover:scale-[1.02] transition-transform">
                                     阅读书籍
                                 </button>
@@ -61,190 +71,7 @@ function Home() {
                             </div>
                         </div>
                         <div className="relative">
-                            <div
-                                className="aspect-square w-full bg-surface-dark border border-white/5 rounded-3xl overflow-hidden relative group flex items-center justify-center">
-                                <div
-                                    className="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/10 to-transparent mix-blend-screen pointer-events-none">
-                                </div>
-
-
-                                <svg className="w-4/5 h-4/5 system-svg z-10 transition-transform duration-700 group-hover:scale-105"
-                                    viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-                                    <style>{`
-                                    .system-svg {
-                                        filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.1));
-                                    }
-
-                                    .orbit-outer {
-                                        transform-origin: 200px 200px;
-                                        animation: spin-cw 16s linear infinite;
-                                    }
-
-                                    .orbit-inner {
-                                        transform-origin: 200px 200px;
-                                        animation: spin-ccw 16s linear infinite;
-                                    }
-
-                                    .cube-layer {
-                                        transform-origin: 200px 200px;
-                                        animation: spin-cw 12s linear infinite;
-                                    }
-
-                                    .core-glow {
-                                        transform-origin: 200px 200px;
-                                        animation: pulse-core 3s ease-in-out infinite;
-                                    }
-
-                                    .particle-cw {
-                                        stroke-dasharray: 4 80;
-                                        animation: flow-dash 8s linear infinite;
-                                    }
-
-                                    .particle-ccw {
-                                        stroke-dasharray: 4 60;
-                                        animation: flow-dash-reverse 8s linear infinite;
-                                    }
-
-                                    @keyframes spin-cw {
-                                        from {
-                                            transform: rotate(0deg);
-                                        }
-
-                                        to {
-                                            transform: rotate(360deg);
-                                        }
-                                    }
-
-                                    @keyframes spin-ccw {
-                                        from {
-                                            transform: rotate(0deg);
-                                        }
-
-                                        to {
-                                            transform: rotate(-360deg);
-                                        }
-                                    }
-
-                                    @keyframes pulse-core {
-
-                                        0%,
-                                        100% {
-                                            transform: scale(1);
-                                            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.4));
-                                        }
-
-                                        50% {
-                                            transform: scale(1.08);
-                                            filter: drop-shadow(0 0 25px rgba(212, 175, 55, 0.8));
-                                        }
-                                    }
-
-                                    @keyframes flow-dash {
-                                        from {
-                                            stroke-dashoffset: 168;
-                                        }
-
-                                        to {
-                                            stroke-dashoffset: 0;
-                                        }
-                                    }
-
-                                    @keyframes flow-dash-reverse {
-                                        from {
-                                            stroke-dashoffset: 0;
-                                        }
-
-                                        to {
-                                            stroke-dashoffset: 128;
-                                        }
-                                    }
-
-                                    .group:hover .orbit-outer,
-                                    .group:hover .orbit-inner {
-                                        animation-duration: 8s;
-                                    }
-
-                                    .group:hover .cube-layer {
-                                        animation-duration: 6s;
-                                    }
-
-                                    .group:hover .particle-cw,
-                                    .group:hover .particle-ccw {
-                                        animation-duration: 4s;
-                                    }
-
-                                    .group:hover .core-glow {
-                                        animation-duration: 1.5s;
-                                        filter: drop-shadow(0 0 40px rgba(212, 175, 55, 1));
-                                    }
-                                `}</style>
-
-                                    <rect x="50" y="50" width="300" height="300" rx="30" fill="none" stroke="#D4AF37"
-                                        strokeWidth="0.5" strokeOpacity="0.1" />
-
-                                    <g className="orbit-outer">
-                                        <circle cx="200" cy="200" r="140" fill="none" stroke="#D4AF37" strokeWidth="0.5"
-                                            strokeOpacity="0.25" />
-                                        <circle cx="200" cy="200" r="140" fill="none" stroke="#D4AF37" strokeWidth="2"
-                                            strokeLinecap="round" className="particle-cw" />
-                                        <path
-                                            d="M 200 55 L 200 65 M 200 335 L 200 345 M 55 200 L 65 200 M 335 200 L 345 200"
-                                            fill="none" stroke="#D4AF37" strokeWidth="1" strokeOpacity="0.5" />
-                                    </g>
-
-                                    <g className="orbit-inner">
-                                        <circle cx="200" cy="200" r="100" fill="none" stroke="#D4AF37" strokeWidth="0.5"
-                                            strokeOpacity="0.3" />
-                                        <circle cx="200" cy="200" r="100" fill="none" stroke="#D4AF37" strokeWidth="1.5"
-                                            strokeLinecap="round" className="particle-ccw" />
-                                        <circle cx="200" cy="100" r="3" fill="#D4AF37" stroke="none" />
-                                        <circle cx="200" cy="300" r="3" fill="#D4AF37" stroke="none" />
-                                    </g>
-
-                                    <g className="cube-layer">
-                                        <polygon points="200,120 270,160 270,240 200,280 130,240 130,160" fill="none"
-                                            stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.6" />
-                                        <polygon points="200,140 250,170 250,230 200,260 150,230 150,170" fill="none"
-                                            stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.8" />
-                                        <line x1="200" y1="120" x2="200" y2="140" stroke="#D4AF37" strokeWidth="0.5"
-                                            strokeOpacity="0.5" />
-                                        <line x1="270" y1="160" x2="250" y2="170" stroke="#D4AF37" strokeWidth="0.5"
-                                            strokeOpacity="0.5" />
-                                        <line x1="270" y1="240" x2="250" y2="230" stroke="#D4AF37" strokeWidth="0.5"
-                                            strokeOpacity="0.5" />
-                                        <line x1="200" y1="280" x2="200" y2="260" stroke="#D4AF37" strokeWidth="0.5"
-                                            strokeOpacity="0.5" />
-                                        <line x1="130" y1="240" x2="150" y2="230" stroke="#D4AF37" strokeWidth="0.5"
-                                            strokeOpacity="0.5" />
-                                        <line x1="130" y1="160" x2="150" y2="170" stroke="#D4AF37" strokeWidth="0.5"
-                                            strokeOpacity="0.5" />
-                                        <line x1="200" y1="200" x2="200" y2="140" stroke="#D4AF37" strokeWidth="0.5"
-                                            strokeOpacity="0.4" />
-                                        <line x1="200" y1="200" x2="250" y2="230" stroke="#D4AF37" strokeWidth="0.5"
-                                            strokeOpacity="0.4" />
-                                        <line x1="200" y1="200" x2="150" y2="230" stroke="#D4AF37" strokeWidth="0.5"
-                                            strokeOpacity="0.4" />
-                                        <rect x="175" y="175" width="50" height="50" fill="none" stroke="#D4AF37"
-                                            strokeWidth="0.5" strokeOpacity="0.3" transform="rotate(45 200 200)" />
-                                    </g>
-
-                                    <g className="core-glow">
-                                        <circle cx="200" cy="200" r="30" fill="#D4AF37" fillOpacity="0.05" />
-                                        <path d="M 180 208 L 192 195 L 205 205 L 220 188" fill="none" stroke="#D4AF37"
-                                            strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-                                        <circle cx="180" cy="208" r="3" fill="#D4AF37" stroke="none" />
-                                        <circle cx="192" cy="195" r="3" fill="#D4AF37" stroke="none" />
-                                        <circle cx="205" cy="205" r="3" fill="#D4AF37" stroke="none" />
-                                        <circle cx="220" cy="188" r="3" fill="#D4AF37" stroke="none" />
-                                        <path
-                                            d="M 210 180 Q 215 180 215 175 Q 215 180 220 180 Q 215 180 215 185 Q 215 180 210 180"
-                                            fill="#D4AF37" stroke="none" />
-                                        <path
-                                            d="M 225 198 Q 228 198 228 195 Q 228 198 231 198 Q 228 198 228 201 Q 228 198 225 198"
-                                            fill="#D4AF37" stroke="none" />
-                                    </g>
-                                </svg>
-                            </div>
+                            <HeroVisual isReading={isReadingAnim} />
                             <div
                                 className="absolute -bottom-6 -left-6 bg-surface-dark p-6 rounded-2xl border border-white/10 shadow-2xl hidden md:block">
                                 <div className="flex items-center gap-4">
@@ -377,8 +204,8 @@ function Home() {
                                     </div>
                                 </div>
                                 <div className="flex mt-8">
-                                    <Link to="/reader"
-                                        className="group relative inline-flex items-center justify-center gap-3 bg-[#EAB308] text-[#0F0F12] px-8 py-3.5 font-bold rounded-xl transition-all hover:bg-[#FACC15] shadow-[0_0_30px_rgba(234,179,8,0.2)] hover:shadow-[0_0_40px_rgba(250,204,21,0.3)]"><span className="material-symbols-outlined text-xl">menu_book</span><span className="text-base tracking-widest">开始阅读</span></Link>
+                                    <a href="#/reader" onClick={handleReadClick}
+                                        className="group relative inline-flex items-center justify-center gap-3 bg-[#EAB308] text-[#0F0F12] px-8 py-3.5 font-bold rounded-xl transition-all hover:bg-[#FACC15] shadow-[0_0_30px_rgba(234,179,8,0.2)] hover:shadow-[0_0_40px_rgba(250,204,21,0.3)]"><span className="material-symbols-outlined text-xl">menu_book</span><span className="text-base tracking-widest">开始阅读</span></a>
                                 </div>
                             </div>
                             <div className="w-full lg:w-1/2 order-1 lg:order-2 flex justify-center">
