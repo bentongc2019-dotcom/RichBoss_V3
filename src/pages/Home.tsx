@@ -6,7 +6,7 @@ function Home() {
     const navigate = useNavigate();
     const [isReadingAnim, setIsReadingAnim] = useState(false);
 
-    const handleReadClick = (e: MouseEvent<HTMLElement>) => {
+    const handleReadClick = (e: MouseEvent<Element>) => {
         e.preventDefault();
         setIsReadingAnim(true);
         setTimeout(() => navigate('/reader'), 1500);
