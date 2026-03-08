@@ -32,9 +32,16 @@ function Home() {
                             href="#tools">原型测验</a>
                     </div>
                     <div className="flex items-center gap-4">
-                        <button className="hidden sm:block text-sm font-semibold text-white px-4 py-2">登录</button>
                         <button
-                            className="bg-primary text-background-dark px-6 py-2 text-sm font-bold rounded-lg hover:brightness-110 transition-all">
+                            onClick={() => navigate('/auth')}
+                            className="hidden sm:block text-sm font-semibold text-white px-4 py-2 hover:text-primary transition-colors"
+                        >
+                            登录
+                        </button>
+                        <button
+                            onClick={() => navigate('/auth')}
+                            className="bg-primary text-background-dark px-6 py-2 text-sm font-bold rounded-lg hover:brightness-110 transition-all"
+                        >
                             加入会员
                         </button>
                     </div>
@@ -308,6 +315,7 @@ function Home() {
                                 你是“焦虑的储蓄者”还是“冒险的投机家”？通过20道专业心理测验，揭开阻碍你财富增长的潜意识枷锁，获取定制化的进阶建议。
                             </p>
                             <button
+                                onClick={() => navigate('/quiz')}
                                 className="bg-background-dark text-white px-10 py-4 font-black rounded-xl hover:scale-105 transition-transform flex items-center gap-3">
                                 开始免费测验 <span className="material-symbols-outlined">quiz</span>
                             </button>
@@ -354,7 +362,8 @@ function Home() {
                         </div>
                         <div className="mt-16 text-center">
                             <button
-                                className="bg-primary text-background-dark px-12 py-5 text-lg font-black rounded-full hover:brightness-110 shadow-xl shadow-primary/20">
+                                onClick={() => navigate('/auth')}
+                                className="bg-primary text-background-dark px-12 py-5 text-lg font-black rounded-full hover:brightness-110 shadow-xl shadow-primary/20 hover:-translate-y-1 transition-all">
                                 申请加入年度会员计划
                             </button>
                         </div>
