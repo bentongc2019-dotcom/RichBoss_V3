@@ -2,186 +2,197 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 
 export default function HeroVisual({ isReading }: { isReading: boolean }) {
-    const orbitContainerRef = useRef<SVGGElement>(null);
-    const outerOrbitGroupRef = useRef<SVGGElement>(null);
-    const innerOrbitGroupRef = useRef<SVGGElement>(null);
-
-    const outerRunnersRef = useRef<SVGGElement>(null);
-    const innerRunnersRef = useRef<SVGGElement>(null);
-
+    const wheelRef = useRef<SVGGElement>(null);
+    const manRef = useRef<SVGGElement>(null);
     const coreRef = useRef<SVGGElement>(null);
     const osTitleRef = useRef<HTMLDivElement>(null);
 
-    // Core tweens
-    const tweensRef = useRef<gsap.core.Tween[]>([]);
-
     useEffect(() => {
-        // Outer orbit track rotates slowly Clockwise (rat race track)
-        const t1 = gsap.to(outerOrbitGroupRef.current, { rotation: 360, transformOrigin: "200px 200px", repeat: -1, duration: 25, ease: "none" });
-        // Inner orbit track rotates slowly Counter-Clockwise
-        const t2 = gsap.to(innerOrbitGroupRef.current, { rotation: -360, transformOrigin: "200px 200px", repeat: -1, duration: 30, ease: "none" });
-
-        // Core cube rotates slowly Clockwise
-        const t3 = gsap.to(coreRef.current, { rotation: 360, transformOrigin: "200px 200px", repeat: -1, duration: 12, ease: "none" });
-
-        // Outer runners (mice + cheese) rotate clockwise (4s)
-        const t4 = gsap.to(outerRunnersRef.current, { rotation: 360, transformOrigin: "200px 200px", repeat: -1, duration: 4, ease: "none" });
-
-        // Inner runners rotate counter-clockwise (4.5s)
-        const t5 = gsap.to(innerRunnersRef.current, { rotation: -360, transformOrigin: "200px 200px", repeat: -1, duration: 4.5, ease: "none" });
-
-        // Pulsing glow on the cheese
-        const cheeses = document.querySelectorAll('.cheese-glow');
-        const t6 = gsap.to(cheeses, {
-            opacity: 0.15,
-            scale: 0.8,
-            transformOrigin: "50% 50%",
-            yoyo: true,
+        // Continuous wheel rotation (simulating running)
+        gsap.to(wheelRef.current, {
+            rotation: 360,
+            transformOrigin: "200px 200px",
             repeat: -1,
-            duration: 1,
-            ease: "sine.inOut"
+            duration: 8,
+            ease: "none"
         });
 
-        tweensRef.current = [t1, t2, t3, t4, t5, t6];
-
-        return () => {
-            tweensRef.current.forEach(t => t.kill());
-        };
-    }, []);
-
-    useEffect(() => {
         if (isReading) {
-            // Speed drops to zero over 1.5 seconds smoothly
-            gsap.to(tweensRef.current, { timeScale: 0, duration: 1.5, ease: "power2.out" });
-
-            // Core cube transitions from dim to bright gold
-            gsap.to(coreRef.current, {
+            // Core transitions from dim to bright gold
+            if (coreRef.current) gsap.to(coreRef.current, {
                 stroke: '#FFD700',
                 opacity: 1,
                 filter: 'drop-shadow(0 0 25px rgba(255, 215, 0, 1))',
                 duration: 1.5
             });
 
-            // Fade out the rat race slightly to focus on the core
-            gsap.to(orbitContainerRef.current, {
+            // Fade out the rat race wheel to focus on the core
+            if (wheelRef.current) gsap.to(wheelRef.current, {
+                opacity: 0.1,
+                timeScale: 0.1, // Slow down the wheel
+                duration: 1.5
+            });
+
+            // Stop the man running
+            if (manRef.current) gsap.to(manRef.current, {
                 opacity: 0.1,
                 duration: 1.5
             });
 
             // "Wealth OS V2.0" title emerges
-            gsap.to(osTitleRef.current, { opacity: 1, duration: 1.5, ease: "power2.out" });
+            if (osTitleRef.current) gsap.to(osTitleRef.current, { opacity: 1, duration: 1.5, ease: "power2.out" });
         }
     }, [isReading]);
 
-    // Simple line-art mouse component
-    const MouseComponent = ({ angle, radius, direction = 1, color = "#D4AF37" }: { angle: number, radius: number, direction?: number, color?: string }) => {
-        return (
-            <g style={{ transform: `rotate(${angle}deg)`, transformOrigin: '200px 200px' }}>
-                <g transform={`translate(200, ${200 - radius}) rotate(${direction === 1 ? 90 : -90})`}>
-                    {/* Mouse body (minimalist teardrop/line art) */}
-                    <path d="M-6 0 C-6 -2 -1 -2.5 4 -1 C6 -0.5 8 0 8 0 C8 0 6 0.5 4 1 C-1 2.5 -6 2 -6 0 Z" fill="none" stroke={color} strokeWidth="1" />
-                    {/* Tail */}
-                    <path d="M-6 0 Q-12 -3 -16 2" fill="none" stroke={color} strokeWidth="0.6" opacity="0.6" />
-                    {/* Whiskers */}
-                    <line x1="4" y1="-1.5" x2="6" y2="-4" stroke={color} strokeWidth="0.4" opacity="0.5" />
-                    <line x1="4" y1="1.5" x2="6" y2="4" stroke={color} strokeWidth="0.4" opacity="0.5" />
-                </g>
-            </g>
-        );
-    };
-
-    // Small cheese target component
-    const CheeseComponent = ({ angle, radius }: { angle: number, radius: number }) => {
-        return (
-            <g style={{ transform: `rotate(${angle}deg)`, transformOrigin: '200px 200px' }}>
-                <g transform={`translate(200, ${200 - radius}) rotate(90)`}>
-                    {/* Glowing aura */}
-                    <circle cx="0" cy="0" r="10" fill="#FACC15" className="cheese-glow" opacity="0.5" filter="blur(3px)" />
-                    {/* Minimalist cheese wedge - geometric */}
-                    <polygon points="-3,-2 3,0 -3,2" fill="none" stroke="#FFE066" strokeWidth="1" />
-                    <circle cx="-1" cy="0" r="0.6" fill="#FFE066" />
-                </g>
-            </g>
-        );
-    }
-
     return (
         <div className="flex flex-col items-center justify-center w-full relative">
-            {/* The group class handles the CSS hover state for fading rat race and glowing core */}
-            <div className="aspect-square w-full max-w-[400px] border border-white/5 rounded-3xl overflow-hidden relative group flex flex-col items-center justify-center transition-all duration-700 hover:border-[#D4AF37]/20">
+            <div className="aspect-square w-full max-w-[400px] border border-white/5 rounded-3xl overflow-hidden relative group flex flex-col items-center justify-center transition-all duration-700 hover:border-[#D4AF37]/20 bg-background-dark/20 cursor-pointer">
                 <div className="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/5 to-transparent mix-blend-screen pointer-events-none group-hover:from-[#D4AF37]/10 transition-colors duration-700"></div>
 
                 <svg className="w-5/6 h-5/6 system-svg z-10" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <filter id="glow-gold" x="-50%" y="-50%" width="200%" height="200%">
+                            <feGaussianBlur stdDeviation="4" result="blur" />
+                            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                        </filter>
+                    </defs>
 
-                    {/* Rat Race Orbits - faded on hover */}
-                    <g ref={orbitContainerRef} className="transition-opacity duration-700 group-hover:opacity-30">
-                        {/* Outer Orbit */}
-                        <g>
-                            <g ref={outerOrbitGroupRef}>
-                                <circle cx="200" cy="200" r="150" fill="none" stroke="#D4AF37" strokeWidth="0.5" strokeDasharray="4 8" opacity="0.4" />
-                            </g>
-                            {/* Runners */}
-                            <g ref={outerRunnersRef}>
-                                <MouseComponent angle={0} radius={150} />
-                                <MouseComponent angle={120} radius={150} />
-                                <MouseComponent angle={240} radius={150} />
-                                {/* Cheese slightly ahead */}
-                                <CheeseComponent angle={30} radius={150} />
-                            </g>
+                    {/* Background Static Wheel Stand */}
+                    <g stroke="#555" strokeWidth="6" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.6" className="transition-opacity duration-700 group-hover:opacity-20">
+                        {/* Base */}
+                        <path d="M 120 360 L 280 360 C 300 360, 310 350, 310 330 L 310 300" />
+                        <path d="M 120 360 C 100 360, 90 350, 90 330 L 90 300" />
+                        {/* Support Arms */}
+                        <path d="M 90 330 L 180 200" />
+                        <path d="M 310 330 L 220 200" />
+                    </g>
+
+
+                    {/* 3D Hamster Wheel (Rotates) */}
+                    <g className="transition-all duration-700 group-hover:opacity-30">
+                        <g ref={wheelRef}>
+                            {/* Back Rim */}
+                            <ellipse cx="200" cy="200" rx="130" ry="170" fill="none" stroke="#444" strokeWidth="4" />
+
+                            {/* Wheel Spokes (Connecting Back to Front) - Abstracted as lines across the ellipse */}
+                            {Array.from({ length: 12 }).map((_, i) => {
+                                const angle = (i * 30 * Math.PI) / 180;
+                                const x1 = 200 + 130 * Math.cos(angle);
+                                const y1 = 200 + 170 * Math.sin(angle);
+                                // The front rim is offset visually to create depth
+                                const x2 = 200 + 150 * Math.cos(angle) + 20;
+                                const y2 = 200 + 180 * Math.sin(angle) + 10;
+
+                                return (
+                                    <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#666" strokeWidth="3" opacity="0.5" />
+                                );
+                            })}
+
+                            {/* Center Hub */}
+                            <circle cx="200" cy="200" r="10" fill="#666" />
+                            {Array.from({ length: 8 }).map((_, i) => {
+                                const angle = (i * 45 * Math.PI) / 180;
+                                const x = 200 + 130 * Math.cos(angle);
+                                const y = 200 + 170 * Math.sin(angle);
+                                return <line key={i} x1="200" y1="200" x2={x} y2={y} stroke="#555" strokeWidth="2" opacity="0.6" />;
+                            })}
                         </g>
 
-                        {/* Inner Orbit */}
-                        <g>
-                            <g ref={innerOrbitGroupRef}>
-                                <circle cx="200" cy="200" r="110" fill="none" stroke="#D4AF37" strokeWidth="0.5" strokeDasharray="3 6" opacity="0.3" />
+                        {/* Front Rim (Static overlay for 3D effect, covering the bottom parts) */}
+                        <ellipse cx="220" cy="210" rx="150" ry="180" fill="none" stroke="#888" strokeWidth="6" opacity="0.8" />
+                    </g>
+
+
+                    {/* Running Gold Stick Figure */}
+                    <g ref={manRef} className="transition-opacity duration-700 group-hover:opacity-50">
+                        <style>{`
+                            @keyframes runLeg1 {
+                                0%, 100% { transform: rotate(-30deg); }
+                                50% { transform: rotate(40deg); }
+                            }
+                            @keyframes runLeg2 {
+                                0%, 100% { transform: rotate(40deg); }
+                                50% { transform: rotate(-30deg); }
+                            }
+                            @keyframes runArm1 {
+                                0%, 100% { transform: rotate(40deg); }
+                                50% { transform: rotate(-40deg); }
+                            }
+                            @keyframes runArm2 {
+                                0%, 100% { transform: rotate(-40deg); }
+                                50% { transform: rotate(40deg); }
+                            }
+                            @keyframes bodyBounce {
+                                0%, 100% { transform: translateY(0); }
+                                50% { transform: translateY(-5px); }
+                            }
+                            .leg1 { transform-origin: 200px 240px; animation: runLeg1 0.6s linear infinite; }
+                            .leg2 { transform-origin: 200px 240px; animation: runLeg2 0.6s linear infinite; }
+                            .arm1 { transform-origin: 200px 180px; animation: runArm1 0.6s linear infinite; }
+                            .arm2 { transform-origin: 200px 180px; animation: runArm2 0.6s linear infinite; }
+                            .body-bounce { animation: bodyBounce 0.3s ease-in-out infinite; }
+                        `}</style>
+
+                        {/* Whole figure bounce */}
+                        <g className="body-bounce">
+                            {/* Head */}
+                            <circle cx="215" cy="140" r="16" fill="#FACC15" filter="url(#glow-gold)" />
+
+                            {/* Torso (Leaning forward) */}
+                            <line x1="210" y1="156" x2="200" y2="240" stroke="#FACC15" strokeWidth="12" strokeLinecap="round" filter="url(#glow-gold)" />
+
+                            {/* Back Arm (Arm 2) */}
+                            <g className="arm2">
+                                <line x1="200" y1="180" x2="160" y2="200" stroke="#EAB308" strokeWidth="10" strokeLinecap="round" />
+                                <line x1="160" y1="200" x2="170" y2="160" stroke="#EAB308" strokeWidth="9" strokeLinecap="round" />
                             </g>
-                            <g ref={innerRunnersRef}>
-                                <MouseComponent angle={0} radius={110} direction={-1} />
-                                <MouseComponent angle={120} radius={110} direction={-1} />
-                                <MouseComponent angle={240} radius={110} direction={-1} />
-                                <CheeseComponent angle={-30} radius={110} />
+
+                            {/* Back Leg (Leg 2) */}
+                            <g className="leg2">
+                                <line x1="200" y1="240" x2="170" y2="290" stroke="#EAB308" strokeWidth="12" strokeLinecap="round" />
+                                <line x1="170" y1="290" x2="150" y2="280" stroke="#EAB308" strokeWidth="10" strokeLinecap="round" />
+                            </g>
+
+                            {/* Front Arm (Arm 1) */}
+                            <g className="arm1">
+                                <line x1="200" y1="180" x2="250" y2="200" stroke="#FDE047" strokeWidth="10" strokeLinecap="round" filter="url(#glow-gold)" />
+                                <line x1="250" y1="200" x2="260" y2="160" stroke="#FDE047" strokeWidth="9" strokeLinecap="round" filter="url(#glow-gold)" />
+                            </g>
+
+                            {/* Front Leg (Leg 1) */}
+                            <g className="leg1">
+                                <line x1="200" y1="240" x2="230" y2="290" stroke="#FDE047" strokeWidth="12" strokeLinecap="round" filter="url(#glow-gold)" />
+                                <line x1="230" y1="290" x2="260" y2="280" stroke="#FDE047" strokeWidth="10" strokeLinecap="round" filter="url(#glow-gold)" />
                             </g>
                         </g>
                     </g>
 
-                    {/* Central Wealth System Cube - lit faintly normally, glows brightly on hover */}
-                    <g ref={coreRef} className="transition-all duration-700 group-hover:drop-shadow-[0_0_20px_rgba(255,215,0,0.8)]" opacity="0.5">
-                        {/* Subtle glow behind the cube that intensifies on hover */}
-                        <circle cx="200" cy="200" r="40" fill="#D4AF37" className="opacity-5 group-hover:opacity-20 transition-opacity duration-700" filter="blur(10px)" />
 
-                        <g stroke="#D4AF37" strokeWidth="0.8">
-                            <polygon points="200,150 240,170 240,210 200,230 160,210 160,170" fill="none" />
-                            <polygon points="200,165 225,180 225,205 200,220 175,205 175,180" fill="none" strokeOpacity="0.6" />
-                            <line x1="200" y1="150" x2="200" y2="165" opacity="0.6" />
-                            <line x1="240" y1="170" x2="225" y2="180" opacity="0.6" />
-                            <line x1="240" y1="210" x2="225" y2="205" opacity="0.6" />
-                            <line x1="200" y1="230" x2="200" y2="220" opacity="0.6" />
-                            <line x1="160" y1="210" x2="175" y2="205" opacity="0.6" />
-                            <line x1="160" y1="170" x2="175" y2="180" opacity="0.6" />
-
-                            <line x1="200" y1="192" x2="200" y2="165" opacity="0.4" />
-                            <line x1="200" y1="192" x2="225" y2="205" opacity="0.4" />
-                            <line x1="200" y1="192" x2="175" y2="205" opacity="0.4" />
+                    {/* Central Wealth System Core - Emerges on isReading */}
+                    <g ref={coreRef} className="transition-all duration-700" opacity="0">
+                        {/* Only visible/active when 'isReading' state is triggered, acting as the system replacing the wheel */}
+                        <g className="core-pulse-anim">
+                            <polygon points="200,150 240,170 240,210 200,230 160,210 160,170" fill="none" stroke="#D4AF37" strokeWidth="2" />
+                            <circle cx="200" cy="200" r="10" fill="#FDE047" filter="url(#glow-gold)" />
                         </g>
                     </g>
                 </svg>
 
                 {/* Secret Emergent Title underneath the layers */}
                 <div ref={osTitleRef} className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 z-20">
-                    <h3 className="text-xl md:text-2xl font-black text-[#FFD700] tracking-widest drop-shadow-[0_0_15px_rgba(255,215,0,1)] uppercase">
-                        Wealth OS V2.0
+                    <h3 className="text-xl md:text-2xl font-black text-[#FFD700] tracking-widest drop-shadow-[0_0_15px_rgba(255,215,0,1)] uppercase bg-background-dark/80 px-4 py-2 rounded-xl backdrop-blur-sm">
+                        Wealth System Activated
                     </h3>
                 </div>
             </div>
 
             {/* Rat Race Subtitle */}
-            <div className="text-center mt-6 z-10 w-full">
+            <div className="text-center mt-6 z-10 w-full animate-reveal" style={{ animationDelay: '2.5s' }}>
                 <p className="text-transparent bg-clip-text bg-gradient-to-r from-slate-400 to-slate-500 font-sans tracking-widest text-sm md:text-base leading-relaxed">
-                    90%的人在老鼠赛跑<br />
-                    10%的人在建立财富系统
+                    你的朝九晚五<br />
+                    其实是人生的财务陷阱
                 </p>
             </div>
         </div>
     );
 }
-

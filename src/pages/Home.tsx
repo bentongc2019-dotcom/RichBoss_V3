@@ -53,18 +53,79 @@ function Home() {
                                 </span>
                                 <span className="text-xs font-bold text-primary tracking-widest uppercase">Wealth OS v2.0</span>
                             </div>
-                            <h1 className="flex flex-col gap-5 mb-10 tracking-tighter">
-                                <span className="text-3xl lg:text-4xl font-medium text-white/90">
-                                    富老板不是赚更多钱
-                                </span>
-                                <span className="text-5xl lg:text-[4.5rem] font-black leading-tight text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#FDE047] drop-shadow-sm">
-                                    而是设计
-                                </span>
-                                <span className="text-5xl lg:text-[4.5rem] font-black leading-tight text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#FDE047] drop-shadow-sm">
-                                    让钱自动流动的系统
-                                </span>
-                            </h1>
-                            <div className="flex flex-col gap-2 mb-12 pl-5 border-l-4 border-[#D4AF37]/50">
+                            <style>{`
+                                @keyframes textReveal {
+                                    0% { opacity: 0; transform: translateY(15px); filter: blur(4px); }
+                                    100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+                                }
+                                .animate-reveal {
+                                    animation: textReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+                                    opacity: 0;
+                                }
+                            `}</style>
+
+                            <div className="relative mb-12 z-10">
+                                {/* Background subtle system lines */}
+                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] -z-10 opacity-15 pointer-events-none flex items-center justify-center">
+                                    <svg viewBox="0 0 200 200" className="w-full h-full animate-[spin_12s_linear_infinite]">
+                                        <circle cx="100" cy="100" r="80" fill="none" stroke="#D4AF37" strokeWidth="0.4" strokeDasharray="4 8" />
+                                        <circle cx="100" cy="100" r="60" fill="none" stroke="#D4AF37" strokeWidth="0.4" strokeDasharray="2 4" />
+                                        <path d="M 20 100 H 180 M 100 20 V 180" stroke="#D4AF37" strokeWidth="0.2" opacity="0.4" />
+                                        <circle cx="100" cy="20" r="2" fill="#D4AF37" />
+                                        <circle cx="100" cy="180" r="2" fill="#D4AF37" />
+                                    </svg>
+                                </div>
+
+                                <h1 className="flex flex-col gap-4 tracking-tighter">
+                                    {/* Line 1 */}
+                                    <span className="text-2xl lg:text-3xl font-medium text-white/90">
+                                        富老板不是赚更多钱
+                                    </span>
+
+                                    {/* Line 2 */}
+                                    <span className="text-lg lg:text-xl font-normal text-white/60 animate-reveal" style={{ animationDelay: '0.3s' }}>
+                                        而是
+                                    </span>
+
+                                    {/* Line 3 (Animated phrases) */}
+                                    <div className="text-4xl lg:text-[4.5rem] font-black leading-tight flex flex-wrap items-baseline gap-x-3 lg:gap-x-4 mt-1 lg:mt-3">
+                                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#FDE047] drop-shadow-sm animate-reveal" style={{ animationDelay: '0.6s' }}>设计</span>
+                                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#FDE047] drop-shadow-sm animate-reveal" style={{ animationDelay: '0.9s' }}>让钱</span>
+
+                                        <span className="relative inline-block animate-reveal group" style={{ animationDelay: '1.2s' }}>
+                                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FDE047] to-[#FFFBEB] drop-shadow-[0_0_15px_rgba(253,224,71,0.5)]">自动流动</span>
+                                            {/* SVG Line Animation under `自动流动` */}
+                                            <svg className="absolute -bottom-1 -left-2 w-[110%] h-5 overflow-visible" viewBox="0 0 100 20" preserveAspectRatio="none">
+                                                {/* Static subtle track */}
+                                                <path id="flow-path" d="M 0 10 Q 50 18 100 10" fill="none" stroke="#D4AF37" strokeWidth="1.5" opacity="0.2" />
+
+                                                {/* Glowing moving dash */}
+                                                <path d="M 0 10 Q 50 18 100 10" fill="none" stroke="#FDE047" strokeWidth="2.5" strokeDasharray="30 100" opacity="0.9">
+                                                    <animate attributeName="stroke-dashoffset" from="130" to="0" dur="2s" repeatCount="indefinite" />
+                                                </path>
+
+                                                {/* Glowing particles */}
+                                                <circle r="2" fill="#FFFBEB" filter="drop-shadow(0 0 3px #FFFBEB)">
+                                                    <animateMotion dur="2s" repeatCount="indefinite">
+                                                        <mpath href="#flow-path" />
+                                                    </animateMotion>
+                                                    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="2s" repeatCount="indefinite" />
+                                                </circle>
+                                                <circle r="1.5" fill="#FDE047">
+                                                    <animateMotion dur="2.5s" begin="1s" repeatCount="indefinite">
+                                                        <mpath href="#flow-path" />
+                                                    </animateMotion>
+                                                    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="2.5s" begin="1s" repeatCount="indefinite" />
+                                                </circle>
+                                            </svg>
+                                        </span>
+
+                                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#FDE047] drop-shadow-sm animate-reveal" style={{ animationDelay: '1.5s' }}>的系统</span>
+                                    </div>
+                                </h1>
+                            </div>
+
+                            <div className="flex flex-col gap-2 mb-10 pl-5 border-l-4 border-[#D4AF37]/50 animate-reveal" style={{ animationDelay: '1.8s' }}>
                                 <p className="text-xl lg:text-2xl font-light text-slate-300 tracking-wide">
                                     90%的人在老鼠赛跑
                                 </p>
@@ -72,12 +133,22 @@ function Home() {
                                     10%的人在设计财富系统
                                 </p>
                             </div>
-                            <div className="flex flex-wrap gap-4 mt-4">
+
+                            <div className="flex flex-wrap gap-4 mt-2 animate-reveal" style={{ animationDelay: '2.1s' }}>
+                                <style>{`
+                                    @keyframes pulseGlow {
+                                        0%, 100% { box-shadow: 0 0 20px rgba(212,175,55,0.4); }
+                                        50% { box-shadow: 0 0 40px rgba(253,224,71,0.7); }
+                                    }
+                                    .btn-glow-pulse {
+                                        animation: pulseGlow 3s ease-in-out infinite;
+                                    }
+                                `}</style>
                                 <button onClick={handleReadClick}
-                                    className="group relative inline-flex items-center justify-center gap-3 bg-gradient-to-r from-[#D4AF37] to-[#FACC15] text-[#0F0F12] px-10 py-5 font-extrabold rounded-2xl transition-all duration-500 hover:scale-105 hover:brightness-125 shadow-[0_0_40px_rgba(212,175,55,0.4)] hover:shadow-[0_0_60px_rgba(212,175,55,0.7)]">
-                                    <div className="absolute inset-0 rounded-2xl bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                                    <span className="material-symbols-outlined text-2xl relative z-10 transition-transform group-hover:rotate-12">account_tree</span>
-                                    <span className="text-lg lg:text-xl tracking-widest relative z-10">开始建立你的财富系统</span>
+                                    className="btn-glow-pulse group relative inline-flex items-center justify-center gap-3 bg-gradient-to-r from-[#D4AF37] to-[#FDE047] text-[#0F0F12] px-10 py-5 font-black rounded-2xl transition-all duration-500 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-[0_15px_40px_rgba(253,224,71,0.8)]">
+                                    <div className="absolute inset-0 rounded-2xl bg-white/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                    <span className="material-symbols-outlined text-2xl relative z-10 transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110">menu_book</span>
+                                    <span className="text-lg lg:text-xl tracking-widest relative z-10">开始阅读</span>
                                 </button>
                             </div>
                         </div>
