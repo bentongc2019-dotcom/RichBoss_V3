@@ -53,21 +53,31 @@ function Home() {
                                 </span>
                                 <span className="text-xs font-bold text-primary tracking-widest uppercase">Wealth OS v2.0</span>
                             </div>
-                            <h1 className="text-4xl lg:text-[3.5rem] font-black leading-[1.25] mb-8 tracking-tighter text-white">
-                                <span className="opacity-90 tracking-normal text-3xl lg:text-4xl">富老板不是赚更多钱</span>
-                                <br />
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FFD700] to-[#FACC15] mt-2 block tracking-tight shadow-sm">
-                                    而是设计让钱自动流动的系统
+                            <h1 className="flex flex-col gap-5 mb-10 tracking-tighter">
+                                <span className="text-3xl lg:text-4xl font-medium text-white/90">
+                                    富老板不是赚更多钱
+                                </span>
+                                <span className="text-5xl lg:text-[4.5rem] font-black leading-tight text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#FDE047] drop-shadow-sm">
+                                    而是设计
+                                </span>
+                                <span className="text-5xl lg:text-[4.5rem] font-black leading-tight text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#FDE047] drop-shadow-sm">
+                                    让钱自动流动的系统
                                 </span>
                             </h1>
-                            <p className="text-xl text-slate-400 mb-10 max-w-xl leading-relaxed hidden">
-                                90%的人努力赚钱<br />10%的人设计财富系统
-                            </p>
-                            <div className="flex flex-wrap gap-4 mt-8">
+                            <div className="flex flex-col gap-2 mb-12 pl-5 border-l-4 border-[#D4AF37]/50">
+                                <p className="text-xl lg:text-2xl font-light text-slate-300 tracking-wide">
+                                    90%的人在老鼠赛跑
+                                </p>
+                                <p className="text-xl lg:text-2xl font-medium text-[#D4AF37] tracking-wide">
+                                    10%的人在设计财富系统
+                                </p>
+                            </div>
+                            <div className="flex flex-wrap gap-4 mt-4">
                                 <button onClick={handleReadClick}
-                                    className="group relative inline-flex items-center justify-center gap-3 bg-gradient-to-r from-[#EAB308] to-[#FFD700] text-[#0F0F12] px-10 py-4 font-bold rounded-xl transition-all hover:scale-105 shadow-[0_0_30px_rgba(234,179,8,0.2)] hover:shadow-[0_0_40px_rgba(250,204,21,0.4)]">
-                                    <span className="material-symbols-outlined text-xl transition-transform group-hover:block">menu_book</span>
-                                    <span className="text-lg tracking-widest">开始阅读</span>
+                                    className="group relative inline-flex items-center justify-center gap-3 bg-gradient-to-r from-[#D4AF37] to-[#FACC15] text-[#0F0F12] px-10 py-5 font-extrabold rounded-2xl transition-all duration-500 hover:scale-105 hover:brightness-125 shadow-[0_0_40px_rgba(212,175,55,0.4)] hover:shadow-[0_0_60px_rgba(212,175,55,0.7)]">
+                                    <div className="absolute inset-0 rounded-2xl bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                    <span className="material-symbols-outlined text-2xl relative z-10 transition-transform group-hover:rotate-12">account_tree</span>
+                                    <span className="text-lg lg:text-xl tracking-widest relative z-10">开始建立你的财富系统</span>
                                 </button>
                             </div>
                         </div>
