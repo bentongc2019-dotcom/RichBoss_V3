@@ -77,8 +77,8 @@ export default function HeroVisual({ isReading }: { isReading: boolean }) {
                     <g>
                         {orbits.map((orbit, idx) => (
                             <g key={idx} transform={`rotate(${orbit.rotation} 250 250)`}>
-                                {/* 完整呈现如附图2的交叉静态底线圈 */}
-                                <use href="#orbit-path" fill="none" stroke="#FFFFFF" opacity="0.12" strokeWidth="1" />
+                                {/* 完整呈现如附图2的交叉静态底线圈，加深颜色 */}
+                                <use href="#orbit-path" fill="none" stroke="#D4AF37" opacity="0.45" strokeWidth="1" />
 
                                 {/* 跟随跑动的辉光长尾迹 */}
                                 <use
