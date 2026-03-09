@@ -49,7 +49,7 @@ function Home() {
             </header>
             <main className="flex-grow pt-24">
                 <section className="relative px-6 lg:px-20 py-20 lg:py-32 overflow-hidden">
-                    <div className="mx-auto max-w-7xl grid lg:grid-cols-2 gap-16 items-center">
+                    <div className="mx-auto max-w-[1100px] grid lg:grid-cols-2 gap-6 lg:gap-2 items-center">
                         <div className="z-10">
                             <div
                                 className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-6">
@@ -121,7 +121,7 @@ function Home() {
                                 </button>
                             </div>
                         </div>
-                        <div className="relative">
+                        <div className="relative flex justify-start lg:-ml-16">
                             <HeroVisual isReading={isReadingAnim} />
                         </div>
                     </div>
