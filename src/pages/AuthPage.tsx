@@ -35,10 +35,15 @@ export default function AuthPage({ onSuccess, redirectMessage }: AuthPageProps) 
                         membership_level: 'free',
                     })
                 }
-                setMessage('✅ 注册成功！请检查邮箱确认账号，然后返回登录。')
+                if (data.session) {
+                    setMessage('✅ 注册成功！')
+                    setTimeout(() => onSuccess?.(), 1000)
+                } else {
+                    setMessage('✅ 注册成功！请检查邮箱确认账号，然后返回登录。')
+                }
             } else {
-                const { error } = await supabase.auth.signInWithPassword({ email, password })
-                if (error) throw error
+                const { error: signInError } = await supabase.auth.signInWithPassword({ email, password })
+                if (signInError) throw signInError
                 onSuccess?.()
             }
         } catch (err: unknown) {

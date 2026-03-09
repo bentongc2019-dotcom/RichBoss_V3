@@ -2,37 +2,51 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 
 export default function HeroVisual({ isReading }: { isReading: boolean }) {
+    const systemRef = useRef<SVGSVGElement>(null);
     const ringsRef = useRef<SVGGElement>(null);
     const coreRef = useRef<SVGGElement>(null);
     const osTitleRef = useRef<HTMLDivElement>(null);
 
+    const orbits = [
+        { name: '现金流', r: 85, dur: 6, color: '#FFD700', reverse: false, labelAngle: -55 },
+        { name: '计划经营', r: 135, dur: 10, color: '#FDE047', reverse: true, labelAngle: -195 },
+        { name: '团队共创', r: 185, dur: 15, color: '#FFE88A', reverse: false, labelAngle: 35 },
+        { name: '瓶颈思维', r: 235, dur: 22, color: '#D4AF37', reverse: true, labelAngle: 145 }
+    ];
+
     useEffect(() => {
-        // 慢速自转，营造系统运转感
-        gsap.to(ringsRef.current, {
-            rotation: 360,
-            transformOrigin: '200px 200px',
-            repeat: -1,
-            duration: 30,
-            ease: 'none',
-        });
+        // Subtle floating movement of the whole system
+        if (systemRef.current) {
+            gsap.to(systemRef.current, {
+                y: -15,
+                duration: 4,
+                yoyo: true,
+                repeat: -1,
+                ease: "sine.inOut"
+            });
+        }
 
         if (isReading) {
             // 核心爆发金光
             if (coreRef.current) gsap.to(coreRef.current, {
                 opacity: 1,
                 scale: 1.1,
-                transformOrigin: '200px 200px',
+                transformOrigin: '250px 250px',
                 duration: 1.5,
                 ease: 'power2.out',
             });
-            // 光环淡出
+            // 光环阵列淡出
             if (ringsRef.current) gsap.to(ringsRef.current, {
-                opacity: 0.15,
+                opacity: 0.1,
+                scale: 0.95,
+                transformOrigin: '250px 250px',
                 duration: 1.5,
+                ease: 'power2.out',
             });
             // 标题出现
             if (osTitleRef.current) gsap.to(osTitleRef.current, {
                 opacity: 1,
+                y: -20,
                 duration: 1.5,
                 ease: 'power2.out',
             });
@@ -41,222 +55,146 @@ export default function HeroVisual({ isReading }: { isReading: boolean }) {
 
     return (
         <div className="flex flex-col items-center justify-center w-full relative">
-            {/* 主容器 */}
-            <div className="aspect-square w-full max-w-[420px] relative flex items-center justify-center">
-                {/* 外圈辉光背景 */}
-                <div className="absolute inset-0 rounded-full bg-[#D4AF37]/5 blur-3xl pointer-events-none" />
+            <div className="aspect-square w-full max-w-[500px] relative flex items-center justify-center">
+
+                {/* 动态背景光晕 */}
+                <div className="absolute inset-0 rounded-full bg-[#FFD700]/5 blur-[60px] pointer-events-none" />
 
                 <svg
+                    ref={systemRef}
                     className="w-full h-full"
-                    viewBox="0 0 400 400"
+                    viewBox="0 0 500 500"
                     xmlns="http://www.w3.org/2000/svg"
                 >
                     <defs>
-                        {/* 粒子发光滤镜 */}
-                        <filter id="hv-glow-sm" x="-100%" y="-100%" width="300%" height="300%">
+                        <filter id="core-glow" x="-50%" y="-50%" width="200%" height="200%">
+                            <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
+                            <feMerge>
+                                <feMergeNode in="blur" />
+                                <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                        </filter>
+                        <filter id="particle-glow" x="-50%" y="-50%" width="200%" height="200%">
                             <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur" />
                             <feMerge>
                                 <feMergeNode in="blur" />
                                 <feMergeNode in="SourceGraphic" />
                             </feMerge>
                         </filter>
-                        <filter id="hv-glow-lg" x="-100%" y="-100%" width="300%" height="300%">
-                            <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur" />
-                            <feMerge>
-                                <feMergeNode in="blur" />
-                                <feMergeNode in="SourceGraphic" />
-                            </feMerge>
-                        </filter>
-
-                        {/* 粒子流动渐变 */}
-                        <linearGradient id="hv-grad-gold" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stopColor="#D4AF37" stopOpacity="0" />
-                            <stop offset="50%" stopColor="#FDE047" stopOpacity="1" />
-                            <stop offset="100%" stopColor="#D4AF37" stopOpacity="0" />
-                        </linearGradient>
                     </defs>
 
-                    {/* === 3D 同心光环组（整体缓慢自转） === */}
+                    {/* === 轨道系统 === */}
                     <g ref={ringsRef}>
-                        {/* Ring 1 — 最外层，倾斜 20deg（用椭圆模拟 3D） */}
-                        <ellipse
-                            cx="200" cy="200" rx="168" ry="56"
-                            fill="none" stroke="#2a2a2a" strokeWidth="1.5"
-                            transform="rotate(-20 200 200)"
-                        />
-                        {/* Ring 1 粒子流 */}
-                        <ellipse
-                            cx="200" cy="200" rx="168" ry="56"
-                            fill="none"
-                            stroke="#D4AF37"
-                            strokeWidth="2.5"
-                            strokeDasharray="22 320"
-                            strokeLinecap="round"
-                            filter="url(#hv-glow-sm)"
-                            transform="rotate(-20 200 200)"
-                            opacity="0.95"
-                        >
-                            <animate
-                                attributeName="stroke-dashoffset"
-                                from="0" to="-342"
-                                dur="2.2s"
-                                repeatCount="indefinite"
-                            />
-                        </ellipse>
-                        {/* Ring 1 第二颗粒子（相位差） */}
-                        <ellipse
-                            cx="200" cy="200" rx="168" ry="56"
-                            fill="none"
-                            stroke="#FDE047"
-                            strokeWidth="2"
-                            strokeDasharray="12 330"
-                            strokeLinecap="round"
-                            filter="url(#hv-glow-sm)"
-                            transform="rotate(-20 200 200)"
-                            opacity="0.7"
-                        >
-                            <animate
-                                attributeName="stroke-dashoffset"
-                                from="-171" to="-513"
-                                dur="2.2s"
-                                repeatCount="indefinite"
-                            />
-                        </ellipse>
+                        {orbits.map((orbit, idx) => {
+                            const c = 2 * Math.PI * orbit.r;
+                            const rad = (orbit.labelAngle * Math.PI) / 180;
+                            // 增大标签距离，避免拥挤
+                            const textR = orbit.r + 14;
+                            const tx = 250 + textR * Math.cos(rad);
+                            const ty = 250 + textR * Math.sin(rad);
 
-                        {/* Ring 2 — 中层，倾斜 15deg */}
-                        <ellipse
-                            cx="200" cy="200" rx="128" ry="44"
-                            fill="none" stroke="#2a2a2a" strokeWidth="1.5"
-                            transform="rotate(15 200 200)"
-                        />
-                        <ellipse
-                            cx="200" cy="200" rx="128" ry="44"
-                            fill="none"
-                            stroke="#C9A227"
-                            strokeWidth="2.5"
-                            strokeDasharray="18 246"
-                            strokeLinecap="round"
-                            filter="url(#hv-glow-sm)"
-                            transform="rotate(15 200 200)"
-                            opacity="0.9"
-                        >
-                            <animate
-                                attributeName="stroke-dashoffset"
-                                from="0" to="264"
-                                dur="1.6s"
-                                repeatCount="indefinite"
-                            />
-                        </ellipse>
+                            const tAnchor = tx > 250 ? "start" : "end";
 
-                        {/* Ring 3 — 内层，倾斜 -30deg */}
-                        <ellipse
-                            cx="200" cy="200" rx="90" ry="30"
-                            fill="none" stroke="#333333" strokeWidth="1"
-                            transform="rotate(-30 200 200)"
-                        />
-                        <ellipse
-                            cx="200" cy="200" rx="90" ry="30"
-                            fill="none"
-                            stroke="#FFE88A"
-                            strokeWidth="3"
-                            strokeDasharray="14 176"
-                            strokeLinecap="round"
-                            filter="url(#hv-glow-sm)"
-                            transform="rotate(-30 200 200)"
-                            opacity="0.85"
-                        >
-                            <animate
-                                attributeName="stroke-dashoffset"
-                                from="0" to="-190"
-                                dur="1.1s"
-                                repeatCount="indefinite"
-                            />
-                        </ellipse>
+                            const fromOffset = orbit.reverse ? 0 : c;
+                            const toOffset = orbit.reverse ? c : 0;
 
-                        {/* Ring 4 — 竖直圆（垂直面，参考色浅灰） */}
-                        <ellipse
-                            cx="200" cy="200" rx="30" ry="155"
-                            fill="none" stroke="#1e1e1e" strokeWidth="1"
-                        />
-                        <ellipse
-                            cx="200" cy="200" rx="30" ry="155"
-                            fill="none"
-                            stroke="#D4AF37"
-                            strokeWidth="1.5"
-                            strokeDasharray="10 300"
-                            strokeLinecap="round"
-                            filter="url(#hv-glow-sm)"
-                            opacity="0.5"
-                        >
-                            <animate
-                                attributeName="stroke-dashoffset"
-                                from="0" to="310"
-                                dur="3.5s"
-                                repeatCount="indefinite"
-                            />
-                        </ellipse>
+                            return (
+                                <g key={idx}>
+                                    {/* 弱化的轨道底线 */}
+                                    <circle cx="250" cy="250" r={orbit.r} fill="none" stroke="#FFFFFF" opacity="0.04" strokeWidth="1" />
+
+                                    {/* 长的粒子尾迹 */}
+                                    <circle
+                                        cx="250" cy="250" r={orbit.r}
+                                        fill="none"
+                                        stroke={orbit.color}
+                                        strokeWidth="1.5"
+                                        strokeDasharray={`${orbit.r * 1.2} ${c}`}
+                                        strokeLinecap="round"
+                                        filter="url(#particle-glow)"
+                                        opacity="0.6"
+                                    >
+                                        <animate
+                                            attributeName="stroke-dashoffset"
+                                            from={fromOffset}
+                                            to={toOffset}
+                                            dur={`${orbit.dur}s`}
+                                            repeatCount="indefinite"
+                                            calcMode="linear"
+                                        />
+                                    </circle>
+
+                                    {/* 亮色的粒子头部 */}
+                                    <circle
+                                        cx="250" cy="250" r={orbit.r}
+                                        fill="none"
+                                        stroke="#FFFFFF"
+                                        strokeWidth="3"
+                                        strokeDasharray={`1 ${c}`}
+                                        strokeLinecap="round"
+                                        filter="url(#core-glow)"
+                                    >
+                                        <animate
+                                            attributeName="stroke-dashoffset"
+                                            from={fromOffset}
+                                            to={toOffset}
+                                            dur={`${orbit.dur}s`}
+                                            repeatCount="indefinite"
+                                            calcMode="linear"
+                                        />
+                                    </circle>
+
+                                    {/* 标签与连接点 */}
+                                    <circle cx={250 + orbit.r * Math.cos(rad)} cy={250 + orbit.r * Math.sin(rad)} r="2.5" fill={orbit.color} opacity="0.8" />
+                                    <text
+                                        x={tx} y={ty}
+                                        fill={orbit.color}
+                                        fontSize="11"
+                                        fontWeight="500"
+                                        letterSpacing="2"
+                                        textAnchor={tAnchor}
+                                        dominantBaseline="middle"
+                                        opacity="0.9"
+                                    >
+                                        {orbit.name}
+                                    </text>
+                                </g>
+                            )
+                        })}
                     </g>
 
-                    {/* === 中心脉动核心 === */}
-                    <g ref={coreRef} opacity="0.8">
-                        <style>{`
-                            @keyframes hv-pulse {
-                                0%, 100% { opacity: 0.7; r: 12; }
-                                50%        { opacity: 1;   r: 16; }
-                            }
-                            @keyframes hv-ring-pulse {
-                                0%, 100% { opacity: 0.15; }
-                                50%       { opacity: 0.35; }
-                            }
-                            .hv-core-dot { animation: hv-pulse 3s ease-in-out infinite; }
-                            .hv-core-ring { animation: hv-ring-pulse 3s ease-in-out infinite; }
-                        `}</style>
-
-                        {/* 外圈光晕 */}
-                        <circle
-                            className="hv-core-ring"
-                            cx="200" cy="200" r="36"
-                            fill="none" stroke="#D4AF37" strokeWidth="1"
-                            filter="url(#hv-glow-lg)"
-                        />
-                        {/* 中圈 */}
-                        <circle
-                            cx="200" cy="200" r="22"
-                            fill="none" stroke="#D4AF37" strokeWidth="1"
-                            opacity="0.3"
-                        />
-                        {/* 核心点 */}
-                        <circle
-                            className="hv-core-dot"
-                            cx="200" cy="200" r="12"
-                            fill="#FDE047"
-                            filter="url(#hv-glow-lg)"
-                        />
-                        {/* 十字准星 */}
-                        <line x1="200" y1="172" x2="200" y2="183" stroke="#D4AF37" strokeWidth="1" opacity="0.6" />
-                        <line x1="200" y1="217" x2="200" y2="228" stroke="#D4AF37" strokeWidth="1" opacity="0.6" />
-                        <line x1="172" y1="200" x2="183" y2="200" stroke="#D4AF37" strokeWidth="1" opacity="0.6" />
-                        <line x1="217" y1="200" x2="228" y2="200" stroke="#D4AF37" strokeWidth="1" opacity="0.6" />
+                    {/* === 中心核心系统 === */}
+                    <g ref={coreRef} className="cursor-pointer transition-transform hover:scale-[1.02]">
+                        {/* 脉冲波纹 */}
+                        <circle cx="250" cy="250" r="55" fill="none" stroke="#D4AF37" strokeWidth="1" strokeDasharray="4 6" opacity="0.3">
+                            <animateTransform attributeName="transform" type="rotate" from="0 250 250" to="360 250 250" dur="20s" repeatCount="indefinite" />
+                        </circle>
+                        {/* 核心基座底色 */}
+                        <circle cx="250" cy="250" r="48" fill="#0A0A0A" stroke="#FFD700" strokeWidth="1.5" filter="url(#core-glow)" opacity="0.9" />
+                        <circle cx="250" cy="250" r="48" fill="#FFD700" opacity="0.1" />
+                        {/* 中心标签 */}
+                        <text x="250" y="246" textAnchor="middle" fill="#FFD700" fontSize="15" fontWeight="900" letterSpacing="1.5" filter="url(#core-glow)">富老板</text>
+                        <text x="250" y="266" textAnchor="middle" fill="#FFFFFF" fontSize="9" fontFamily="monospace" letterSpacing="3" opacity="0.6">SYSTEM</text>
                     </g>
                 </svg>
 
-                {/* 点击阅读后显示标题 */}
+                {/* 点击阅读后显示激活标题 */}
                 <div
                     ref={osTitleRef}
                     className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 z-20"
                 >
-                    <h3 className="text-xl md:text-2xl font-black text-[#FFD700] tracking-widest uppercase bg-black/70 px-5 py-2.5 rounded-xl backdrop-blur-sm drop-shadow-[0_0_20px_rgba(255,215,0,0.8)]">
+                    <h3 className="text-xl md:text-2xl font-black text-[#FFD700] tracking-widest uppercase bg-black/80 border border-[#FFD700]/30 px-6 py-3 rounded-lg backdrop-blur-md drop-shadow-[0_0_25px_rgba(255,215,0,0.6)]">
                         Wealth System Activated
                     </h3>
                 </div>
             </div>
 
-            {/* 副标题：90% / 10% */}
-            <div className="text-center mt-5 z-10 w-full">
-                <p className="font-sans tracking-widest text-sm md:text-base leading-relaxed">
+            {/* 副标题 */}
+            <div className="text-center mt-8 z-10 w-full">
+                <p className="font-sans tracking-widest text-sm md:text-base leading-relaxed opacity-80">
                     <span className="text-slate-400">90%的人在老鼠赛跑</span>
                     <span className="mx-3 text-slate-600">·</span>
-                    <span className="text-[#D4AF37] font-semibold">10%的人在设计财富系统</span>
+                    <span className="text-[#FFD700] font-semibold drop-shadow-[0_0_8px_rgba(255,215,0,0.5)]">10%的人在设计财富系统</span>
                 </p>
             </div>
         </div>
