@@ -106,24 +106,27 @@ export default function HeroVisual({ isReading }: { isReading: boolean }) {
                                         <mpath href="#orbit-path" />
                                     </animateMotion>
 
-                                    {/* 跑在最前面的能量光点 (彗尾头部) */}
-                                    <circle cx="0" cy="0" r="4" fill="#FFFFFF" filter="url(#core-glow)" />
-                                    <circle cx="0" cy="0" r="2" fill="#FFFFFF" />
+                                    {/* 抵消整个轨道的倾斜角度，让文字始终保持绝对水平向正！ */}
+                                    <g transform={`rotate(${-orbit.rotation})`}>
+                                        {/* 跑在最前面的能量光点 (彗尾头部) */}
+                                        <circle cx="0" cy="0" r="4" fill="#FFFFFF" filter="url(#core-glow)" />
+                                        <circle cx="0" cy="0" r="2" fill="#FFFFFF" />
 
-                                    {/* 文字底下的薄遮罩层：防止运行到深色重叠处看不清 */}
-                                    <rect x="-35" y="-30" width="70" height="22" fill="#0A0A0A" rx="4" opacity="0.65" />
+                                        {/* 文字底下的薄遮罩层：防止运行到深色重叠处看不清 */}
+                                        <rect x="-35" y="-30" width="70" height="22" fill="#0A0A0A" rx="4" opacity="0.65" />
 
-                                    {/* 真正的跟跑文字 */}
-                                    <text
-                                        x="0" y="-18"
-                                        fill={orbit.color}
-                                        fontSize="13"
-                                        fontWeight="700"
-                                        letterSpacing="1.5"
-                                        textAnchor="middle"
-                                    >
-                                        {orbit.name}
-                                    </text>
+                                        {/* 真正的跟跑文字 */}
+                                        <text
+                                            x="0" y="-18"
+                                            fill={orbit.color}
+                                            fontSize="13"
+                                            fontWeight="700"
+                                            letterSpacing="1.5"
+                                            textAnchor="middle"
+                                        >
+                                            {orbit.name}
+                                        </text>
+                                    </g>
                                 </g>
                             </g>
                         ))}
