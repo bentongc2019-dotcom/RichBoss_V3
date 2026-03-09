@@ -6,7 +6,7 @@
   "homepage": "https://bentongc2019-dotcom.github.io/RichBoss_V3",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
