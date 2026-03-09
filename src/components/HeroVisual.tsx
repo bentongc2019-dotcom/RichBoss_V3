@@ -48,8 +48,9 @@ export default function HeroVisual({ isReading }: { isReading: boolean }) {
         <div className="flex flex-col items-center justify-center w-full relative">
             <div className="aspect-square w-full max-w-[540px] relative flex items-center justify-center mt-6">
 
-                {/* 动态背景光晕 */}
+                {/* 动态背景环境光晕 - 加入象征智慧与系统的深紫色 */}
                 <div className="absolute inset-0 rounded-full bg-[#FFD700]/5 blur-[60px] pointer-events-none" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-purple-900/40 blur-[100px] rounded-full pointer-events-none z-0" />
 
                 <svg
                     ref={systemRef}

@@ -52,13 +52,13 @@ function Home() {
                     <div className="mx-auto max-w-[1100px] grid lg:grid-cols-2 gap-6 lg:gap-2 items-center">
                         <div className="z-10">
                             <div
-                                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-6">
+                                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-purple-900/40 to-black border border-purple-500/30 mb-6 backdrop-blur-sm">
                                 <span className="relative flex h-2 w-2">
                                     <span
-                                        className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                                        className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-500 opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-purple-400"></span>
                                 </span>
-                                <span className="text-xs font-bold text-primary tracking-widest uppercase">Wealth OS v2.0</span>
+                                <span className="text-xs font-bold text-yellow-500 tracking-[0.2em] uppercase">Wealth OS v2.0</span>
                             </div>
                             <style>{`
                                 @keyframes textReveal {
@@ -114,7 +114,7 @@ function Home() {
 
                             <div className="flex flex-wrap gap-4 animate-reveal" style={{ animationDelay: '1.1s' }}>
                                 <button onClick={handleReadClick}
-                                    className="btn-glow-pulse group relative inline-flex items-center justify-center gap-3 bg-gradient-to-r from-[#D4AF37] to-[#FDE047] text-[#0F0F12] px-10 py-5 font-black rounded-2xl transition-all duration-500 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-[0_15px_40px_rgba(253,224,71,0.8)]">
+                                    className="group relative inline-flex items-center justify-center gap-3 bg-gradient-to-r from-[#D4AF37] to-[#FDE047] text-[#0F0F12] px-10 py-5 font-black rounded-2xl transition-all duration-500 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(147,51,234,0.5)] border border-transparent hover:border-purple-500/50">
                                     <div className="absolute inset-0 rounded-2xl bg-white/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                                     <span className="material-symbols-outlined text-2xl relative z-10 group-hover:rotate-12 transition-transform duration-500">menu_book</span>
                                     <span className="text-lg lg:text-xl tracking-widest relative z-10">开始阅读</span>
@@ -152,8 +152,9 @@ function Home() {
                     <div
                         className="relative z-10 mx-auto max-w-5xl rounded-[2rem] overflow-hidden border-[0.5px] border-white/10 shadow-2xl">
 
+                        {/* 移动紫色光晕，使其对齐到右上方“有钱有闲（富老板）”卡片区域 (大致在网格上方右侧) 以作全局呼应 */}
                         <div
-                            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-[#7C3AED] opacity-50 blur-[60px] rounded-full pointer-events-none z-0">
+                            className="absolute top-1/4 right-[20%] w-64 h-64 bg-purple-600/40 blur-[80px] rounded-full pointer-events-none z-0">
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 relative z-10">
@@ -316,7 +317,7 @@ function Home() {
                             </p>
                             <button
                                 onClick={() => navigate('/quiz')}
-                                className="bg-background-dark text-white px-10 py-4 font-black rounded-xl hover:scale-105 transition-transform flex items-center gap-3">
+                                className="bg-background-dark border border-transparent hover:border-purple-500/50 text-white px-10 py-4 font-black rounded-xl hover:scale-105 transition-all flex items-center gap-3 hover:shadow-[0_0_25px_rgba(147,51,234,0.5)]">
                                 开始免费测验 <span className="material-symbols-outlined">quiz</span>
                             </button>
                         </div>
