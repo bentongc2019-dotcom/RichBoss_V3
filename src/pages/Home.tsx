@@ -51,7 +51,7 @@ function Home() {
             </header>
             <main className="flex-grow pt-24">
                 <section className="relative px-6 lg:px-20 pt-8 pb-20 lg:pt-12 lg:pb-32 overflow-hidden">
-                    <div className="mx-auto max-w-[1200px] grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
+                    <div className="mx-auto max-w-[1200px] grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
                         <div className="z-10">
                             <div
                                 className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-purple-900/40 to-black border border-purple-500/30 mb-6 backdrop-blur-sm">
