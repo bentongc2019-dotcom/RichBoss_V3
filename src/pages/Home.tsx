@@ -50,7 +50,7 @@ function Home() {
                 </nav>
             </header>
             <main className="flex-grow pt-24">
-                <section className="relative px-6 lg:px-20 py-20 lg:py-32 overflow-hidden">
+                <section className="relative px-6 lg:px-20 pt-8 pb-20 lg:pt-12 lg:pb-32 overflow-hidden">
                     <div className="mx-auto max-w-[1100px] grid lg:grid-cols-2 gap-6 lg:gap-2 items-center">
                         <div className="z-10">
                             <div
