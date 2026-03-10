@@ -423,7 +423,7 @@ function Home() {
                     </div>
                 </div>
                 <div className="mx-auto max-w-7xl mt-16 pt-8 border-t border-white/5 text-center text-slate-600 text-xs">
-                    © 2024 Rich Boss (富老板) Wealth Systems. All rights reserved.
+                    © 2005 Rich Boss (富老板) Wealth Systems. All rights reserved / 版权所有
                 </div>
             </footer>
         </div>
