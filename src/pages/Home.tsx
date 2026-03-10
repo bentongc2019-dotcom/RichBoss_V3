@@ -20,7 +20,7 @@ function Home() {
                         <img
                             src={`${import.meta.env.BASE_URL}images/logo.png`}
                             alt="Rich Boss Logo"
-                            className="h-8 w-auto object-contain brightness-0 invert"
+                            className="h-[42px] lg:h-12 w-auto object-contain"
                         />
                     </div>
                     <div className="hidden md:flex items-center gap-10">
@@ -380,7 +380,7 @@ function Home() {
                             <img
                                 src={`${import.meta.env.BASE_URL}images/logo.png`}
                                 alt="Rich Boss Logo"
-                                className="h-8 w-auto object-contain brightness-0 invert"
+                                className="h-[42px] lg:h-12 w-auto object-contain"
                             />
                         </div>
                         <p className="text-slate-500 max-w-sm mb-6">旨在通过系统化思维，帮助人们摆脱时间换金钱的死循环，构建属于自己的财富操作系统。</p>
