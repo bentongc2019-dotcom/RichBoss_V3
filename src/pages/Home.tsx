@@ -83,12 +83,12 @@ function Home() {
                                 </span>
 
                                 {/* 第二行 */}
-                                <span className="block text-3xl lg:text-4xl font-bold text-yellow-500 animate-reveal" style={{ animationDelay: '0.35s' }}>
+                                <span className="block text-3xl lg:text-4xl font-bold text-white animate-reveal" style={{ animationDelay: '0.35s' }}>
                                     而是设计
                                 </span>
 
                                 {/* 第三行 */}
-                                <span className="block text-4xl lg:text-5xl font-black leading-tight animate-reveal" style={{ animationDelay: '0.7s' }}>
+                                <span className="block text-[1.6rem] sm:text-4xl lg:text-5xl font-black leading-tight animate-reveal whitespace-nowrap tracking-tight sm:tracking-normal" style={{ animationDelay: '0.7s' }}>
                                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] via-[#FDE047] to-[#D4AF37]">
                                         让钱
                                     </span>
