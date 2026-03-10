@@ -18,7 +18,7 @@ function Home() {
                 <nav className="mx-auto flex max-w-7xl items-center justify-between">
                     <div className="flex items-center">
                         <img
-                            src="/images/logo.png"
+                            src={`${import.meta.env.BASE_URL}images/logo.png`}
                             alt="Rich Boss Logo"
                             className="h-8 w-auto object-contain brightness-0 invert"
                         />
@@ -51,7 +51,7 @@ function Home() {
             </header>
             <main className="flex-grow pt-24">
                 <section className="relative px-6 lg:px-20 pt-8 pb-20 lg:pt-12 lg:pb-32 overflow-hidden">
-                    <div className="mx-auto max-w-[1100px] grid lg:grid-cols-2 gap-6 lg:gap-2 items-center">
+                    <div className="mx-auto max-w-[1200px] grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
                         <div className="z-10">
                             <div
                                 className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-purple-900/40 to-black border border-purple-500/30 mb-6 backdrop-blur-sm">
@@ -123,7 +123,7 @@ function Home() {
                                 </button>
                             </div>
                         </div>
-                        <div className="relative flex justify-start lg:-ml-16">
+                        <div className="relative">
                             <HeroVisual isReading={isReadingAnim} />
                         </div>
                     </div>
@@ -250,7 +250,7 @@ function Home() {
                                         className="group relative inline-flex items-center justify-center gap-3 bg-[#EAB308] text-[#0F0F12] px-8 py-3.5 font-bold rounded-xl transition-all hover:bg-[#FACC15] shadow-[0_0_30px_rgba(234,179,8,0.2)] hover:shadow-[0_0_40px_rgba(250,204,21,0.3)]"><span className="material-symbols-outlined text-xl">menu_book</span><span className="text-base tracking-widest">开始阅读</span></a>
                                 </div>
                             </div>
-                            <div className="w-full lg:w-1/2 order-1 lg:order-2 flex justify-center">
+                            <div className="w-full lg:w-1/2 order-1 lg:order-2 flex justify-center lg:gap-8">
                                 <div className="relative group">
                                     <div
                                         className="absolute inset-0 bg-primary/20 blur-3xl rounded-full scale-75 group-hover:scale-100 transition-transform">
@@ -378,7 +378,7 @@ function Home() {
                     <div className="col-span-1 md:col-span-2">
                         <div className="flex items-center mb-6">
                             <img
-                                src="/images/logo.png"
+                                src={`${import.meta.env.BASE_URL}images/logo.png`}
                                 alt="Rich Boss Logo"
                                 className="h-8 w-auto object-contain brightness-0 invert"
                             />
