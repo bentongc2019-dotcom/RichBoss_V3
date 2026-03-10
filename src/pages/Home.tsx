@@ -170,7 +170,7 @@ function Home() {
                                     <span
                                         className="material-symbols-outlined text-white/20 group-hover:text-white/50 text-3xl font-light transition-colors">hourglass_empty</span>
                                 </div>
-                                <p className="font-sans text-[13px] text-slate-400 tracking-[0.08em] leading-loose">
+                                <p className="font-sans text-sm md:text-base text-slate-400 tracking-[0.08em] leading-loose">
                                     空有时间却无资产杠杆。生活节奏缓慢，但也缺乏抵御风险波动的财务护城河。</p>
                             </div>
 
@@ -184,7 +184,7 @@ function Home() {
                                     <span
                                         className="material-symbols-outlined text-primary/40 group-hover:text-primary text-3xl font-light transition-colors">diamond</span>
                                 </div>
-                                <p className="font-sans text-[13px] text-slate-400 tracking-[0.08em] leading-loose"><span
+                                <p className="font-sans text-sm md:text-base text-slate-400 tracking-[0.08em] leading-loose"><span
                                     className="text-primary tracking-[0.1em] block mb-1">富老板的终极蓝图。</span>金钱为你工作。系统自动创造丰沛现金流，完全掌控人生的绝对自由。
                                 </p>
                             </div>
@@ -199,7 +199,7 @@ function Home() {
                                     <span
                                         className="material-symbols-outlined text-red-500/20 group-hover:text-red-500/60 text-3xl font-light transition-colors">warning</span>
                                 </div>
-                                <p className="font-sans text-[13px] text-slate-400 tracking-[0.08em] leading-loose">
+                                <p className="font-sans text-sm md:text-base text-slate-400 tracking-[0.08em] leading-loose">
                                     深陷“老鼠赛跑”。不断用时间换取微薄薪水，同时被负债与高消费逐渐掏空资产框架。</p>
                             </div>
 
@@ -213,7 +213,7 @@ function Home() {
                                     <span
                                         className="material-symbols-outlined text-white/20 group-hover:text-white/50 text-3xl font-light transition-colors">business_center</span>
                                 </div>
-                                <p className="font-sans text-[13px] text-slate-400 tracking-[0.08em] leading-loose">
+                                <p className="font-sans text-sm md:text-base text-slate-400 tracking-[0.08em] leading-loose">
                                     高薪的隐形枷锁。现金流庞大但系统高度依赖你的个人时间，一旦停下，运转即刻瘫痪。</p>
                             </div>
                         </div>
