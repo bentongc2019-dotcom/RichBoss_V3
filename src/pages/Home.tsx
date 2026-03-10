@@ -76,6 +76,11 @@ function Home() {
                                     50% { box-shadow: 0 0 40px rgba(253,224,71,0.7); }
                                 }
                                 .btn-glow-pulse { animation: pulseGlow 3s ease-in-out infinite; }
+                                @keyframes diamondGlow {
+                                    0%, 100% { color: #D4AF37; text-shadow: 0 0 10px rgba(212,175,55,0.4); transform: scale(1); }
+                                    50% { color: #FACC15; text-shadow: 0 0 25px rgba(250,204,21,0.9); transform: scale(1.15); }
+                                }
+                                .animate-diamond { animation: diamondGlow 2s ease-in-out infinite; display: inline-block; }
                             `}</style>
 
                             <h1 className="flex flex-col gap-4 mb-10">
@@ -182,7 +187,7 @@ function Home() {
                                         style={{ "fontFamily": "'Noto Serif SC', 'Songti SC', serif" }}>有钱<span
                                             className="text-primary font-light mx-3">×</span>有闲</h3>
                                     <span
-                                        className="material-symbols-outlined text-primary/40 group-hover:text-primary text-3xl font-light transition-colors">diamond</span>
+                                        className="material-symbols-outlined animate-diamond text-3xl font-light">diamond</span>
                                 </div>
                                 <p className="font-sans text-sm md:text-base text-slate-400 tracking-[0.08em] leading-loose"><span
                                     className="text-primary tracking-[0.1em] block mb-1">富老板的终极蓝图。</span>金钱为你工作。系统自动创造丰沛现金流，完全掌控人生的绝对自由。
