@@ -16,10 +16,12 @@ function Home() {
             <header
                 className="fixed top-0 z-50 w-full border-b border-white/10 bg-background-dark/80 backdrop-blur-md px-6 lg:px-20 py-4">
                 <nav className="mx-auto flex max-w-7xl items-center justify-between">
-                    <div className="flex items-center gap-3">
-                        <span className="material-symbols-outlined text-primary text-3xl">account_balance</span>
-                        <h2 className="text-xl font-bold tracking-tight text-white uppercase">富老板 <span
-                            className="text-primary">Rich Boss</span></h2>
+                    <div className="flex items-center">
+                        <img
+                            src="/images/logo.png"
+                            alt="Rich Boss Logo"
+                            className="h-8 w-auto object-contain brightness-0 invert"
+                        />
                     </div>
                     <div className="hidden md:flex items-center gap-10">
                         <a className="text-sm font-medium hover:text-primary transition-colors text-slate-300"
@@ -374,10 +376,12 @@ function Home() {
             <footer className="bg-background-dark py-16 px-6 lg:px-20 border-t border-white/10">
                 <div className="mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-4 gap-12">
                     <div className="col-span-1 md:col-span-2">
-                        <div className="flex items-center gap-3 mb-6">
-                            <span className="material-symbols-outlined text-primary text-3xl">account_balance</span>
-                            <h2 className="text-xl font-bold tracking-tight text-white uppercase">富老板 <span
-                                className="text-primary">Rich Boss</span></h2>
+                        <div className="flex items-center mb-6">
+                            <img
+                                src="/images/logo.png"
+                                alt="Rich Boss Logo"
+                                className="h-8 w-auto object-contain brightness-0 invert"
+                            />
                         </div>
                         <p className="text-slate-500 max-w-sm mb-6">旨在通过系统化思维，帮助人们摆脱时间换金钱的死循环，构建属于自己的财富操作系统。</p>
                         <div className="flex gap-4">
