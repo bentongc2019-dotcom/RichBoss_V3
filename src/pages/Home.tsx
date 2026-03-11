@@ -167,7 +167,7 @@ function Home() {
                                 <span className="relative z-10 text-white/40 text-sm font-bold tracking-widest bg-[#0a0a0a] px-4">没钱</span>
                                 <span className="relative z-10 text-white/40 text-sm font-bold tracking-widest bg-[#0a0a0a] px-4">有钱</span>
                             </div>
-                            
+
                             {/* Vertical Axis */}
                             <div className="absolute inset-0 flex flex-col items-center justify-between py-4">
                                 <div className="absolute top-0 bottom-0 w-[1px] bg-white opacity-15"></div>
