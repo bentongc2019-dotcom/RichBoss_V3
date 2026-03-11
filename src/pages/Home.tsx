@@ -157,69 +157,78 @@ function Home() {
                     </div>
 
                     <div
-                        className="relative z-10 mx-auto max-w-5xl rounded-[2rem] overflow-hidden border-[0.5px] border-white/10 shadow-2xl">
+                        className="relative z-10 mx-auto max-w-5xl rounded-[2rem] bg-[#0a0a0a] p-6 md:p-12 lg:p-16 border border-white/10 shadow-2xl overflow-hidden">
 
-                        {/* 移动紫色光晕，使其对齐到右上方“有钱有闲（富老板）”卡片区域 (大致在网格上方右侧) 以作全局呼应 */}
-                        <div
-                            className="absolute top-1/4 right-[20%] w-64 h-64 bg-purple-600/40 blur-[80px] rounded-full pointer-events-none z-0">
+                        {/* Coordinate Axes Background (Visible on md and up) */}
+                        <div className="absolute inset-0 pointer-events-none hidden md:block z-0">
+                            {/* Horizontal Axis */}
+                            <div className="absolute inset-0 flex items-center justify-between px-4">
+                                <div className="absolute left-0 right-0 h-[1px] bg-white opacity-15"></div>
+                                <span className="relative z-10 text-white/40 text-sm font-bold tracking-widest bg-[#0a0a0a] px-4">没钱</span>
+                                <span className="relative z-10 text-white/40 text-sm font-bold tracking-widest bg-[#0a0a0a] px-4">有钱</span>
+                            </div>
+                            
+                            {/* Vertical Axis */}
+                            <div className="absolute inset-0 flex flex-col items-center justify-between py-4">
+                                <div className="absolute top-0 bottom-0 w-[1px] bg-white opacity-15"></div>
+                                <span className="relative z-10 text-white/40 text-sm font-bold tracking-widest bg-[#0a0a0a] py-3">有闲</span>
+                                <span className="relative z-10 text-white/40 text-sm font-bold tracking-widest bg-[#0a0a0a] py-3">没闲</span>
+                            </div>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 relative z-10">
+                        {/* Quadrants Grid */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-10 relative z-10">
 
+                            {/* Top-Left: 没钱 × 有闲 */}
                             <div
-                                className="relative bg-white/[0.05] backdrop-blur-xl p-10 lg:p-14 border-b-[0.5px] border-white/10 md:border-r-[0.5px] group hover:bg-white/[0.07] transition duration-700 h-full">
-                                <div className="flex justify-between items-start mb-8">
-                                    <h3 className="text-2xl font-serif text-white/90 group-hover:text-white transition-colors tracking-widest"
-                                        style={{ "fontFamily": "'Noto Serif SC', 'Songti SC', serif" }}>没钱<span
-                                            className="text-white/20 font-light mx-3">×</span>有闲</h3>
-                                    <span
-                                        className="material-symbols-outlined text-white/20 group-hover:text-white/50 text-3xl font-light transition-colors">hourglass_empty</span>
+                                className="relative bg-[#0a0a0a] backdrop-blur-xl p-8 lg:p-10 rounded-2xl border border-white/5 group hover:bg-[#0F0F12] transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(59,130,246,0.25)] flex flex-col h-full z-10">
+                                <div className="flex justify-between items-start mb-6">
+                                    <h3 className="text-xl font-serif text-white/90 group-hover:text-[#3B82F6] transition-colors tracking-widest"
+                                        style={{ "fontFamily": "'Noto Serif SC', 'Songti SC', serif" }}>没钱<span className="text-white/20 font-light mx-3">×</span>有闲</h3>
+                                    <span className="material-symbols-outlined text-white/20 group-hover:text-[#3B82F6] text-3xl font-light transition-colors drop-shadow-[0_0_10px_rgba(59,130,246,0.3)]">hourglass_empty</span>
                                 </div>
-                                <p className="font-sans text-sm md:text-base text-slate-400 tracking-[0.08em] leading-loose">
-                                    空有时间却无资产杠杆。生活节奏缓慢，但也缺乏抵御风险波动的财务护城河。</p>
+                                <p className="font-sans text-sm text-slate-400 tracking-[0.08em] leading-relaxed">
+                                    空有时间却无资产杠杆。生活节奏缓慢，但缺乏抵御风险的财务护城河。</p>
                             </div>
 
-
+                            {/* Top-Right: 有钱 × 有闲 (Target State) */}
                             <div
-                                className="relative bg-white/[0.05] backdrop-blur-xl p-10 lg:p-14 border-b-[0.5px] border-white/10 group hover:bg-white/[0.07] transition duration-700 h-full">
-                                <div className="flex justify-between items-start mb-8">
-                                    <h3 className="text-2xl font-serif text-white/90 group-hover:text-white transition-colors tracking-widest"
-                                        style={{ "fontFamily": "'Noto Serif SC', 'Songti SC', serif" }}>有钱<span
-                                            className="text-primary font-light mx-3">×</span>有闲</h3>
-                                    <span
-                                        className="material-symbols-outlined animate-diamond text-3xl font-light">diamond</span>
+                                className="relative bg-[#0a0a0a] backdrop-blur-xl p-8 lg:p-10 rounded-2xl border border-[#7C3AED]/40 group hover:bg-[#110A1A] transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(124,58,237,0.35)] flex flex-col h-full overflow-hidden z-20">
+                                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(124,58,237,0.12)_0%,transparent_100%)] pointer-events-none group-hover:opacity-100 transition-opacity"></div>
+                                <div className="flex justify-between items-start mb-6 relative z-10">
+                                    <div>
+                                        <h3 className="text-xl font-serif text-white group-hover:text-[#FFD700] transition-colors tracking-widest"
+                                            style={{ "fontFamily": "'Noto Serif SC', 'Songti SC', serif" }}>有钱<span className="text-[#FFD700]/50 font-light mx-3">×</span>有闲</h3>
+                                    </div>
+                                    <span className="material-symbols-outlined text-[#FFD700] group-hover:text-[#FACC15] text-3xl font-light transition-colors animate-diamond drop-shadow-[0_0_15px_rgba(255,215,0,0.6)]">diamond</span>
                                 </div>
-                                <p className="font-sans text-sm md:text-base text-slate-400 tracking-[0.08em] leading-loose"><span
-                                    className="text-primary tracking-[0.1em] block mb-1">富老板的终极蓝图。</span>金钱为你工作。系统自动创造丰沛现金流，完全掌控人生的绝对自由。
-                                </p>
+                                <p className="font-sans text-sm text-slate-300 tracking-[0.08em] leading-relaxed relative z-10">
+                                    <span className="text-[#FFD700] tracking-[0.1em] block mb-2 font-medium">富老板系统的终极状态。</span>
+                                    金钱为你工作，系统自动创造现金流，实现真正的人生自由。</p>
                             </div>
 
-
+                            {/* Bottom-Left: 没钱 × 没闲 */}
                             <div
-                                className="relative bg-white/[0.05] backdrop-blur-xl p-10 lg:p-14 border-b-[0.5px] border-white/10 md:border-b-0 md:border-r-[0.5px] group hover:bg-white/[0.07] transition duration-700 h-full">
-                                <div className="flex justify-between items-start mb-8">
-                                    <h3 className="text-2xl font-serif text-white/90 group-hover:text-white transition-colors tracking-widest"
-                                        style={{ "fontFamily": "'Noto Serif SC', 'Songti SC', serif" }}>没钱<span
-                                            className="text-white/20 font-light mx-3">×</span>没闲</h3>
-                                    <span
-                                        className="material-symbols-outlined text-red-500/20 group-hover:text-red-500/60 text-3xl font-light transition-colors">warning</span>
+                                className="relative bg-[#0a0a0a] backdrop-blur-xl p-8 lg:p-10 rounded-2xl border border-white/5 group hover:bg-[#120505] transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(239,68,68,0.25)] flex flex-col h-full z-10">
+                                <div className="flex justify-between items-start mb-6">
+                                    <h3 className="text-xl font-serif text-white/90 group-hover:text-[#EF4444] transition-colors tracking-widest"
+                                        style={{ "fontFamily": "'Noto Serif SC', 'Songti SC', serif" }}>没钱<span className="text-white/20 font-light mx-3">×</span>没闲</h3>
+                                    <span className="material-symbols-outlined text-white/20 group-hover:text-[#EF4444] text-3xl font-light transition-colors drop-shadow-[0_0_10px_rgba(239,68,68,0.3)]">warning</span>
                                 </div>
-                                <p className="font-sans text-sm md:text-base text-slate-400 tracking-[0.08em] leading-loose">
-                                    深陷“老鼠赛跑”。不断用时间换取微薄薪水，同时被负债与高消费逐渐掏空资产框架。</p>
+                                <p className="font-sans text-sm text-slate-400 tracking-[0.08em] leading-relaxed">
+                                    深陷“老鼠赛跑”。用时间换取微薄薪水，同时被负债与消费逐渐掏空资产框架。</p>
                             </div>
 
-
+                            {/* Bottom-Right: 有钱 × 没闲 */}
                             <div
-                                className="relative bg-white/[0.05] backdrop-blur-xl p-10 lg:p-14 group hover:bg-white/[0.07] transition duration-700 h-full">
-                                <div className="flex justify-between items-start mb-8">
-                                    <h3 className="text-2xl font-serif text-white/90 group-hover:text-white transition-colors tracking-widest"
-                                        style={{ "fontFamily": "'Noto Serif SC', 'Songti SC', serif" }}>有钱<span
-                                            className="text-white/20 font-light mx-3">×</span>没闲</h3>
-                                    <span
-                                        className="material-symbols-outlined text-white/20 group-hover:text-white/50 text-3xl font-light transition-colors">business_center</span>
+                                className="relative bg-[#0a0a0a] backdrop-blur-xl p-8 lg:p-10 rounded-2xl border border-white/5 group hover:bg-[#051009] transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(34,197,94,0.25)] flex flex-col h-full z-10">
+                                <div className="flex justify-between items-start mb-6">
+                                    <h3 className="text-xl font-serif text-white/90 group-hover:text-[#22C55E] transition-colors tracking-widest"
+                                        style={{ "fontFamily": "'Noto Serif SC', 'Songti SC', serif" }}>有钱<span className="text-white/20 font-light mx-3">×</span>没闲</h3>
+                                    <span className="material-symbols-outlined text-white/20 group-hover:text-[#22C55E] text-3xl font-light transition-colors drop-shadow-[0_0_10px_rgba(34,197,94,0.3)]">business_center</span>
                                 </div>
-                                <p className="font-sans text-sm md:text-base text-slate-400 tracking-[0.08em] leading-loose">
-                                    高薪的隐形枷锁。现金流庞大但系统高度依赖你的个人时间，一旦停下，运转即刻瘫痪。</p>
+                                <p className="font-sans text-sm text-slate-400 tracking-[0.08em] leading-relaxed">
+                                    高薪的隐形枷锁。现金流庞大，但系统高度依赖个人时间，一旦停下，运转即刻停滞。</p>
                             </div>
                         </div>
                     </div>
