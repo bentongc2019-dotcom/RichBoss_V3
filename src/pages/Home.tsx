@@ -62,26 +62,6 @@ function Home() {
                                 </span>
                                 <span className="text-xs font-bold text-yellow-500 tracking-[0.2em] uppercase">Wealth OS v2.0</span>
                             </div>
-                            <style>{`
-                                @keyframes textReveal {
-                                    0% { opacity: 0; transform: translateY(12px); }
-                                    100% { opacity: 1; transform: translateY(0); }
-                                }
-                                .animate-reveal {
-                                    animation: textReveal 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-                                    opacity: 0;
-                                }
-                                @keyframes pulseGlow {
-                                    0%, 100% { box-shadow: 0 0 20px rgba(212,175,55,0.4); }
-                                    50% { box-shadow: 0 0 40px rgba(253,224,71,0.7); }
-                                }
-                                .btn-glow-pulse { animation: pulseGlow 3s ease-in-out infinite; }
-                                @keyframes diamondGlow {
-                                    0%, 100% { color: #D4AF37; text-shadow: 0 0 10px rgba(212,175,55,0.4); transform: scale(1); }
-                                    50% { color: #FACC15; text-shadow: 0 0 25px rgba(250,204,21,0.9); transform: scale(1.15); }
-                                }
-                                .animate-diamond { animation: diamondGlow 2s ease-in-out infinite; display: inline-block; }
-                            `}</style>
 
                             <h1 className="flex flex-col gap-4 mb-10">
                                 {/* 第一行 */}
@@ -162,39 +142,50 @@ function Home() {
                         {/* Coordinate Axes Background (Visible on md and up) */}
                         <div className="absolute inset-0 pointer-events-none hidden md:block z-0">
                             {/* Horizontal Axis */}
-                            <div className="absolute inset-0 flex items-center justify-between px-4">
-                                <div className="absolute left-0 right-0 h-[1px] bg-white opacity-15"></div>
-                                <span className="relative z-10 text-white/40 text-sm font-bold tracking-widest bg-[#0a0a0a] px-4">没钱</span>
-                                <span className="relative z-10 text-white/40 text-sm font-bold tracking-widest bg-[#0a0a0a] px-4">有钱</span>
+                            <div className="absolute inset-0 flex items-center justify-between px-2">
+                                <div className="absolute left-6 right-6 h-[2px] bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+                                {/* Left Arrow */}
+                                <div className="absolute left-4 w-0 h-0 border-y-[6px] border-y-transparent border-r-[10px] border-r-white/30"></div>
+                                {/* Right Arrow */}
+                                <div className="absolute right-4 w-0 h-0 border-y-[6px] border-y-transparent border-l-[10px] border-l-white/30"></div>
+                                
+                                <span className="relative z-10 text-white/60 text-sm font-bold tracking-widest bg-[#0a0a0a] px-4 ml-6">没钱</span>
+                                <span className="relative z-10 text-white/60 text-sm font-bold tracking-widest bg-[#0a0a0a] px-4 mr-6">有钱</span>
                             </div>
 
                             {/* Vertical Axis */}
-                            <div className="absolute inset-0 flex flex-col items-center justify-between py-4">
-                                <div className="absolute top-0 bottom-0 w-[1px] bg-white opacity-15"></div>
-                                <span className="relative z-10 text-white/40 text-sm font-bold tracking-widest bg-[#0a0a0a] py-3">有闲</span>
-                                <span className="relative z-10 text-white/40 text-sm font-bold tracking-widest bg-[#0a0a0a] py-3">没闲</span>
+                            <div className="absolute inset-0 flex flex-col items-center justify-between py-2">
+                                <div className="absolute top-6 bottom-6 w-[2px] bg-gradient-to-b from-transparent via-white/20 to-transparent"></div>
+                                {/* Top Arrow */}
+                                <div className="absolute top-4 w-0 h-0 border-x-[6px] border-x-transparent border-b-[10px] border-b-white/30"></div>
+                                {/* Bottom Arrow */}
+                                <div className="absolute bottom-4 w-0 h-0 border-x-[6px] border-x-transparent border-t-[10px] border-t-white/30"></div>
+                                
+                                <span className="relative z-10 text-white/60 text-sm font-bold tracking-widest bg-[#0a0a0a] py-3 mt-6">有闲</span>
+                                <span className="relative z-10 text-white/60 text-sm font-bold tracking-widest bg-[#0a0a0a] py-3 mb-6">没闲</span>
                             </div>
                         </div>
 
                         {/* Quadrants Grid */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-10 relative z-10">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-10 relative z-10 mt-8 mb-8">
 
                             {/* Top-Left: 没钱 × 有闲 */}
                             <div
-                                className="relative bg-[#0a0a0a] backdrop-blur-xl p-8 lg:p-10 rounded-2xl border border-white/5 group hover:bg-[#0F0F12] transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(59,130,246,0.25)] flex flex-col h-full z-10">
-                                <div className="flex justify-between items-start mb-6">
-                                    <h3 className="text-xl font-serif text-white/90 group-hover:text-[#3B82F6] transition-colors tracking-widest"
+                                className="relative bg-[#0a0a0a]/80 backdrop-blur-xl p-8 lg:p-10 rounded-2xl border border-[#3B82F6]/30 shadow-[0_0_20px_rgba(59,130,246,0.1)] group transition-all duration-500 hover:scale-[1.02] hover:border-[#3B82F6]/50 hover:shadow-[0_0_40px_rgba(59,130,246,0.3)] flex flex-col h-full overflow-hidden z-10">
+                                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.15)_0%,transparent_100%)] pointer-events-none group-hover:opacity-80 transition-opacity"></div>
+                                <div className="flex justify-between items-start mb-6 relative z-10">
+                                    <h3 className="text-xl font-serif text-white/90 group-hover:text-white transition-colors tracking-widest"
                                         style={{ "fontFamily": "'Noto Serif SC', 'Songti SC', serif" }}>没钱<span className="text-white/20 font-light mx-3">×</span>有闲</h3>
-                                    <span className="material-symbols-outlined text-white/20 group-hover:text-[#3B82F6] text-3xl font-light transition-colors drop-shadow-[0_0_10px_rgba(59,130,246,0.3)]">hourglass_empty</span>
+                                    <span className="material-symbols-outlined text-[#3B82F6]/70 group-hover:text-[#3B82F6] text-3xl font-light transition-colors drop-shadow-[0_0_10px_rgba(59,130,246,0.3)]">hourglass_empty</span>
                                 </div>
-                                <p className="font-sans text-sm text-slate-400 tracking-[0.08em] leading-relaxed">
+                                <p className="font-sans text-sm text-slate-300 tracking-[0.08em] leading-relaxed relative z-10">
                                     空有时间却无资产杠杆。生活节奏缓慢，但缺乏抵御风险的财务护城河。</p>
                             </div>
 
                             {/* Top-Right: 有钱 × 有闲 (Target State) */}
                             <div
-                                className="relative bg-[#0a0a0a] backdrop-blur-xl p-8 lg:p-10 rounded-2xl border border-[#7C3AED]/40 group hover:bg-[#110A1A] transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(124,58,237,0.35)] flex flex-col h-full overflow-hidden z-20">
-                                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(124,58,237,0.12)_0%,transparent_100%)] pointer-events-none group-hover:opacity-100 transition-opacity"></div>
+                                className="relative bg-[#0a0a0a]/80 backdrop-blur-xl p-8 lg:p-10 rounded-2xl border border-[#7C3AED]/50 animate-quadrant-glow group transition-all duration-500 hover:scale-[1.02] flex flex-col h-full overflow-hidden z-20">
+                                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(124,58,237,0.35)_0%,transparent_100%)] pointer-events-none animate-radial-pulse"></div>
                                 <div className="flex justify-between items-start mb-6 relative z-10">
                                     <div>
                                         <h3 className="text-xl font-serif text-white group-hover:text-[#FFD700] transition-colors tracking-widest"
@@ -202,32 +193,34 @@ function Home() {
                                     </div>
                                     <span className="material-symbols-outlined text-[#FFD700] group-hover:text-[#FACC15] text-3xl font-light transition-colors animate-diamond drop-shadow-[0_0_15px_rgba(255,215,0,0.6)]">diamond</span>
                                 </div>
-                                <p className="font-sans text-sm text-slate-300 tracking-[0.08em] leading-relaxed relative z-10">
+                                <p className="font-sans text-sm text-white tracking-[0.08em] leading-relaxed relative z-10">
                                     <span className="text-[#FFD700] tracking-[0.1em] block mb-2 font-medium">富老板系统的终极状态。</span>
                                     金钱为你工作，系统自动创造现金流，实现真正的人生自由。</p>
                             </div>
 
                             {/* Bottom-Left: 没钱 × 没闲 */}
                             <div
-                                className="relative bg-[#0a0a0a] backdrop-blur-xl p-8 lg:p-10 rounded-2xl border border-white/5 group hover:bg-[#120505] transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(239,68,68,0.25)] flex flex-col h-full z-10">
-                                <div className="flex justify-between items-start mb-6">
-                                    <h3 className="text-xl font-serif text-white/90 group-hover:text-[#EF4444] transition-colors tracking-widest"
+                                className="relative bg-[#0a0a0a]/80 backdrop-blur-xl p-8 lg:p-10 rounded-2xl border border-[#EF4444]/30 shadow-[0_0_20px_rgba(239,68,68,0.1)] group transition-all duration-500 hover:scale-[1.02] hover:border-[#EF4444]/50 hover:shadow-[0_0_40px_rgba(239,68,68,0.3)] flex flex-col h-full overflow-hidden z-10">
+                                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(239,68,68,0.15)_0%,transparent_100%)] pointer-events-none group-hover:opacity-80 transition-opacity"></div>
+                                <div className="flex justify-between items-start mb-6 relative z-10">
+                                    <h3 className="text-xl font-serif text-white/90 group-hover:text-white transition-colors tracking-widest"
                                         style={{ "fontFamily": "'Noto Serif SC', 'Songti SC', serif" }}>没钱<span className="text-white/20 font-light mx-3">×</span>没闲</h3>
-                                    <span className="material-symbols-outlined text-white/20 group-hover:text-[#EF4444] text-3xl font-light transition-colors drop-shadow-[0_0_10px_rgba(239,68,68,0.3)]">warning</span>
+                                    <span className="material-symbols-outlined text-[#EF4444]/70 group-hover:text-[#EF4444] text-3xl font-light transition-colors drop-shadow-[0_0_10px_rgba(239,68,68,0.3)]">warning</span>
                                 </div>
-                                <p className="font-sans text-sm text-slate-400 tracking-[0.08em] leading-relaxed">
+                                <p className="font-sans text-sm text-slate-300 tracking-[0.08em] leading-relaxed relative z-10">
                                     深陷“老鼠赛跑”。用时间换取微薄薪水，同时被负债与消费逐渐掏空资产框架。</p>
                             </div>
 
                             {/* Bottom-Right: 有钱 × 没闲 */}
                             <div
-                                className="relative bg-[#0a0a0a] backdrop-blur-xl p-8 lg:p-10 rounded-2xl border border-white/5 group hover:bg-[#051009] transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(34,197,94,0.25)] flex flex-col h-full z-10">
-                                <div className="flex justify-between items-start mb-6">
-                                    <h3 className="text-xl font-serif text-white/90 group-hover:text-[#22C55E] transition-colors tracking-widest"
+                                className="relative bg-[#0a0a0a]/80 backdrop-blur-xl p-8 lg:p-10 rounded-2xl border border-[#22C55E]/30 shadow-[0_0_20px_rgba(34,197,94,0.1)] group transition-all duration-500 hover:scale-[1.02] hover:border-[#22C55E]/50 hover:shadow-[0_0_40px_rgba(34,197,94,0.3)] flex flex-col h-full overflow-hidden z-10">
+                                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(34,197,94,0.15)_0%,transparent_100%)] pointer-events-none group-hover:opacity-80 transition-opacity"></div>
+                                <div className="flex justify-between items-start mb-6 relative z-10">
+                                    <h3 className="text-xl font-serif text-white/90 group-hover:text-white transition-colors tracking-widest"
                                         style={{ "fontFamily": "'Noto Serif SC', 'Songti SC', serif" }}>有钱<span className="text-white/20 font-light mx-3">×</span>没闲</h3>
-                                    <span className="material-symbols-outlined text-white/20 group-hover:text-[#22C55E] text-3xl font-light transition-colors drop-shadow-[0_0_10px_rgba(34,197,94,0.3)]">business_center</span>
+                                    <span className="material-symbols-outlined text-[#22C55E]/70 group-hover:text-[#22C55E] text-3xl font-light transition-colors drop-shadow-[0_0_10px_rgba(34,197,94,0.3)]">business_center</span>
                                 </div>
-                                <p className="font-sans text-sm text-slate-400 tracking-[0.08em] leading-relaxed">
+                                <p className="font-sans text-sm text-slate-300 tracking-[0.08em] leading-relaxed relative z-10">
                                     高薪的隐形枷锁。现金流庞大，但系统高度依赖个人时间，一旦停下，运转即刻停滞。</p>
                             </div>
                         </div>

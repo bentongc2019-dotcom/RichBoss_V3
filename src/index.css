@@ -276,3 +276,33 @@ a:hover {
 .chapter-heading {
   scroll-margin-top: 80px;
 }
+
+/* Home 页面四宫格及特效动画 */
+@keyframes textReveal {
+  0% { opacity: 0; transform: translateY(12px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.animate-reveal {
+  animation: textReveal 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  opacity: 0;
+}
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(212,175,55,0.4); }
+  50% { box-shadow: 0 0 40px rgba(253,224,71,0.7); }
+}
+.btn-glow-pulse { animation: pulseGlow 3s ease-in-out infinite; }
+@keyframes diamondGlow {
+  0%, 100% { color: #D4AF37; text-shadow: 0 0 10px rgba(212,175,55,0.4); transform: scale(1); }
+  50% { color: #FACC15; text-shadow: 0 0 25px rgba(250,204,21,0.9); transform: scale(1.15); }
+}
+.animate-diamond { animation: diamondGlow 2s ease-in-out infinite; display: inline-block; }
+@keyframes quadrantGlow {
+  0%, 100% { border-color: rgba(124,58,237,0.4); box-shadow: 0 0 25px rgba(124,58,237,0.2); }
+  50% { border-color: rgba(180,100,255,1); box-shadow: 0 0 60px rgba(180,100,255,0.6); }
+}
+.animate-quadrant-glow { animation: quadrantGlow 2.5s ease-in-out infinite; }
+@keyframes radialPulse {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.6; }
+}
+.animate-radial-pulse { animation: radialPulse 2.5s ease-in-out infinite; }
