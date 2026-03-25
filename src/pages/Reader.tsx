@@ -83,7 +83,7 @@ function Reader() {
     const [showMobileToc, setShowMobileToc] = useState<boolean>(false)
     const [fontSize, setFontSize] = useState<number>(() => {
         const saved = localStorage.getItem(STORAGE_KEYS.FONT_SIZE)
-        return saved ? parseInt(saved) : 20
+        return saved ? parseInt(saved) : 18
     })
     const [theme, setTheme] = useState<Theme>(() => {
         const saved = localStorage.getItem(STORAGE_KEYS.THEME)
@@ -92,6 +92,7 @@ function Reader() {
     const [hasReadingProgress, setHasReadingProgress] = useState<boolean>(false)
     const [savedScrollPosition, setSavedScrollPosition] = useState<number>(0)
     const [readProgress, setReadProgress] = useState<number>(0)
+    const [isUiVisible, setIsUiVisible] = useState<boolean>(true)
 
 
     // 目录容器 ref（桌面端 + 移动端），用于自动滚动到高亮项
@@ -102,6 +103,34 @@ function Reader() {
     // 检查解锁状态
     useEffect(() => {
         setIsUnlocked(isAuthenticated())
+    }, [])
+
+    // 處理沉浸式閱讀UI自動隱藏
+    useEffect(() => {
+        let timeout: ReturnType<typeof setTimeout>
+
+        const handleUserActivity = () => {
+            setIsUiVisible(true)
+            clearTimeout(timeout)
+            timeout = setTimeout(() => {
+                setIsUiVisible(false)
+            }, 3000)
+        }
+
+        handleUserActivity()
+
+        window.addEventListener('mousemove', handleUserActivity)
+        window.addEventListener('touchstart', handleUserActivity)
+        window.addEventListener('scroll', handleUserActivity, { passive: true })
+        window.addEventListener('keydown', handleUserActivity)
+
+        return () => {
+            clearTimeout(timeout)
+            window.removeEventListener('mousemove', handleUserActivity)
+            window.removeEventListener('touchstart', handleUserActivity)
+            window.removeEventListener('scroll', handleUserActivity)
+            window.removeEventListener('keydown', handleUserActivity)
+        }
     }, [])
 
     // 处理解锁成功
@@ -467,7 +496,7 @@ function Reader() {
     return (
         <div className={`min-h-screen ${currentTheme.bg} transition-colors duration-300`}>
             {/* 頂部導航欄 */}
-            <header className={`sticky top-0 z-50 ${currentTheme.headerBg} backdrop-blur-md border-b ${currentTheme.border}`}>
+            <header className={`sticky top-0 z-50 ${currentTheme.headerBg} backdrop-blur-md border-b ${currentTheme.border} transition-opacity duration-500 ${isUiVisible || showMobileToc ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
                 <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
                     <Link
                         to="/"
@@ -496,7 +525,7 @@ function Reader() {
             {/* 主體佈局容器 */}
             <div className="flex">
                 {/* 桌面端固定目錄側邊欄 */}
-                <aside className={`hidden md:flex md:flex-col md:w-72 lg:w-80 fixed left-0 top-[57px] bottom-0 ${currentTheme.sidebarBg} border-r ${currentTheme.border} z-30`}>
+                <aside className={`hidden md:flex md:flex-col md:w-72 lg:w-80 fixed left-0 top-[57px] bottom-0 ${currentTheme.sidebarBg} border-r ${currentTheme.border} z-30 transition-opacity duration-500 ${isUiVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
                     <div className={`p-4 border-b ${currentTheme.border}`}>
                         <h2 className={`text-lg font-semibold ${currentTheme.heading}`}>📚 目錄</h2>
                     </div>
@@ -507,7 +536,7 @@ function Reader() {
                 <main className="flex-1 md:ml-72 lg:ml-80 px-4 sm:px-6 py-12 pb-32">
                     {/* 內容容器 - 居中，最大宽度800px */}
                     <div
-                        className="max-w-[1000px] mx-auto rounded-2xl p-6 sm:p-8"
+                        className="max-w-[1000px] mx-auto rounded-2xl px-12 py-10"
                         style={{ background: currentTheme.contentBg }}
                     >
                         {/* 加載狀態 */}
@@ -553,10 +582,11 @@ function Reader() {
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.5 }}
-                                    className={`prose max-w-none ereader-content ${theme === 'dark' ? 'prose-invert' : ''}`}
+                                    className={`prose max-w-none ereader-content ${theme === 'dark' ? 'prose-invert' : ''} text-lg leading-loose`}
                                     style={{
                                         fontSize: `${fontSize}px`,
-                                        lineHeight: '1.8',
+                                        lineHeight: '1.75',
+                                        fontFamily: '"Georgia", "Merriweather", -apple-system, "PingFang SC", sans-serif',
                                         color: theme === 'dark' ? '#e5e5e5' : '#000000'
                                     }}
                                 >
@@ -692,7 +722,7 @@ function Reader() {
 
             {/* 閱讀進度條 - 固定在底部工具欄上方 */}
             {!isLoading && !error && content && (
-                <div className="fixed bottom-[60px] left-0 right-0 z-50 h-1 bg-gray-800/50">
+                <div className={`fixed bottom-[60px] left-0 right-0 z-50 h-1 bg-gray-800/50 transition-opacity duration-500 ${isUiVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
                     <div
                         className="h-full bg-gradient-to-r from-gold-400 to-gold-500 transition-all duration-150 ease-out"
                         style={{ width: `${readProgress}%` }}
@@ -702,7 +732,7 @@ function Reader() {
 
             {/* 底部導航工具欄 */}
             {!isLoading && !error && content && (
-                <div className={`reader-toolbar ${theme !== 'dark' ? 'bg-white/95 border-gray-200' : ''}`}>
+                <div className={`reader-toolbar ${theme !== 'dark' ? 'bg-white/95 border-gray-200' : ''} transition-opacity duration-500 ${isUiVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
                     <div className="max-w-4xl mx-auto flex items-center justify-between gap-2 md:gap-4">
                         {/* 移動端目錄按鈕 */}
                         <button
