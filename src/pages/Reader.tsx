@@ -366,6 +366,16 @@ function Reader() {
                 return <div className="my-6">{children}</div>
             }
 
+            // 针对开头的副标题文字（原本会因 text-justify 而被拉大间距）取消首行缩进及强行两端对齐
+            const rawText = node?.children?.map((c: any) => c.value || '').join('') || ''
+            if (rawText.includes('RICH BOSS, POOR BOSS') || rawText.includes('重新定义｜Reframed')) {
+                return (
+                    <p className={`${currentTheme.heading} text-center leading-relaxed mb-6 font-medium`} style={{ textIndent: '0', textAlign: 'center' }}>
+                        {children}
+                    </p>
+                )
+            }
+
             return (
                 <p className={`${currentTheme.text} leading-relaxed mb-6`}>
                     {children}

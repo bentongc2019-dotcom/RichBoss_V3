@@ -121,8 +121,11 @@ function Home() {
                     </div>
 
                     <div className="relative z-10 mx-auto max-w-7xl text-center mb-20">
-                        <h2 className="text-3xl lg:text-4xl font-serif text-white mb-4 tracking-wide"
-                            style={{ "fontFamily": "'Noto Serif SC', 'Songti SC', serif" }}>『钱 × 闲』餐巾纸地图</h2>
+                        <h2 className="text-3xl lg:text-4xl font-serif text-white mb-4 tracking-wide flex flex-col items-center gap-1"
+                            style={{ "fontFamily": "'Noto Serif SC', 'Songti SC', serif" }}>
+                            <span>『钱 × 闲』</span>
+                            <span>餐巾纸地图</span>
+                        </h2>
                         <p
                             className="text-slate-400 max-w-2xl mx-auto font-sans tracking-[0.2em] text-xs md:text-sm uppercase opacity-70 mb-6">
                             识别你真实的财务象限，突破认知的玻璃天花板</p>
@@ -130,9 +133,12 @@ function Home() {
                             <p className="text-slate-300 text-sm md:text-base tracking-widest mb-2 font-medium">
                                 <span className="text-primary">财富的本质</span>只有两个维度：
                             </p>
-                            <p className="text-white font-bold tracking-widest text-lg">
-                                钱（Money）<span className="mx-4 text-white/20 font-light">×</span>闲（Freedom）
-                            </p>
+                            <div className="text-white font-bold tracking-widest text-[1.1rem] md:text-lg flex flex-wrap items-center justify-center gap-2 md:gap-4">
+                                <span className="whitespace-nowrap">钱 (Money)</span>
+                                <span className="text-white/20 font-light hidden sm:inline">×</span>
+                                <span className="text-white/20 font-light sm:hidden">x</span>
+                                <span className="whitespace-nowrap">闲 (Freedom)</span>
+                            </div>
                         </div>
                     </div>
 
@@ -171,7 +177,7 @@ function Home() {
 
                             {/* Top-Left: 没钱 × 有闲 */}
                             <div
-                                className="relative bg-[#0a0a0a]/80 backdrop-blur-xl p-5 md:p-8 lg:p-10 rounded-2xl border border-[#3B82F6]/30 shadow-[0_0_20px_rgba(59,130,246,0.1)] group transition-all duration-500 hover:scale-[1.02] hover:border-[#3B82F6]/50 hover:shadow-[0_0_40px_rgba(59,130,246,0.3)] flex flex-col h-full overflow-hidden z-10">
+                                className="order-2 md:order-1 relative bg-[#0a0a0a]/80 backdrop-blur-xl p-5 md:p-8 lg:p-10 rounded-2xl border border-[#3B82F6]/30 shadow-[0_0_20px_rgba(59,130,246,0.1)] group transition-all duration-500 hover:scale-[1.02] hover:border-[#3B82F6]/50 hover:shadow-[0_0_40px_rgba(59,130,246,0.3)] flex flex-col h-full overflow-hidden z-10">
                                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.15)_0%,transparent_100%)] pointer-events-none group-hover:opacity-80 transition-opacity"></div>
                                 <div className="flex justify-between items-start mb-6 relative z-10">
                                     <h3 className="text-xl font-serif text-white/90 group-hover:text-white transition-colors tracking-widest"
@@ -184,7 +190,7 @@ function Home() {
 
                             {/* Top-Right: 有钱 × 有闲 (Target State) */}
                             <div
-                                className="relative bg-[#0a0a0a]/80 backdrop-blur-xl p-5 md:p-8 lg:p-10 rounded-2xl border border-[#7C3AED]/50 animate-quadrant-glow group transition-all duration-500 hover:scale-[1.02] flex flex-col h-full overflow-hidden z-20">
+                                className="order-1 md:order-2 relative bg-[#0a0a0a]/80 backdrop-blur-xl p-5 md:p-8 lg:p-10 rounded-2xl border border-[#7C3AED]/50 animate-quadrant-glow group transition-all duration-500 hover:scale-[1.02] flex flex-col h-full overflow-hidden z-20">
                                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(124,58,237,0.35)_0%,transparent_100%)] pointer-events-none animate-radial-pulse"></div>
                                 <div className="flex justify-between items-start mb-6 relative z-10">
                                     <div>
@@ -200,7 +206,7 @@ function Home() {
 
                             {/* Bottom-Left: 没钱 × 没闲 */}
                             <div
-                                className="relative bg-[#0a0a0a]/80 backdrop-blur-xl p-5 md:p-8 lg:p-10 rounded-2xl border border-[#EF4444]/30 shadow-[0_0_20px_rgba(239,68,68,0.1)] group transition-all duration-500 hover:scale-[1.02] hover:border-[#EF4444]/50 hover:shadow-[0_0_40px_rgba(239,68,68,0.3)] flex flex-col h-full overflow-hidden z-10">
+                                className="order-3 md:order-3 relative bg-[#0a0a0a]/80 backdrop-blur-xl p-5 md:p-8 lg:p-10 rounded-2xl border border-[#EF4444]/30 shadow-[0_0_20px_rgba(239,68,68,0.1)] group transition-all duration-500 hover:scale-[1.02] hover:border-[#EF4444]/50 hover:shadow-[0_0_40px_rgba(239,68,68,0.3)] flex flex-col h-full overflow-hidden z-10">
                                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(239,68,68,0.15)_0%,transparent_100%)] pointer-events-none group-hover:opacity-80 transition-opacity"></div>
                                 <div className="flex justify-between items-start mb-6 relative z-10">
                                     <h3 className="text-xl font-serif text-white/90 group-hover:text-white transition-colors tracking-widest"
@@ -213,7 +219,7 @@ function Home() {
 
                             {/* Bottom-Right: 有钱 × 没闲 */}
                             <div
-                                className="relative bg-[#0a0a0a]/80 backdrop-blur-xl p-5 md:p-8 lg:p-10 rounded-2xl border border-[#22C55E]/30 shadow-[0_0_20px_rgba(34,197,94,0.1)] group transition-all duration-500 hover:scale-[1.02] hover:border-[#22C55E]/50 hover:shadow-[0_0_40px_rgba(34,197,94,0.3)] flex flex-col h-full overflow-hidden z-10">
+                                className="order-4 md:order-4 relative bg-[#0a0a0a]/80 backdrop-blur-xl p-5 md:p-8 lg:p-10 rounded-2xl border border-[#22C55E]/30 shadow-[0_0_20px_rgba(34,197,94,0.1)] group transition-all duration-500 hover:scale-[1.02] hover:border-[#22C55E]/50 hover:shadow-[0_0_40px_rgba(34,197,94,0.3)] flex flex-col h-full overflow-hidden z-10">
                                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(34,197,94,0.15)_0%,transparent_100%)] pointer-events-none group-hover:opacity-80 transition-opacity"></div>
                                 <div className="flex justify-between items-start mb-6 relative z-10">
                                     <h3 className="text-xl font-serif text-white/90 group-hover:text-white transition-colors tracking-widest"
@@ -231,8 +237,10 @@ function Home() {
                         <div className="flex flex-col lg:flex-row gap-20 items-center">
                             <div className="w-full lg:w-1/2 order-2 lg:order-1">
                                 <h4 className="text-primary font-bold tracking-widest uppercase mb-4 text-sm md:text-base">Core Literature</h4>
-                                <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-6 leading-tight break-keep">
-                                    《富老板，穷老板》<br />Wealth System Manifesto</h2>
+                                <h2 className="flex flex-col gap-2 font-black text-white mb-6 leading-tight">
+                                    <span className="text-[1.6rem] md:text-4xl lg:text-5xl whitespace-nowrap">《富老板，穷老板》</span>
+                                    <span className="text-[1.3rem] md:text-4xl lg:text-5xl whitespace-nowrap">Wealth System Manifesto</span>
+                                </h2>
                                 <p className="text-base md:text-lg text-slate-400 mb-8 leading-relaxed">
                                     这不是一本教你省钱的书，这是一本教你如何构建资产大厦的蓝图。通过5个核心维度，重构你的财富认知底层代码。
                                 </p>
