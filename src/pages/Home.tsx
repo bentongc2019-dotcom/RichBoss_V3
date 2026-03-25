@@ -121,10 +121,10 @@ function Home() {
                     </div>
 
                     <div className="relative z-10 mx-auto max-w-7xl text-center mb-20">
-                        <h2 className="text-3xl lg:text-4xl font-serif text-white mb-4 tracking-wide flex flex-col items-center gap-1"
+                        <h2 className="text-3xl lg:text-4xl font-serif text-white mb-4 tracking-wide text-center"
                             style={{ "fontFamily": "'Noto Serif SC', 'Songti SC', serif" }}>
-                            <span>『钱 × 闲』</span>
-                            <span>餐巾纸地图</span>
+                            <span className="block mb-2">『钱 × 闲』</span>
+                            <span className="block">餐巾纸地图</span>
                         </h2>
                         <p
                             className="text-slate-400 max-w-2xl mx-auto font-sans tracking-[0.2em] text-xs md:text-sm uppercase opacity-70 mb-6">
@@ -133,11 +133,10 @@ function Home() {
                             <p className="text-slate-300 text-sm md:text-base tracking-widest mb-2 font-medium">
                                 <span className="text-primary">财富的本质</span>只有两个维度：
                             </p>
-                            <div className="text-white font-bold tracking-widest text-[1.1rem] md:text-lg flex flex-wrap items-center justify-center gap-2 md:gap-4">
-                                <span className="whitespace-nowrap">钱 (Money)</span>
-                                <span className="text-white/20 font-light hidden sm:inline">×</span>
-                                <span className="text-white/20 font-light sm:hidden">x</span>
-                                <span className="whitespace-nowrap">闲 (Freedom)</span>
+                            <div className="text-white font-bold tracking-widest text-[1.1rem] md:text-lg text-center leading-loose">
+                                <span className="inline-block">钱 (Money)</span>
+                                <span className="mx-2 md:mx-4 text-white/20 font-light">×</span>
+                                <span className="inline-block">闲 (Freedom)</span>
                             </div>
                         </div>
                     </div>
@@ -173,7 +172,7 @@ function Home() {
                         </div>
 
                         {/* Quadrants Grid */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-10 relative z-10 mt-8 mb-8">
+                        <div className="flex flex-col md:grid md:grid-cols-2 gap-6 lg:gap-10 relative z-10 mt-8 mb-8">
 
                             {/* Top-Left: 没钱 × 有闲 */}
                             <div
