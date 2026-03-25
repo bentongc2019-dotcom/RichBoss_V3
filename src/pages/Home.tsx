@@ -1,6 +1,7 @@
 import { useState, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import HeroVisual from '../components/HeroVisual';
+import RichBossLogo from '../components/RichBossLogo';
 
 function Home() {
     const navigate = useNavigate();
@@ -17,11 +18,7 @@ function Home() {
                 className="fixed top-0 z-50 w-full border-b border-white/10 bg-background-dark/80 backdrop-blur-md px-6 lg:px-20 py-4">
                 <nav className="mx-auto flex max-w-7xl items-center justify-between">
                     <div className="flex items-center">
-                        <img
-                            src={`${import.meta.env.BASE_URL}images/logo.png`}
-                            alt="Rich Boss Logo"
-                            className="h-[42px] lg:h-12 w-auto object-contain transform scale-[2.5] lg:scale-[3.5] origin-left"
-                        />
+                        <RichBossLogo className="h-8 lg:h-10" variant="light" />
                     </div>
                     <div className="hidden md:flex items-center gap-10">
                         <a className="text-sm font-medium hover:text-primary transition-colors text-slate-300"
@@ -384,11 +381,7 @@ function Home() {
                 <div className="mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-4 gap-12">
                     <div className="col-span-1 md:col-span-2">
                         <div className="flex items-center mb-6">
-                            <img
-                                src={`${import.meta.env.BASE_URL}images/logo.png`}
-                                alt="Rich Boss Logo"
-                                className="h-[42px] lg:h-12 w-auto object-contain transform scale-[2.5] lg:scale-[4] origin-left"
-                            />
+                            <RichBossLogo className="h-8 lg:h-10" variant="light" />
                         </div>
                         <p className="text-slate-500 max-w-sm mb-6">旨在通过系统化思维，帮助人们摆脱时间换金钱的死循环，构建属于自己的财富操作系统。</p>
                         <div className="flex gap-4">
