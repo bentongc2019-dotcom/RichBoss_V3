@@ -137,7 +137,7 @@ function Home() {
                     </div>
 
                     <div
-                        className="relative z-10 mx-auto max-w-5xl rounded-[2rem] bg-[#0a0a0a] p-6 md:p-12 lg:p-16 border border-white/10 shadow-2xl overflow-hidden">
+                        className="relative z-10 mx-auto max-w-5xl rounded-[2rem] bg-[#0a0a0a] p-4 md:p-12 lg:p-16 border border-white/10 shadow-2xl overflow-hidden">
 
                         {/* Coordinate Axes Background (Visible on md and up) */}
                         <div className="absolute inset-0 pointer-events-none hidden md:block z-0">
@@ -171,7 +171,7 @@ function Home() {
 
                             {/* Top-Left: 没钱 × 有闲 */}
                             <div
-                                className="relative bg-[#0a0a0a]/80 backdrop-blur-xl p-8 lg:p-10 rounded-2xl border border-[#3B82F6]/30 shadow-[0_0_20px_rgba(59,130,246,0.1)] group transition-all duration-500 hover:scale-[1.02] hover:border-[#3B82F6]/50 hover:shadow-[0_0_40px_rgba(59,130,246,0.3)] flex flex-col h-full overflow-hidden z-10">
+                                className="relative bg-[#0a0a0a]/80 backdrop-blur-xl p-5 md:p-8 lg:p-10 rounded-2xl border border-[#3B82F6]/30 shadow-[0_0_20px_rgba(59,130,246,0.1)] group transition-all duration-500 hover:scale-[1.02] hover:border-[#3B82F6]/50 hover:shadow-[0_0_40px_rgba(59,130,246,0.3)] flex flex-col h-full overflow-hidden z-10">
                                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.15)_0%,transparent_100%)] pointer-events-none group-hover:opacity-80 transition-opacity"></div>
                                 <div className="flex justify-between items-start mb-6 relative z-10">
                                     <h3 className="text-xl font-serif text-white/90 group-hover:text-white transition-colors tracking-widest"
@@ -184,7 +184,7 @@ function Home() {
 
                             {/* Top-Right: 有钱 × 有闲 (Target State) */}
                             <div
-                                className="relative bg-[#0a0a0a]/80 backdrop-blur-xl p-8 lg:p-10 rounded-2xl border border-[#7C3AED]/50 animate-quadrant-glow group transition-all duration-500 hover:scale-[1.02] flex flex-col h-full overflow-hidden z-20">
+                                className="relative bg-[#0a0a0a]/80 backdrop-blur-xl p-5 md:p-8 lg:p-10 rounded-2xl border border-[#7C3AED]/50 animate-quadrant-glow group transition-all duration-500 hover:scale-[1.02] flex flex-col h-full overflow-hidden z-20">
                                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(124,58,237,0.35)_0%,transparent_100%)] pointer-events-none animate-radial-pulse"></div>
                                 <div className="flex justify-between items-start mb-6 relative z-10">
                                     <div>
@@ -200,7 +200,7 @@ function Home() {
 
                             {/* Bottom-Left: 没钱 × 没闲 */}
                             <div
-                                className="relative bg-[#0a0a0a]/80 backdrop-blur-xl p-8 lg:p-10 rounded-2xl border border-[#EF4444]/30 shadow-[0_0_20px_rgba(239,68,68,0.1)] group transition-all duration-500 hover:scale-[1.02] hover:border-[#EF4444]/50 hover:shadow-[0_0_40px_rgba(239,68,68,0.3)] flex flex-col h-full overflow-hidden z-10">
+                                className="relative bg-[#0a0a0a]/80 backdrop-blur-xl p-5 md:p-8 lg:p-10 rounded-2xl border border-[#EF4444]/30 shadow-[0_0_20px_rgba(239,68,68,0.1)] group transition-all duration-500 hover:scale-[1.02] hover:border-[#EF4444]/50 hover:shadow-[0_0_40px_rgba(239,68,68,0.3)] flex flex-col h-full overflow-hidden z-10">
                                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(239,68,68,0.15)_0%,transparent_100%)] pointer-events-none group-hover:opacity-80 transition-opacity"></div>
                                 <div className="flex justify-between items-start mb-6 relative z-10">
                                     <h3 className="text-xl font-serif text-white/90 group-hover:text-white transition-colors tracking-widest"
@@ -213,7 +213,7 @@ function Home() {
 
                             {/* Bottom-Right: 有钱 × 没闲 */}
                             <div
-                                className="relative bg-[#0a0a0a]/80 backdrop-blur-xl p-8 lg:p-10 rounded-2xl border border-[#22C55E]/30 shadow-[0_0_20px_rgba(34,197,94,0.1)] group transition-all duration-500 hover:scale-[1.02] hover:border-[#22C55E]/50 hover:shadow-[0_0_40px_rgba(34,197,94,0.3)] flex flex-col h-full overflow-hidden z-10">
+                                className="relative bg-[#0a0a0a]/80 backdrop-blur-xl p-5 md:p-8 lg:p-10 rounded-2xl border border-[#22C55E]/30 shadow-[0_0_20px_rgba(34,197,94,0.1)] group transition-all duration-500 hover:scale-[1.02] hover:border-[#22C55E]/50 hover:shadow-[0_0_40px_rgba(34,197,94,0.3)] flex flex-col h-full overflow-hidden z-10">
                                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(34,197,94,0.15)_0%,transparent_100%)] pointer-events-none group-hover:opacity-80 transition-opacity"></div>
                                 <div className="flex justify-between items-start mb-6 relative z-10">
                                     <h3 className="text-xl font-serif text-white/90 group-hover:text-white transition-colors tracking-widest"
@@ -230,10 +230,10 @@ function Home() {
                     <div className="mx-auto max-w-7xl">
                         <div className="flex flex-col lg:flex-row gap-20 items-center">
                             <div className="w-full lg:w-1/2 order-2 lg:order-1">
-                                <h4 className="text-primary font-bold tracking-widest uppercase mb-4">Core Literature</h4>
-                                <h2 className="text-4xl lg:text-5xl font-black text-white mb-6 leading-tight">
+                                <h4 className="text-primary font-bold tracking-widest uppercase mb-4 text-sm md:text-base">Core Literature</h4>
+                                <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-6 leading-tight break-keep">
                                     《富老板，穷老板》<br />Wealth System Manifesto</h2>
-                                <p className="text-lg text-slate-400 mb-8 leading-relaxed">
+                                <p className="text-base md:text-lg text-slate-400 mb-8 leading-relaxed">
                                     这不是一本教你省钱的书，这是一本教你如何构建资产大厦的蓝图。通过5个核心维度，重构你的财富认知底层代码。
                                 </p>
                                 <div className="space-y-4 mb-10">

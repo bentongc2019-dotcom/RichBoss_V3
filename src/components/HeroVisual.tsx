@@ -170,12 +170,12 @@ export default function HeroVisual({ isReading }: { isReading: boolean }) {
             </div>
 
             {/* 底部文案 */}
-            <div className="text-center mt-8 z-10 w-full">
-                <p className="font-sans tracking-widest text-sm md:text-base leading-relaxed opacity-80">
+            <div className="text-center mt-8 z-10 w-full px-4">
+                <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-0 font-sans tracking-widest text-sm md:text-base leading-relaxed opacity-80">
                     <span className="text-slate-400">90%的人在老鼠赛跑</span>
-                    <span className="mx-3 text-slate-600">·</span>
+                    <span className="hidden md:inline mx-3 text-slate-600">·</span>
                     <span className="text-[#FFD700] font-semibold drop-shadow-[0_0_8px_rgba(255,215,0,0.5)]">10%的人在设计财富系统</span>
-                </p>
+                </div>
             </div>
         </div>
     );
