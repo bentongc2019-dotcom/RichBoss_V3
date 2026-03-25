@@ -11,7 +11,7 @@ import ChatWidget from './components/ChatWidget'
  */
 function App() {
     return (
-        <Router basename="/RichBoss_V3" future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
             <Routes>
                 {/* 首页 */}
                 <Route path="/" element={<Home />} />
@@ -20,7 +20,7 @@ function App() {
                 {/* 信念原型测验 */}
                 <Route path="/quiz" element={<QuizPage />} />
                 {/* 登录 / 注册 */}
-                <Route path="/auth" element={<AuthPage onSuccess={() => window.location.replace('/RichBoss_V3/quiz')} />} />
+                <Route path="/auth" element={<AuthPage onSuccess={() => window.location.replace('/quiz')} />} />
             </Routes>
 
             {/* 小林同学 AI 聊天浮窗 - 全局显示 */}

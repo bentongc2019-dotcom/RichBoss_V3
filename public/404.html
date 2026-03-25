@@ -6,7 +6,7 @@
     <script type="text/javascript">
       // SPA 重定向脚本：将 404 请求重定向到 index.html
       // 保留路径信息以便 React Router 处理
-      var pathSegmentsToKeep = 1; // /RichBoss_V3 是 base path
+      var pathSegmentsToKeep = 0; // 自定义域名使用根路径
       var l = window.location;
       l.replace(
         l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
