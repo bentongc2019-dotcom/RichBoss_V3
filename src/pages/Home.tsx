@@ -123,8 +123,8 @@ function Home() {
                     <div className="relative z-10 mx-auto max-w-7xl text-center mb-20">
                         <h2 className="text-3xl lg:text-4xl font-serif text-white mb-4 tracking-wide text-center"
                             style={{ "fontFamily": "'Noto Serif SC', 'Songti SC', serif" }}>
-                            <span className="block mb-2">『钱 × 闲』</span>
-                            <span className="block">餐巾纸地图</span>
+                            <span className="block mb-2 text-center">『钱 × 闲』</span>
+                            <span className="block text-center">餐巾纸地图</span>
                         </h2>
                         <p
                             className="text-slate-400 max-w-2xl mx-auto font-sans tracking-[0.2em] text-xs md:text-sm uppercase opacity-70 mb-6">
@@ -133,9 +133,9 @@ function Home() {
                             <p className="text-slate-300 text-sm md:text-base tracking-widest mb-2 font-medium">
                                 <span className="text-primary">财富的本质</span>只有两个维度：
                             </p>
-                            <div className="text-white font-bold tracking-widest text-[1.1rem] md:text-lg text-center leading-loose">
+                            <div className="text-white font-bold tracking-widest text-[1.1rem] md:text-lg text-center leading-loose flex items-center justify-center gap-2 whitespace-nowrap">
                                 <span className="inline-block">钱 (Money)</span>
-                                <span className="mx-2 md:mx-4 text-white/20 font-light">×</span>
+                                <span className="text-white/20 font-light">×</span>
                                 <span className="inline-block">闲 (Freedom)</span>
                             </div>
                         </div>
@@ -189,12 +189,15 @@ function Home() {
 
                             {/* Top-Right: 有钱 × 有闲 (Target State) */}
                             <div
-                                className="order-1 md:order-2 relative bg-[#0a0a0a]/80 backdrop-blur-xl p-5 md:p-8 lg:p-10 rounded-2xl border border-[#7C3AED]/50 animate-quadrant-glow group transition-all duration-500 hover:scale-[1.02] flex flex-col h-full overflow-hidden z-20">
+                                className="order-1 md:order-2 relative bg-[#0a0a0a]/80 backdrop-blur-xl p-5 md:p-8 lg:p-10 rounded-2xl border border-[#7C3AED]/50 animate-quadrant-glow group transition-all duration-500 hover:scale-[1.02] flex flex-col h-full overflow-hidden z-20 ring-2 ring-primary shadow-xl">
                                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(124,58,237,0.35)_0%,transparent_100%)] pointer-events-none animate-radial-pulse"></div>
                                 <div className="flex justify-between items-start mb-6 relative z-10">
                                     <div>
-                                        <h3 className="text-xl font-serif text-white group-hover:text-[#FFD700] transition-colors tracking-widest"
-                                            style={{ "fontFamily": "'Noto Serif SC', 'Songti SC', serif" }}>有钱<span className="text-[#FFD700]/50 font-light mx-3">×</span>有闲</h3>
+                                        <h3 className="text-xl md:text-2xl font-serif text-white group-hover:text-[#FFD700] transition-colors tracking-widest text-center break-words" style={{ "fontFamily": "'Noto Serif SC', 'Songti SC', serif" }}>
+    <span className="block">有钱</span>
+    <span className="inline-block mx-1">×</span>
+    <span className="block">有闲</span>
+</h3>
                                     </div>
                                     <span className="material-symbols-outlined text-[#FFD700] group-hover:text-[#FACC15] text-3xl font-light transition-colors animate-diamond drop-shadow-[0_0_15px_rgba(255,215,0,0.6)]">diamond</span>
                                 </div>
@@ -237,8 +240,8 @@ function Home() {
                             <div className="w-full lg:w-1/2 order-2 lg:order-1">
                                 <h4 className="text-primary font-bold tracking-widest uppercase mb-4 text-sm md:text-base">Core Literature</h4>
                                 <h2 className="flex flex-col gap-2 font-black text-white mb-6 leading-tight">
-                                    <span className="text-[1.6rem] md:text-4xl lg:text-5xl whitespace-nowrap">《富老板，穷老板》</span>
-                                    <span className="text-[1.3rem] md:text-4xl lg:text-5xl whitespace-nowrap">Wealth System Manifesto</span>
+                                    <span className="block text-[1.6rem] md:text-4xl lg:text-5xl text-center">《富老板，穷老板》</span>
+                                    <span className="block text-[1.3rem] md:text-4xl lg:text-5xl text-center">Wealth System Manifesto</span>
                                 </h2>
                                 <p className="text-base md:text-lg text-slate-400 mb-8 leading-relaxed">
                                     这不是一本教你省钱的书，这是一本教你如何构建资产大厦的蓝图。通过5个核心维度，重构你的财富认知底层代码。
