@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 import remarkUnwrapImages from 'remark-unwrap-images'
 import { motion, AnimatePresence } from 'framer-motion'
-import InviteCodeForm from '../components/InviteCodeForm'
+import InviteCodeForm from '../components/InviteCodeForm';
+import EBookNarrator from '../components/EBookNarrator';
 import { isAuthenticated } from '../utils/inviteCodeValidator'
 
 // 内容分界点文字（解锁前只显示此文字之前的内容）
@@ -377,7 +378,7 @@ function Reader() {
             }
 
             return (
-                <p className={`${currentTheme.text} leading-relaxed mb-6`}>
+                <p className={`${currentTheme.text} leading-relaxed mb-6 ebook-paragraph`}>
                     {children}
                 </p>
             )
@@ -547,6 +548,7 @@ function Reader() {
                         {/* 內容渲染 */}
                         {!isLoading && !error && content && (
                             <>
+                                <EBookNarrator theme={theme} currentTheme={currentTheme} />
                                 <motion.article
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
