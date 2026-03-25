@@ -112,10 +112,12 @@ Error generating stack: `+w.message+`
                                             font-size: inherit !important;
                                             line-height: inherit !important;
                                             color: inherit !important;
+                                            letter-spacing: 0.02em;
                                         }
                                         .ereader-content p {
-                                            text-indent: 2em;
+                                            text-indent: 0 !important;
                                             text-align: justify;
+                                            margin-bottom: 2em !important;
                                         }
                                     `}),k!=="dark"&&x.jsx("style",{children:`
                                             .ereader-content h1,
