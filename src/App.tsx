@@ -16,15 +16,17 @@ function App() {
                 {/* 首页 */}
                 <Route path="/" element={<Home />} />
                 {/* 阅读器 */}
-                <Route path="/reader" element={<Reader />} />
+                <Route path="/reader" element={
+                    <>
+                        <Reader />
+                        <ChatWidget />
+                    </>
+                } />
                 {/* 信念原型测验 */}
                 <Route path="/quiz" element={<QuizPage />} />
                 {/* 登录 / 注册 */}
                 <Route path="/auth" element={<AuthPage onSuccess={() => window.location.replace('/quiz')} />} />
             </Routes>
-
-            {/* 小林同学 AI 聊天浮窗 - 全局显示 */}
-            <ChatWidget />
         </Router>
     )
 }

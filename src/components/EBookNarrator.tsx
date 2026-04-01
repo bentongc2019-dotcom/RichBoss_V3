@@ -248,12 +248,12 @@ export default function EBookNarrator({ theme, currentTheme }: EBookNarratorProp
       {/* Floating Action Button */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className={`w-14 h-14 rounded-full flex items-center justify-center shadow-[0_4px_20px_rgba(0,0,0,0.3)] transition-all duration-300 hover:scale-110 active:scale-95 z-50 ${
+        className={`w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 active:scale-95 z-50 opacity-70 hover:opacity-100 backdrop-blur-xl border border-white/20 dark:border-white/10 ${
           isExpanded 
-            ? 'bg-slate-800 text-white hover:bg-slate-700' 
+            ? 'bg-slate-800/60 text-white' 
             : theme === 'dark' 
-                ? 'bg-gradient-to-br from-gold-500 to-amber-600 text-black animate-pulse-slow' 
-                : 'bg-gradient-to-br from-royal-purple-500 to-royal-purple-700 text-white'
+                ? 'bg-gold-400/20 text-gold-400 animate-pulse-slow' 
+                : 'bg-royal-purple-600/20 text-royal-purple-700'
         }`}
       >
         {isExpanded ? (

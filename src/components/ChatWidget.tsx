@@ -170,20 +170,20 @@ export default function ChatWidget() {
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
                 className={`fixed top-[42%] -translate-y-1/2 right-2 sm:right-6 z-50 w-16 h-16 rounded-full 
-                    bg-gradient-to-br from-royal-purple-600 to-royal-purple-800
-                    shadow-xl shadow-royal-purple-900/50
+                    bg-white/10 dark:bg-black/20 backdrop-blur-xl
+                    shadow-lg border border-white/20 dark:border-white/10
                     flex items-center justify-center
-                    transition-colors duration-300 hover:scale-110
-                    ${isOpen ? 'ring-2 ring-gold-400/50' : ''}
-                    ${isMinimized ? 'opacity-70 translate-x-4' : 'translate-x-0'}
-                    group overflow-hidden cursor-pointer transform`}
+                    transition-all duration-300 hover:scale-110 opacity-70 hover:opacity-100
+                    ${isOpen ? 'ring-2 ring-gold-400/50 opacity-100' : ''}
+                    ${isMinimized ? 'opacity-40 translate-x-4' : 'translate-x-0'}
+                    group cursor-pointer transform`}
                 aria-label="打开小林同学聊天"
             >
                 {/* 头像 */}
                 <img
                     src={import.meta.env.BASE_URL + "images/xiaolin.png"}
                     alt="小林同学"
-                    className="w-14 h-14 rounded-full object-cover border-2 border-gold-400/30 group-hover:border-gold-400/60 transition-colors"
+                    className="w-14 h-14 rounded-full object-cover opacity-90 group-hover:opacity-100 transition-all"
                 />
 
                 {/* 通知徽章 */}
