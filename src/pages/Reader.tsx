@@ -543,10 +543,10 @@ function Reader() {
                 </aside>
 
                 {/* 主內容區域 - 居中顯示 */}
-                <main className="flex-1 md:ml-72 lg:ml-80 px-2 sm:px-6 py-6 sm:py-12 pb-32">
+                <main className="flex-1 md:ml-72 lg:ml-80 px-0 sm:px-6 py-4 sm:py-12 pb-32">
                     {/* 內容容器 - 居中，最大宽度800px */}
                     <div
-                        className="max-w-[1000px] mx-auto rounded-2xl px-4 sm:px-12 py-6 sm:py-10"
+                        className="max-w-[1000px] mx-auto rounded-none sm:rounded-2xl px-2 sm:px-12 py-6 sm:py-10"
                         style={{ background: currentTheme.contentBg }}
                     >
                         {/* 加載狀態 */}

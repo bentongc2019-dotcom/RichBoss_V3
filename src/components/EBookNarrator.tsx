@@ -59,6 +59,32 @@ export default function EBookNarrator({ theme, currentTheme }: EBookNarratorProp
     });
   };
 
+  // 获取更自然/更好的中文语音，特别是在 iOS 和 Windows 上
+  const getBestVoice = () => {
+    if (!window.speechSynthesis) return null;
+    const availableVoices = window.speechSynthesis.getVoices();
+    
+    // 优先选择已知的高质量女声/自然语音
+    const preferredNames = [
+      'Tingting', 'Xiaoxiao', 'Meijia', 'Yunxi', 'Yunjian', 'Yu-shu', 'Li-mu', 'Siri', 'Premium'
+    ];
+    
+    // 找出所有中文语音
+    const zhVoices = availableVoices.filter(v => 
+      v.lang.startsWith('zh') || v.lang.startsWith('cmn') || v.name.includes('Chinese')
+    );
+    
+    if (zhVoices.length === 0) return null;
+
+    // 优先匹配高质量语音
+    for (const name of preferredNames) {
+      const match = zhVoices.find(v => v.name.includes(name));
+      if (match) return match;
+    }
+    
+    return zhVoices[0]; // 退回到第一个找到的中文语音
+  };
+
   const speakParagraph = (index: number) => {
     if (!paragraphsRef.current) return;
     const el = paragraphsRef.current[index];
@@ -75,9 +101,19 @@ export default function EBookNarrator({ theme, currentTheme }: EBookNarratorProp
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'zh-CN';
     utterance.rate = 1.0;
+    utterance.volume = 1.0; // 强制设置音量为最大，防静音
+    
+    const bestVoice = getBestVoice();
+    if (bestVoice) {
+      utterance.voice = bestVoice;
+    }
     
     utterance.onend = () => {
       setTimeout(nextParagraph, 300);
+    };
+    
+    utterance.onerror = (e) => {
+      console.warn('Speech synthesis error:', e);
     };
     
     utteranceRef.current = utterance;
@@ -97,6 +133,18 @@ export default function EBookNarrator({ theme, currentTheme }: EBookNarratorProp
   };
 
   const handlePlayPause = () => {
+    // 强制触发一次 getVoices 来解决 iOS 各种加载问题
+    if (window.speechSynthesis.getVoices().length === 0) {
+      window.speechSynthesis.getVoices();
+    }
+    
+    // iOS Safari 语音解锁机制：必须在用户实际点击的事件循环内直接触发一次 speak
+    if (!isPlaying && window.speechSynthesis.paused === false && currentIndexRef.current === 0) {
+      const wakeUpUtterance = new SpeechSynthesisUtterance('');
+      wakeUpUtterance.volume = 0;
+      window.speechSynthesis.speak(wakeUpUtterance);
+    }
+
     if (isPlaying) {
       window.speechSynthesis.pause();
       setIsPlaying(false);
@@ -120,7 +168,7 @@ export default function EBookNarrator({ theme, currentTheme }: EBookNarratorProp
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-[60] flex flex-col items-end gap-3">
+    <div className="fixed bottom-28 right-6 z-[60] flex flex-col items-end gap-3">
       {/* Expanded Controls Overlay */}
       <div 
         className={`transition-all duration-300 transform origin-bottom-right flex flex-col items-end gap-2 ${
