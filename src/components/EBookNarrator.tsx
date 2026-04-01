@@ -13,42 +13,73 @@ interface EBookNarratorProps {
   };
 }
 
-/**
- * 简易有声书朗读器，使用浏览器原生 SpeechSynthesis。
- * 支持播放/暂停，自动遍历页面中的段落（className="ebook-paragraph"）。
- */
 export default function EBookNarrator({ theme, currentTheme }: EBookNarratorProps) {
+  const [isExpanded, setIsExpanded] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
   const paragraphsRef = useRef<NodeListOf<HTMLElement> | null>(null);
   const currentIndexRef = useRef(0);
 
   useEffect(() => {
-    // 获取所有段落元素
     paragraphsRef.current = document.querySelectorAll('.ebook-paragraph');
-    // 当页面离开时停止朗读
+    
+    // Stop reading when unmounted
     return () => {
       window.speechSynthesis.cancel();
+      removeHighlight();
     };
   }, []);
+
+  // Update DOM highlights
+  const applyHighlight = (index: number) => {
+    removeHighlight();
+    if (!paragraphsRef.current || !paragraphsRef.current[index]) return;
+    const el = paragraphsRef.current[index];
+    
+    // Add glowing/highlight class based on theme
+    el.classList.add('transition-all', 'duration-500');
+    if (theme === 'dark') {
+      el.classList.add('text-gold-400', 'drop-shadow-[0_0_8px_rgba(251,191,36,0.3)]');
+    } else {
+      el.classList.add('text-royal-purple-700', 'drop-shadow-[0_0_8px_rgba(88,28,135,0.2)]', 'font-semibold');
+    }
+
+    // Scroll smoothly to center
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  };
+
+  const removeHighlight = () => {
+    if (!paragraphsRef.current) return;
+    paragraphsRef.current.forEach(el => {
+      el.classList.remove(
+        'transition-all', 'duration-500', 
+        'text-gold-400', 'drop-shadow-[0_0_8px_rgba(251,191,36,0.3)]',
+        'text-royal-purple-700', 'drop-shadow-[0_0_8px_rgba(88,28,135,0.2)]', 'font-semibold'
+      );
+    });
+  };
 
   const speakParagraph = (index: number) => {
     if (!paragraphsRef.current) return;
     const el = paragraphsRef.current[index];
     if (!el) return;
+    
     const text = el.innerText.trim();
     if (!text) {
-      // 跳过空段落
       nextParagraph();
       return;
     }
+
+    applyHighlight(index);
+
     const utterance = new SpeechSynthesisUtterance(text);
-    // 强制使用中文语言
     utterance.lang = 'zh-CN';
+    utterance.rate = 1.0;
+    
     utterance.onend = () => {
-      // 在 Safari 等浏览器中有时会出现触发多次，这里简单延时一下跳下一段
       setTimeout(nextParagraph, 300);
     };
+    
     utteranceRef.current = utterance;
     window.speechSynthesis.speak(utterance);
   };
@@ -59,9 +90,9 @@ export default function EBookNarrator({ theme, currentTheme }: EBookNarratorProp
     if (currentIndexRef.current < paragraphsRef.current.length) {
       speakParagraph(currentIndexRef.current);
     } else {
-      // 完成朗读
       setIsPlaying(false);
       currentIndexRef.current = 0;
+      removeHighlight();
     }
   };
 
@@ -74,7 +105,6 @@ export default function EBookNarrator({ theme, currentTheme }: EBookNarratorProp
         window.speechSynthesis.resume();
         setIsPlaying(true);
       } else {
-        // 从头开始朗读
         currentIndexRef.current = 0;
         speakParagraph(0);
         setIsPlaying(true);
@@ -82,42 +112,67 @@ export default function EBookNarrator({ theme, currentTheme }: EBookNarratorProp
     }
   };
 
+  const handleStop = () => {
+    window.speechSynthesis.cancel();
+    setIsPlaying(false);
+    currentIndexRef.current = 0;
+    removeHighlight();
+  };
+
   return (
-    <div className={`flex items-center justify-between p-4 mb-8 rounded-xl border ${currentTheme.border} ${currentTheme.cardBg}`}>
-      <div className="flex items-center gap-3">
-        <button
-          onClick={handlePlayPause}
-          className={`flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg font-medium transition-all duration-300
-            ${theme === 'dark' 
-              ? 'bg-gradient-to-r from-gold-500 to-gold-400 text-black hover:shadow-[0_0_15px_rgba(251,191,36,0.4)]' 
-              : 'bg-royal-purple-600 text-white hover:bg-royal-purple-700 shadow-md'}`}
-        >
-          {isPlaying ? (
-            <>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-                <path fillRule="evenodd" d="M6.75 5.25a.75.75 0 01.75-.75H9a.75.75 0 01.75.75v13.5a.75.75 0 01-.75.75H7.5a.75.75 0 01-.75-.75V5.25zm7.5 0A.75.75 0 0115 4.5h1.5a.75.75 0 01.75.75v13.5a.75.75 0 01-.75.75H15a.75.75 0 01-.75-.75V5.25z" clipRule="evenodd" />
-              </svg>
-              <span>暂停朗读</span>
-            </>
-          ) : (
-            <>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-                <path fillRule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clipRule="evenodd" />
-              </svg>
-              <span>{window.speechSynthesis.paused ? '继续朗读' : '开始朗读'}</span>
-            </>
-          )}
-        </button>
-        <span className={`${currentTheme.textMuted} text-sm hidden sm:inline-block`}>AI 语音朗读伴读</span>
+    <div className="fixed bottom-6 right-6 z-[60] flex flex-col items-end gap-3">
+      {/* Expanded Controls Overlay */}
+      <div 
+        className={`transition-all duration-300 transform origin-bottom-right flex flex-col items-end gap-2 ${
+          isExpanded ? 'scale-100 opacity-100 pointer-events-auto' : 'scale-75 opacity-0 pointer-events-none'
+        }`}
+      >
+        <div className={`p-4 rounded-2xl border shadow-xl flex items-center gap-4 ${currentTheme.cardBg} ${currentTheme.border} backdrop-blur-xl`}>
+            <div className={`flex flex-col ${currentTheme.text}`}>
+                <span className="text-sm font-bold">AI 智能伴读</span>
+                <span className={`text-xs ${currentTheme.textMuted}`}>
+                    {isPlaying ? '正在为您朗读中...' : '暂停中'}
+                </span>
+            </div>
+            
+            <div className="flex items-center gap-2">
+                <button
+                    onClick={handleStop}
+                    className="w-10 h-10 flex items-center justify-center rounded-full bg-slate-500/10 hover:bg-slate-500/20 transition-colors"
+                >
+                    <span className="material-symbols-outlined text-sm">stop</span>
+                </button>
+                <button
+                    onClick={handlePlayPause}
+                    className={`w-12 h-12 flex items-center justify-center rounded-full text-white shadow-lg transition-transform hover:scale-105 active:scale-95 ${
+                        theme === 'dark' ? 'bg-gradient-to-r from-gold-500 to-gold-400 text-black' : 'bg-royal-purple-600'
+                    }`}
+                >
+                    <span className="material-symbols-outlined ml-0.5">
+                        {isPlaying ? 'pause' : 'play_arrow'}
+                    </span>
+                </button>
+            </div>
+        </div>
       </div>
-      <div className={`${currentTheme.textMuted} text-xs md:text-sm`}>
-        {isPlaying && (
-          <span className="flex items-center gap-1.5 text-gold-500 animate-pulse">
-            <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
-            正在朗读中
-          </span>
+
+      {/* Floating Action Button */}
+      <button
+        onClick={() => setIsExpanded(!isExpanded)}
+        className={`w-14 h-14 rounded-full flex items-center justify-center shadow-[0_4px_20px_rgba(0,0,0,0.3)] transition-all duration-300 hover:scale-110 active:scale-95 z-50 ${
+          isExpanded 
+            ? 'bg-slate-800 text-white hover:bg-slate-700' 
+            : theme === 'dark' 
+                ? 'bg-gradient-to-br from-gold-500 to-amber-600 text-black animate-pulse-slow' 
+                : 'bg-gradient-to-br from-royal-purple-500 to-royal-purple-700 text-white'
+        }`}
+      >
+        {isExpanded ? (
+          <span className="material-symbols-outlined">close</span>
+        ) : (
+          <span className="material-symbols-outlined">headset</span>
         )}
-      </div>
+      </button>
     </div>
   );
 }

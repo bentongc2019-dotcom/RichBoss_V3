@@ -108,9 +108,15 @@ function Reader() {
     // 處理沉浸式閱讀UI自動隱藏
     useEffect(() => {
         let timeout: ReturnType<typeof setTimeout>
+        let throttleTimer: ReturnType<typeof setTimeout> | null = null
 
         const handleUserActivity = () => {
-            setIsUiVisible(true)
+            if (!throttleTimer) {
+                setIsUiVisible(true)
+                throttleTimer = setTimeout(() => {
+                    throttleTimer = null
+                }, 200)
+            }
             clearTimeout(timeout)
             timeout = setTimeout(() => {
                 setIsUiVisible(false)
@@ -126,6 +132,7 @@ function Reader() {
 
         return () => {
             clearTimeout(timeout)
+            if (throttleTimer) clearTimeout(throttleTimer)
             window.removeEventListener('mousemove', handleUserActivity)
             window.removeEventListener('touchstart', handleUserActivity)
             window.removeEventListener('scroll', handleUserActivity)
@@ -161,7 +168,9 @@ function Reader() {
         const loadContent = async () => {
             try {
                 setIsLoading(true)
-                const response = await fetch(import.meta.env.BASE_URL + 'book.md')
+                // Add a cache-buster query parameter to force fetching the latest version
+                const cacheBuster = `?v=${new Date().getTime()}`
+                const response = await fetch(import.meta.env.BASE_URL + 'book.md' + cacheBuster)
 
                 if (!response.ok) {
                     throw new Error(`無法加載書籍內容 (HTTP ${response.status})`)
@@ -384,6 +393,7 @@ function Reader() {
                     alt={alt || ''}
                     className="block w-full max-w-2xl mx-auto rounded-xl shadow-2xl shadow-black/50 my-10"
                     loading="lazy"
+                    decoding="async"
                 />
             )
         },

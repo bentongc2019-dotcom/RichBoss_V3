@@ -192,13 +192,8 @@ function Home() {
                                 className="order-1 md:order-2 relative bg-[#0a0a0a]/80 backdrop-blur-xl p-5 md:p-8 lg:p-10 rounded-2xl border border-[#7C3AED]/50 animate-quadrant-glow group transition-all duration-500 hover:scale-[1.02] flex flex-col h-full overflow-hidden z-20 ring-2 ring-primary shadow-xl">
                                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(124,58,237,0.35)_0%,transparent_100%)] pointer-events-none animate-radial-pulse"></div>
                                 <div className="flex justify-between items-start mb-6 relative z-10">
-                                    <div>
-                                        <h3 className="text-xl md:text-2xl font-serif text-white group-hover:text-[#FFD700] transition-colors tracking-widest text-center break-words" style={{ "fontFamily": "'Noto Serif SC', 'Songti SC', serif" }}>
-    <span className="block">有钱</span>
-    <span className="inline-block mx-1">×</span>
-    <span className="block">有闲</span>
-</h3>
-                                    </div>
+                                    <h3 className="text-xl md:text-2xl font-serif text-white group-hover:text-[#FFD700] transition-colors tracking-widest"
+                                        style={{ "fontFamily": "'Noto Serif SC', 'Songti SC', serif" }}>有钱<span className="text-white/20 font-light mx-3">×</span>有闲</h3>
                                     <span className="material-symbols-outlined text-[#FFD700] group-hover:text-[#FACC15] text-3xl font-light transition-colors animate-diamond drop-shadow-[0_0_15px_rgba(255,215,0,0.6)]">diamond</span>
                                 </div>
                                 <p className="font-sans text-sm text-white tracking-[0.08em] leading-relaxed relative z-10">
