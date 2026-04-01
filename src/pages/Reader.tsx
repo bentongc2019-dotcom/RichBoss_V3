@@ -590,7 +590,7 @@ function Reader() {
                                         color: theme === 'dark' ? '#e5e5e5' : '#000000'
                                     }}
                                 >
-                                    {/* Force Inherit 樣式 - 讓子元素繼承字體大小和顏色，首行缩进 */}
+                                    {/* Force Inherit 樣式 - 讓子元素繼承字體大小和顏色，消除缩进并增加段间距 */}
                                     <style>{`
                                         .ereader-content p,
                                         .ereader-content li,
@@ -599,10 +599,12 @@ function Reader() {
                                             font-size: inherit !important;
                                             line-height: inherit !important;
                                             color: inherit !important;
+                                            letter-spacing: 0.02em;
                                         }
                                         .ereader-content p {
-                                            text-indent: 2em;
+                                            text-indent: 0 !important;
                                             text-align: justify;
+                                            margin-bottom: 2em !important;
                                         }
                                     `}</style>
 
