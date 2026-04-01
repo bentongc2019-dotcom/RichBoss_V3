@@ -30,18 +30,30 @@ export default function EBookNarrator({ theme, currentTheme }: EBookNarratorProp
     };
   }, []);
 
+  const originalHtmlRef = useRef<{ el: HTMLElement, html: string } | null>(null);
+
+  const restoreHtml = () => {
+    if (originalHtmlRef.current) {
+      originalHtmlRef.current.el.innerHTML = originalHtmlRef.current.html;
+      originalHtmlRef.current.el.classList.remove('transition-all', 'duration-500', 'border-l-4', 'border-gold-400', 'border-royal-purple-700', 'pl-4');
+      originalHtmlRef.current = null;
+    }
+  };
+
   // Update DOM highlights
   const applyHighlight = (index: number) => {
-    removeHighlight();
+    restoreHtml();
     if (!paragraphsRef.current || !paragraphsRef.current[index]) return;
     const el = paragraphsRef.current[index];
     
-    // Add glowing/highlight class based on theme
-    el.classList.add('transition-all', 'duration-500');
+    originalHtmlRef.current = { el, html: el.innerHTML };
+    
+    // Base active paragraph styling
+    el.classList.add('transition-all', 'duration-500', 'pl-4', 'border-l-4');
     if (theme === 'dark') {
-      el.classList.add('text-gold-400', 'drop-shadow-[0_0_8px_rgba(251,191,36,0.3)]');
+      el.classList.add('border-gold-400');
     } else {
-      el.classList.add('text-royal-purple-700', 'drop-shadow-[0_0_8px_rgba(88,28,135,0.2)]', 'font-semibold');
+      el.classList.add('border-royal-purple-700');
     }
 
     // Scroll smoothly to center
@@ -49,14 +61,27 @@ export default function EBookNarrator({ theme, currentTheme }: EBookNarratorProp
   };
 
   const removeHighlight = () => {
-    if (!paragraphsRef.current) return;
-    paragraphsRef.current.forEach(el => {
-      el.classList.remove(
-        'transition-all', 'duration-500', 
-        'text-gold-400', 'drop-shadow-[0_0_8px_rgba(251,191,36,0.3)]',
-        'text-royal-purple-700', 'drop-shadow-[0_0_8px_rgba(88,28,135,0.2)]', 'font-semibold'
-      );
-    });
+    restoreHtml();
+  };
+
+  const getClauseBoundaries = (text: string, charIndex: number) => {
+    const punctuations = /[，。！？；：,.!?;:\n\s]/;
+    let start = 0;
+    for (let i = charIndex - 1; i >= 0; i--) {
+      if (punctuations.test(text[i])) {
+        start = i + 1;
+        break;
+      }
+    }
+    let end = text.length;
+    for (let i = charIndex; i < text.length; i++) {
+      if (punctuations.test(text[i])) {
+        end = i + 1;
+        break;
+      }
+    }
+    if (start > charIndex) start = charIndex;
+    return { start, end };
   };
 
   // 获取更自然/更好的中文语音，特别是在 iOS 和 Windows 上
@@ -107,6 +132,22 @@ export default function EBookNarrator({ theme, currentTheme }: EBookNarratorProp
     if (bestVoice) {
       utterance.voice = bestVoice;
     }
+    
+    utterance.onboundary = (e) => {
+      if (e.name !== 'word' && e.name !== 'sentence') return;
+      
+      const { start, end } = getClauseBoundaries(text, e.charIndex);
+      if (start >= end) return;
+      
+      const before = text.substring(0, start);
+      const highlight = text.substring(start, end);
+      const after = text.substring(end);
+      
+      const bgClass = theme === 'dark' ? 'bg-blue-900/60' : 'bg-blue-200/80';
+      const textClass = theme === 'dark' ? 'text-blue-100' : 'text-blue-900';
+      
+      el.innerHTML = `${before}<mark class="${bgClass} ${textClass} rounded px-1 transition-colors duration-200">${highlight}</mark>${after}`;
+    };
     
     utterance.onend = () => {
       setTimeout(nextParagraph, 300);
@@ -168,7 +209,7 @@ export default function EBookNarrator({ theme, currentTheme }: EBookNarratorProp
   };
 
   return (
-    <div className="fixed bottom-28 right-6 z-[60] flex flex-col items-end gap-3">
+    <div className="fixed top-[55%] -translate-y-1/2 right-2 sm:right-6 z-[60] flex flex-col items-end gap-3">
       {/* Expanded Controls Overlay */}
       <div 
         className={`transition-all duration-300 transform origin-bottom-right flex flex-col items-end gap-2 ${

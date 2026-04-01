@@ -158,7 +158,7 @@ export default function ChatWidget() {
                 animate={{
                     scale: 1,
                     opacity: 1,
-                    x: isMinimized ? 40 : 0  // 缩到边边时只露出一半
+                    // 不再使用 x 来控制边缘隐藏，因为 class 里用了 translate-x-4
                 }}
                 transition={{
                     delay: isMinimized ? 0 : 1,
@@ -169,14 +169,14 @@ export default function ChatWidget() {
                 onClick={() => setIsOpen(!isOpen)}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
-                className={`fixed bottom-6 right-6 z-50 w-16 h-16 rounded-full 
+                className={`fixed top-[42%] -translate-y-1/2 right-2 sm:right-6 z-50 w-16 h-16 rounded-full 
                     bg-gradient-to-br from-royal-purple-600 to-royal-purple-800
                     shadow-xl shadow-royal-purple-900/50
                     flex items-center justify-center
                     transition-colors duration-300 hover:scale-110
                     ${isOpen ? 'ring-2 ring-gold-400/50' : ''}
-                    ${isMinimized ? 'opacity-70' : ''}
-                    group overflow-hidden cursor-pointer`}
+                    ${isMinimized ? 'opacity-70 translate-x-4' : 'translate-x-0'}
+                    group overflow-hidden cursor-pointer transform`}
                 aria-label="打开小林同学聊天"
             >
                 {/* 头像 */}
@@ -206,17 +206,17 @@ export default function ChatWidget() {
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
-                        initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 20, scale: 0.95 }}
+                        initial={{ opacity: 0, x: 20, scale: 0.95 }}
+                        animate={{ opacity: 1, x: 0, scale: 1 }}
+                        exit={{ opacity: 0, x: 20, scale: 0.95 }}
                         transition={{ duration: 0.2 }}
-                        className="fixed bottom-24 right-6 z-50 w-[400px] max-w-[calc(100vw-3rem)]
+                        className="fixed top-1/2 -translate-y-1/2 right-[5rem] sm:right-[6rem] z-50 w-[380px] max-w-[calc(100vw-6rem)]
                             rounded-2xl overflow-hidden
                             bg-gray-900/95 backdrop-blur-xl
                             border border-royal-purple-600/30
                             shadow-2xl shadow-royal-purple-900/50
                             flex flex-col"
-                        style={{ maxHeight: 'calc(100vh - 200px)' }}
+                        style={{ maxHeight: 'min(800px, 90vh)' }}
                     >
                         {/* 头部 */}
                         <div className="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-royal-purple-800 to-royal-purple-900 border-b border-royal-purple-600/30">
