@@ -1,4 +1,3 @@
-import React from 'react';
 
 const RichBossLogo = ({ className = 'h-10' }: { className?: string }) => {
   return (
