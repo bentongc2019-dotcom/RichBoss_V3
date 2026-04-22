@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getSubmissions, clearSubmissions, QuizSubmission } from '../utils/storage';
+import { generateMentorAnalysis, MentorAnalysis } from '../utils/mentorEngine';
 
 interface Props {
   onBack: () => void;
@@ -10,12 +11,21 @@ const AdminDashboard: React.FC<Props> = ({ onBack }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const [selectedSubmission, setSelectedSubmission] = useState<QuizSubmission | null>(null);
+  const [mentorAnalysis, setMentorAnalysis] = useState<MentorAnalysis | null>(null);
 
   useEffect(() => {
     if (isAuthenticated) {
       setSubmissions(getSubmissions());
     }
   }, [isAuthenticated]);
+
+  useEffect(() => {
+    if (selectedSubmission) {
+      setMentorAnalysis(generateMentorAnalysis(selectedSubmission.report));
+    } else {
+      setMentorAnalysis(null);
+    }
+  }, [selectedSubmission]);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -137,17 +147,17 @@ const AdminDashboard: React.FC<Props> = ({ onBack }) => {
       </div>
 
       {/* Modal for Mentor Guide */}
-      {selectedSubmission && (
+      {selectedSubmission && mentorAnalysis && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
           <div className="bg-[#1A103C] w-full max-w-4xl rounded-3xl shadow-2xl border border-white/10 my-8">
             <div className="sticky top-0 bg-[#1A103C] border-b border-white/10 px-8 py-6 flex justify-between items-center rounded-t-3xl z-10">
               <div>
                 <h2 className="text-2xl font-bold text-white flex items-center gap-2">
                   <span className="material-symbols-outlined text-yellow-500">psychology</span>
-                  导师专属解读报告
+                  导师专属动态解读
                 </h2>
                 <p className="text-slate-400 text-sm mt-1">
-                  对象：<span className="text-yellow-500 font-bold">{selectedSubmission.profile.name}</span> | 联系：{selectedSubmission.profile.contact || '-'}
+                  对象：<span className="text-yellow-500 font-bold">{selectedSubmission.profile.name}</span> | 联系：{selectedSubmission.profile.contact || '-'} | {mentorAnalysis.oneLinePersona}
                 </p>
               </div>
               <button 
@@ -158,56 +168,71 @@ const AdminDashboard: React.FC<Props> = ({ onBack }) => {
               </button>
             </div>
             
-            <div className="p-8 space-y-8 max-h-[70vh] overflow-y-auto custom-scrollbar">
-              {/* Report Structure */}
+            <div className="p-8 space-y-10 max-h-[70vh] overflow-y-auto custom-scrollbar">
+              
+              {/* 1. Prototype Structure */}
               <div>
-                <h3 className="text-xl font-bold text-yellow-500 mb-4 border-b border-yellow-500/20 pb-2">一、{selectedSubmission.profile.name} 的信念原型结构概览（导师视角）</h3>
+                <h3 className="text-xl font-bold text-yellow-500 mb-6 border-b border-yellow-500/20 pb-2">一、{selectedSubmission.profile.name} 的信念原型结构概览</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {selectedSubmission.report.axes.map(axis => (
                     <div key={axis.id} className="bg-white/5 border border-white/10 rounded-xl p-5">
                       <h4 className="font-bold text-white mb-3 text-lg flex items-center gap-2">
-                        {axis.name} ({axis.id}) <span className="text-yellow-500 ml-auto">{axis.rawScore} 分</span>
+                        {axis.name} ({axis.id}) <span className="text-yellow-500 ml-auto font-mono text-xl">{axis.rawScore} 分</span>
                       </h4>
                       <p className="text-slate-300 text-sm leading-relaxed mb-4">
                         此维度的基础得分体现了用户在应对该方面挑战时的底层反应模式。分数越高说明该模式激活越强。
                       </p>
-                      <div className="bg-[#130B2A] rounded-lg p-3 text-sm text-slate-400 border border-white/5">
-                        <strong className="text-white block mb-1">导师结论：</strong>
+                      <div className="bg-[#130B2A] rounded-lg p-4 text-sm text-slate-400 border border-white/5">
+                        <strong className="text-white block mb-2 flex items-center gap-1">
+                          <span className="material-symbols-outlined text-sm text-yellow-500">insight</span> 导师研判：
+                        </strong>
                         根据当前分值，需特别关注其“{axis.id}”相关触发场景，可能存在潜在的{axis.rawScore > 20 ? '高阻力' : '平稳'}状态。
+                        {axis.isPrimary && <span className="block mt-2 text-yellow-500">🔥 此项为核心主导模式</span>}
                       </div>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* Mentoring Guide */}
+              {/* 2. Inner Script */}
               <div>
-                <h3 className="text-xl font-bold text-amber-500 mb-4 border-b border-amber-500/20 pb-2 flex items-center gap-2">
+                <h3 className="text-xl font-bold text-blue-400 mb-4 border-b border-blue-400/20 pb-2 flex items-center gap-2">
+                  <span className="material-symbols-outlined">account_tree</span>
+                  二、内在运行剧本（动态链路）
+                </h3>
+                <div className="bg-blue-500/5 border border-blue-500/20 rounded-xl p-6">
+                  <ul className="space-y-4">
+                    {mentorAnalysis.dynamicScript.map((script, idx) => (
+                      <li key={idx} className="flex gap-3 text-slate-300 leading-relaxed text-base">
+                        <span className="text-blue-400 font-bold">{idx + 1}.</span>
+                        <span>{script}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              {/* 3. Mentoring Scenarios */}
+              <div>
+                <h3 className="text-xl font-bold text-amber-500 mb-6 border-b border-amber-500/20 pb-2 flex items-center gap-2">
                   <span className="material-symbols-outlined">forum</span>
-                  二、现场可直接使用的引导话术
+                  三、现场可直接使用的引导话术
                 </h3>
                 
-                <div className="space-y-4">
-                  <div className="bg-gradient-to-r from-amber-500/10 to-transparent border-l-4 border-amber-500 p-5 rounded-r-xl">
-                    <h5 className="font-bold text-white mb-2 text-lg">💡 破冰话术（建议首发）</h5>
-                    <p className="text-slate-300 leading-relaxed italic text-lg">
-                      “{selectedSubmission.profile.name}，很高兴看到你的图谱。从这份数据里，我能感觉到你是一个对{selectedSubmission.report.primaryAxes[0]?.name.split(' ')[0] || '事业'}有着极高要求的人。特别是在{selectedSubmission.report.primaryAxes[0]?.id || '核心'}维度上，你承担了很多本不需要你独自扛下的压力。这一定很辛苦吧？”
-                    </p>
-                  </div>
-
-                  <div className="bg-gradient-to-r from-blue-500/10 to-transparent border-l-4 border-blue-500 p-5 rounded-r-xl">
-                    <h5 className="font-bold text-white mb-2 text-lg">💡 深入挖掘话术（痛点切入）</h5>
-                    <p className="text-slate-300 leading-relaxed italic text-lg">
-                      “当我们看到你在‘{selectedSubmission.report.primaryAxes[0]?.id || '主要模式'}’上得分特别突出时，往往意味着在过去的某个阶段，这种模式保护了你。但现在，我们要一起看看，是不是这个曾经的保护伞，变成了限制你进一步扩张商业版图的‘天花板’？”
-                    </p>
-                  </div>
-
-                  <div className="bg-gradient-to-r from-green-500/10 to-transparent border-l-4 border-green-500 p-5 rounded-r-xl">
-                    <h5 className="font-bold text-white mb-2 text-lg">💡 闭环升单话术（行动号召）</h5>
-                    <p className="text-slate-300 leading-relaxed italic text-lg">
-                      “你看，信念图谱就像是你内在商业操作系统的诊断书。现在我们已经找到了系统里最耗费内存的那个程序。接下来，通过 MPI 的深度梳理，我们可以一起把这个程序重构。你准备好跨出这一步了吗？”
-                    </p>
-                  </div>
+                <div className="space-y-6">
+                  {mentorAnalysis.scenarios.map((scenario, idx) => (
+                    <div key={idx} className="bg-gradient-to-r from-amber-500/10 to-transparent border-l-4 border-amber-500 p-6 rounded-r-xl">
+                      <div className="flex justify-between items-start mb-3">
+                        <h5 className="font-bold text-white text-lg">{scenario.title}</h5>
+                        <span className="text-xs text-amber-500/70 border border-amber-500/20 px-2 py-1 rounded bg-amber-500/10">
+                          {scenario.goal}
+                        </span>
+                      </div>
+                      <div className="text-slate-300 leading-relaxed italic text-lg whitespace-pre-line">
+                        {scenario.script}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
 
