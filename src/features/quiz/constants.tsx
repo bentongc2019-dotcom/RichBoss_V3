@@ -1,0 +1,63 @@
+
+import { Question, PrototypeInfo, AxisType } from './types';
+
+export const AXIS_MAP: Record<AxisType, string> = {
+  V: '价值轴 (Value)',
+  R: '关系轴 (Relationship)',
+  S: '安全/稳定轴 (Security)',
+  A: '主体性轴 (Agency)',
+};
+
+export const PROTOTYPE_DESCRIPTIONS: Record<string, { name: string; desc: string }> = {
+  V1: { name: '完美主义模式', desc: '追求极度完美，将自我价值与任务完成度深度绑定。' },
+  V2: { name: '冒充者模式', desc: '低估个人能力，倾向于将成功归因于运气。' },
+  V3: { name: '失败恐惧模式', desc: '对失败极其敏感，宁愿不开始也不愿冒失败风险。' },
+  R1: { name: '讨好/难以拒绝', desc: '过度关注他人需求，难以表达真实立场。' },
+  R2: { name: '形象管理模式', desc: '在专业形象与脆弱性之间过度防卫。' },
+  R3: { name: '自我牺牲模式', desc: '习惯性后置个人需求，通过拯救他人获得意义。' },
+  S1: { name: '过度控制模式', desc: '缺乏安全感，试图通过精细管控消除不确定性。' },
+  S2: { name: '稀缺恐惧模式', desc: '担心资源流失，倾向于保守决策避免损失。' },
+  S3: { name: '过度扛责模式', desc: '边界感模糊，下意识承接非本职的责任。' },
+  A1: { name: '宿命/无力感', desc: '面对环境变化感触个人能动性受限。' },
+  A2: { name: '规模/成长恐惧', desc: '对更大的舞台与责任产生本能的回撤反应。' },
+  A3: { name: '分析瘫痪模式', desc: '通过过度准备和想清楚来延后行动时机。' },
+};
+
+export const QUESTIONS: Question[] = [
+  { id: 1, code: 'V1-1', text: '我常常觉得，只有做到几乎完美，才算是“过得去的成果”。', axis: 'V', prototypeId: 'V1' },
+  { id: 2, code: 'V1-2', text: '当我发现自己没有把事情做到最好时，会对自己非常不满意。', axis: 'V', prototypeId: 'V1' },
+  { id: 3, code: 'V1-3', text: '在重要任务上，我会不断打磨到自己心里“差不多完美”，才愿意拿出来给别人看。', axis: 'V', prototypeId: 'V1' },
+  { id: 4, code: 'V2-1', text: '当我准备要行动时，常常会想：“我好像还不够格，或者还没准备好。”', axis: 'V', prototypeId: 'V2' },
+  { id: 5, code: 'V2-2', text: '别人对我有正面评价时，我心里常会想：“其实我没那么好，只是他们看错了。”', axis: 'V', prototypeId: 'V2' },
+  { id: 6, code: 'V2-3', text: '面对那些自己想做却一直没开始的事，我常常会怀疑：“自己会不会根本没有这个能力。”', axis: 'V', prototypeId: 'V2' },
+  { id: 7, code: 'V3-1', text: '一想到如果失败了，别人会怎么看我，我就很难迈出第一步。', axis: 'V', prototypeId: 'V3' },
+  { id: 8, code: 'V3-2', text: '有时候我宁愿不参加竞争或挑战，也不太想冒着当众“输”的风险。', axis: 'V', prototypeId: 'V3' },
+  { id: 9, code: 'V3-3', text: '如果一件重要事情没做好，我很容易把它理解成：“我这个人就是不够好 / 失败了。”', axis: 'V', prototypeId: 'V3' },
+  { id: 10, code: 'R1-1', text: '当别人开口拜托我时，我很难说“不”，即使自己已经很累或手上事情很多。', axis: 'R', prototypeId: 'R1' },
+  { id: 11, code: 'R1-2', text: '我会为了不让别人失望，把原本不想接的工作或要求硬接下来。', axis: 'R', prototypeId: 'R1' },
+  { id: 12, code: 'R1-3', text: '当我没有及时回复别人的讯息或需求时，会有些不安，担心对方会不会因此不高兴或误会我。', axis: 'R', prototypeId: 'R1' },
+  { id: 13, code: 'R2-1', text: '在很多场合，我会小心翼翼调整自己的说话方式 and 表现，避免被人觉得“奇怪”或“不专业”。', axis: 'R', prototypeId: 'R2' },
+  { id: 14, code: 'R2-2', text: '在公开场合，我宁愿看起来“没问题，一切OK”，也不太愿意承认自己哪里不懂或没想好。', axis: 'R', prototypeId: 'R2' },
+  { id: 15, code: 'R2-3', text: '当我拒绝别人、说“不”之后，常常会在心里反覆回想当时的对话，担心对方会不会因此觉得我不好相处。', axis: 'R', prototypeId: 'R2' },
+  { id: 16, code: 'R3-1', text: '在关系或团队中，我习惯先照顾别人，再考虑自己真正要什么。', axis: 'R', prototypeId: 'R3' },
+  { id: 17, code: 'R3-2', text: '即使自己已经很疲惫，只要别人需要帮忙，我还是会硬撑着去协助对方。', axis: 'R', prototypeId: 'R3' },
+  { id: 18, code: 'R3-3', text: '在安排时间或精力时，我常常优先排别人的事，而把自己的计划一拖再拖。', axis: 'R', prototypeId: 'R3' },
+  { id: 19, code: 'S1-1', text: '当事情交给别人做时，我通常会不太放心，常常想要再亲自检查一遍。', axis: 'S', prototypeId: 'S1' },
+  { id: 20, code: 'S1-2', text: '看到别人做事比较随性，或者不太按规则来，我会感到不安心，甚至有点生气。', axis: 'S', prototypeId: 'S1' },
+  { id: 21, code: 'S1-3', text: '即使事情表面上运转正常，我有时还是会担心：“如果我不盯紧、不设清楚规则，迟早会出大问题。”', axis: 'S', prototypeId: 'S1' },
+  { id: 22, code: 'S2-1', text: '面对机会或资源时，我常会担心：“如果现在不抓住，以后可能就没了。”', axis: 'S', prototypeId: 'S2' },
+  { id: 23, code: 'S2-2', text: '当别人获得好机会或资源时，我有时会冒出：“那我是不是机会变少了？”这样的念头。', axis: 'S', prototypeId: 'S2' },
+  { id: 24, code: 'S2-3', text: '在做决策时，我更倾向于避免损失，而不是去争取看起来更大的收获。', axis: 'S', prototypeId: 'S2' },
+  { id: 25, code: 'S3-1', text: '出了问题时，我第一反应往往是：“是不是我哪里没做好？”', axis: 'S', prototypeId: 'S3' },
+  { id: 26, code: 'S3-2', text: '在团队中，即便某件事不是我负责，只要看见没人处理，我就会忍不住跳进去收拾。', axis: 'S', prototypeId: 'S3' },
+  { id: 27, code: 'S3-3', text: '只要有机会，我就会下意识地扛起更多责任，很少认真想过这是不是本来就该由我来扛。', axis: 'S', prototypeId: 'S3' },
+  { id: 28, code: 'A1-1', text: '当面对行业形势、政策或大环境变化时，我心里常会觉得：“个人再怎么努力，能改变的空间也有限。”', axis: 'A', prototypeId: 'A1' },
+  { id: 29, code: 'A1-2', text: '当原本的计划被外在因素打乱时，我会比较快地接受“就这样吧，也只能这样了”，而不太会再主动多尝试几种新的做法。', axis: 'A', prototypeId: 'A1' },
+  { id: 30, code: 'A1-3', text: '看到有人在不利环境中仍然做出很好的成绩时，我有时会想：那可能跟他的运气或者“命好”也有关系。', axis: 'A', prototypeId: 'A1' },
+  { id: 31, code: 'A2-1', text: '当出现一个需要我站到台前的好机会时，我第一反应常会是：“这会不会有点太大、压力太重？”', axis: 'A', prototypeId: 'A2' },
+  { id: 32, code: 'A2-2', text: '当别人对我寄予更高期待，或提议让我升到一个更关键的位置时，我心里常会本能地往后退半步，先观望一下。', axis: 'A', prototypeId: 'A2' },
+  { id: 33, code: 'A2-3', text: '一想到承担一个影响力更大、责任更重的角色时，我有时会担心：“一旦接下来，可能就很难回头了。”', axis: 'A', prototypeId: 'A2' },
+  { id: 34, code: 'A3-1', text: '在需要做一个重要决定时，我常常会不断找资料、问意见，但真正定下行动时间的那一刻会一拖再拖。', axis: 'A', prototypeId: 'A3' },
+  { id: 35, code: 'A3-2', text: '当身边的人提醒我「可以先试着做做看」时，我常会回答：“我再想一想、再多准备一下”来往后退一点。', axis: 'A', prototypeId: 'A3' },
+  { id: 36, code: 'A3-3', text: '有些我已经想了很久、也知道重要的事情，会被我放在“等我想得更清楚再开始”的状态里，很长一段时间都维持那样。', axis: 'A', prototypeId: 'A3' },
+];
