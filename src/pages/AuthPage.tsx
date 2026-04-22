@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { supabase } from '../utils/supabase'
+import { useState } from 'react';
+import { signup, login } from '../utils/auth';
 
 type AuthMode = 'login' | 'signup'
 
@@ -24,38 +24,17 @@ export default function AuthPage({ onSuccess, redirectMessage }: AuthPageProps) 
 
         try {
             if (mode === 'signup') {
-                const { data, error } = await supabase.auth.signUp({ email, password })
-                if (error) throw error
-
-                if (data.user) {
-                    // 在 users 表中建立用户档案
-                    await supabase.from('users').upsert({
-                        id: data.user.id,
-                        email: data.user.email!,
-                        membership_level: 'free',
-                    })
-                }
-                if (data.session) {
-                    setMessage('✅ 注册成功！')
-                    setTimeout(() => onSuccess?.(), 1000)
-                } else {
-                    setMessage('✅ 注册成功！请检查邮箱确认账号，然后返回登录。')
-                }
+                await signup(email, password);
+                setMessage('✅ 注册成功！请直接登录');
             } else {
-                const { error: signInError } = await supabase.auth.signInWithPassword({ email, password })
-                if (signInError) throw signInError
-                onSuccess?.()
+                await login(email, password);
+                onSuccess?.();
             }
-        } catch (err: unknown) {
-            const msg = err instanceof Error ? err.message : '操作失败，请重试'
-            // 把常见英文错误翻译成中文
-            if (msg.includes('Invalid login credentials')) setError('邮箱或密码错误')
-            else if (msg.includes('Email not confirmed')) setError('请先确认你的注册邮件')
-            else if (msg.includes('User already registered')) setError('此邮箱已注册，请直接登录')
-            else if (msg.includes('Password should be at least')) setError('密码至少需要 6 个字符')
-            else setError(msg)
+        } catch (err: any) {
+            // err 已经是错误信息字符串
+            setError(err.message || err);
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
     }
 
