@@ -31,7 +31,7 @@ function Home() {
                         <a className="text-sm font-medium hover:text-primary transition-colors text-slate-300"
                             href="#learning">成长模块</a>
                         <a className="text-sm font-medium hover:text-primary transition-colors text-slate-300"
-                            href="#tools">原型测验</a>
+                            onClick={() => navigate('/quiz')}>原型测验</a>
                     </div>
                     <div className="flex items-center gap-4">
                         <button
