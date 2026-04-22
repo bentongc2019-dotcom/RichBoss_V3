@@ -12,6 +12,13 @@ interface Props {
 const IntroView: React.FC<Props> = ({ onStart, onAdmin, onViewHistory, isLoggedIn, hasHistory, userName }) => {
   return (
     <div className="bg-[#1A103C]/80 backdrop-blur-md rounded-[32px] shadow-2xl border border-white/10 overflow-hidden animate-fadeIn max-w-4xl mx-auto relative">
+      {/* 登录状态指示 */}
+      {isLoggedIn && (
+        <div className="absolute top-4 right-6 z-20 flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs px-3 py-1.5 rounded-full">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          已登录
+        </div>
+      )}
       {/* Background Glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-yellow-500/10 rounded-full blur-[100px] pointer-events-none" />
 

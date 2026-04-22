@@ -58,18 +58,41 @@ const AdminDashboard: React.FC<Props> = ({ onBack }) => {
     e.preventDefault();
     setLoginError('');
     setIsLoading(true);
+
+    // 模式 1：简单管理员密码（快速访问，仅本地数据）
+    const ADMIN_PASSWORD = 'richboss2026';
+    if (!email && password === ADMIN_PASSWORD) {
+      setIsAuthenticated(true);
+      setDataSource('local');
+      setIsLoading(false);
+      return;
+    }
+
+    // 模式 2：Supabase Auth 登录（获取云端数据）
     try {
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
       if (error) {
-        setLoginError('登录失败：' + error.message);
+        // 如果 Supabase 登录失败，也尝试密码验证
+        if (password === ADMIN_PASSWORD) {
+          setIsAuthenticated(true);
+          setDataSource('local');
+        } else {
+          setLoginError('登录失败：请检查邮箱和密码。如果只需要快速访问，可以留空邮箱直接输入管理员密码。');
+        }
       } else {
         setIsAuthenticated(true);
       }
     } catch (err: any) {
-      setLoginError('网络错误：' + err.message);
+      // 网络错误时也支持密码登录
+      if (password === ADMIN_PASSWORD) {
+        setIsAuthenticated(true);
+        setDataSource('local');
+      } else {
+        setLoginError('网络错误：' + err.message);
+      }
     }
     setIsLoading(false);
   };
@@ -91,14 +114,13 @@ const AdminDashboard: React.FC<Props> = ({ onBack }) => {
         </h2>
         <form onSubmit={handleLogin} className="space-y-5">
           <div>
-            <label className="block text-sm font-bold text-slate-400 mb-2 uppercase tracking-wider">管理员邮箱</label>
+            <label className="block text-sm font-bold text-slate-400 mb-2 uppercase tracking-wider">管理员邮箱 <span className="text-slate-600 normal-case text-xs">(选填，留空可用密码快速登录)</span></label>
             <input 
               type="email" 
               className="w-full p-4 bg-[#130B2A] border border-white/10 rounded-xl focus:border-yellow-500/50 focus:ring-4 focus:ring-yellow-500/10 outline-none transition-all text-white"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="请输入邮箱"
-              required
+              placeholder="请输入邮箱（选填）"
             />
           </div>
           <div>

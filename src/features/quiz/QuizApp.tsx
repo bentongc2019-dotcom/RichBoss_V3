@@ -24,30 +24,36 @@ const App: React.FC = () => {
   const [hasHistory, setHasHistory] = useState(false);
   const navigate = useNavigate();
 
-  // 检查用户是否有历史报告（从云端查）
+  // 检查用户是否有历史报告（优先云端，其次本地）
   const checkMyHistory = async (user: User) => {
     try {
+      // 优先从云端查（RLS 策略会只返回自己的数据）
       const cloudData = await getCloudSubmissions();
-      // 云端数据里 RLS 只返回自己的数据（因为 select policy 限制了）
-      if (cloudData.length > 0) {
+      if (cloudData.length > 0 && cloudData[0].report) {
         setHasHistory(true);
-        // 缓存最新的一份报告，方便直接展示
         setMyLatestReport(cloudData[0].report);
-      } else {
-        // 回退到本地
-        const localData = getSubmissions().filter(s => s.user_id === user.id);
-        if (localData.length > 0) {
-          setHasHistory(true);
-          setMyLatestReport(localData[localData.length - 1].report);
-        }
+        console.log('✅ 从云端找到历史报告', cloudData.length, '份');
+        return;
       }
-    } catch {
-      // 如果云端查询失败，回退本地
-      const localData = getSubmissions().filter(s => s.user_id === user.id);
-      if (localData.length > 0) {
-        setHasHistory(true);
-        setMyLatestReport(localData[localData.length - 1].report);
-      }
+    } catch (err) {
+      console.warn('云端查询失败，回退本地', err);
+    }
+
+    // 回退到本地存储
+    const allLocal = getSubmissions();
+    // 先尝试按 user_id 匹配
+    const myLocal = allLocal.filter(s => s.user_id === user.id);
+    if (myLocal.length > 0) {
+      setHasHistory(true);
+      setMyLatestReport(myLocal[myLocal.length - 1].report);
+      console.log('✅ 从本地找到历史报告（user_id 匹配）');
+      return;
+    }
+    // 最后兜底：如果本地有任何数据（可能是未绑定 user_id 的旧数据）
+    if (allLocal.length > 0) {
+      setHasHistory(true);
+      setMyLatestReport(allLocal[allLocal.length - 1].report);
+      console.log('✅ 从本地找到历史报告（兜底）');
     }
   };
 
