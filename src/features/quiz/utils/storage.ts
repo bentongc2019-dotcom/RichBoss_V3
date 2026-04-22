@@ -61,3 +61,33 @@ export function clearSubmissions(): void {
     console.error('Failed to clear submissions', error);
   }
 }
+
+/**
+ * 管理员专用：从 Supabase 云端拉取所有客户的测验提交记录
+ * 需要当前登录用户拥有 admin 查看权限（RLS 策略）
+ */
+export async function getCloudSubmissions(): Promise<QuizSubmission[]> {
+  try {
+    const { data, error } = await supabase
+      .from('test_results')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('从云端拉取数据失败:', error);
+      return [];
+    }
+
+    // 将 Supabase 返回的数据格式转换为前端 QuizSubmission 格式
+    return (data || []).map((row: any) => ({
+      id: row.id,
+      timestamp: new Date(row.created_at).getTime(),
+      profile: row.profile,
+      report: row.report,
+      user_id: row.user_id,
+    }));
+  } catch (error) {
+    console.error('云端数据查询异常:', error);
+    return [];
+  }
+}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { getSubmissions, clearSubmissions, QuizSubmission } from '../utils/storage';
+import { getCloudSubmissions, getSubmissions, clearSubmissions, QuizSubmission } from '../utils/storage';
 import { generateMentorAnalysis, MentorAnalysis } from '../utils/mentorEngine';
+import { supabase } from '../../../utils/supabase';
 
 interface Props {
   onBack: () => void;
@@ -9,13 +10,39 @@ interface Props {
 const AdminDashboard: React.FC<Props> = ({ onBack }) => {
   const [submissions, setSubmissions] = useState<QuizSubmission[]>([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loginError, setLoginError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [dataSource, setDataSource] = useState<'cloud' | 'local'>('cloud');
   const [selectedSubmission, setSelectedSubmission] = useState<QuizSubmission | null>(null);
   const [mentorAnalysis, setMentorAnalysis] = useState<MentorAnalysis | null>(null);
 
+  // 登录成功后，从云端加载数据
+  const loadCloudData = async () => {
+    setIsLoading(true);
+    try {
+      const cloudData = await getCloudSubmissions();
+      if (cloudData.length > 0) {
+        setSubmissions(cloudData);
+        setDataSource('cloud');
+      } else {
+        // 云端没数据的话，回退到本地数据
+        const localData = getSubmissions();
+        setSubmissions(localData);
+        setDataSource('local');
+      }
+    } catch {
+      const localData = getSubmissions();
+      setSubmissions(localData);
+      setDataSource('local');
+    }
+    setIsLoading(false);
+  };
+
   useEffect(() => {
     if (isAuthenticated) {
-      setSubmissions(getSubmissions());
+      loadCloudData();
     }
   }, [isAuthenticated]);
 
@@ -27,13 +54,24 @@ const AdminDashboard: React.FC<Props> = ({ onBack }) => {
     }
   }, [selectedSubmission]);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === 'admin123') { // Simple password for now
-      setIsAuthenticated(true);
-    } else {
-      alert('密码错误');
+    setLoginError('');
+    setIsLoading(true);
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (error) {
+        setLoginError('登录失败：' + error.message);
+      } else {
+        setIsAuthenticated(true);
+      }
+    } catch (err: any) {
+      setLoginError('网络错误：' + err.message);
     }
+    setIsLoading(false);
   };
 
   const handleClear = () => {
@@ -51,22 +89,40 @@ const AdminDashboard: React.FC<Props> = ({ onBack }) => {
           <span className="material-symbols-outlined text-yellow-500">lock</span>
           导师后台登录
         </h2>
-        <form onSubmit={handleLogin} className="space-y-6">
+        <form onSubmit={handleLogin} className="space-y-5">
           <div>
-            <label className="block text-sm font-bold text-slate-400 mb-2 uppercase tracking-wider">管理密码</label>
+            <label className="block text-sm font-bold text-slate-400 mb-2 uppercase tracking-wider">管理员邮箱</label>
+            <input 
+              type="email" 
+              className="w-full p-4 bg-[#130B2A] border border-white/10 rounded-xl focus:border-yellow-500/50 focus:ring-4 focus:ring-yellow-500/10 outline-none transition-all text-white"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="请输入邮箱"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-bold text-slate-400 mb-2 uppercase tracking-wider">密码</label>
             <input 
               type="password" 
               className="w-full p-4 bg-[#130B2A] border border-white/10 rounded-xl focus:border-yellow-500/50 focus:ring-4 focus:ring-yellow-500/10 outline-none transition-all text-white"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="请输入密码"
+              required
             />
           </div>
+          {loginError && (
+            <div className="text-red-400 text-sm bg-red-500/10 border border-red-500/20 p-3 rounded-lg">
+              {loginError}
+            </div>
+          )}
           <button 
             type="submit"
-            className="w-full py-4 bg-gradient-to-r from-yellow-500 to-amber-400 hover:to-yellow-400 text-[#130B2A] font-bold rounded-xl shadow-[0_0_15px_rgba(234,179,8,0.3)] transition-all"
+            disabled={isLoading}
+            className="w-full py-4 bg-gradient-to-r from-yellow-500 to-amber-400 hover:to-yellow-400 text-[#130B2A] font-bold rounded-xl shadow-[0_0_15px_rgba(234,179,8,0.3)] transition-all disabled:opacity-50"
           >
-            登录控制台
+            {isLoading ? '登录中...' : '登录控制台'}
           </button>
         </form>
         <button onClick={onBack} className="mt-6 text-slate-400 hover:text-white text-sm flex items-center gap-1 transition-colors">
@@ -89,13 +145,24 @@ const AdminDashboard: React.FC<Props> = ({ onBack }) => {
             导师数据控制台
           </h1>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 flex-wrap">
+          <span className={`text-xs px-3 py-1.5 rounded-lg font-bold tracking-wide border ${
+            dataSource === 'cloud' 
+              ? 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' 
+              : 'text-orange-400 bg-orange-500/10 border-orange-500/20'
+          }`}>
+            {dataSource === 'cloud' ? '☁️ 云端数据' : '💾 本地数据'}
+          </span>
           <span className="text-yellow-500 bg-yellow-500/10 border border-yellow-500/20 px-4 py-2 rounded-lg text-sm font-bold tracking-widest">
             共 {submissions.length} 份报告
           </span>
+          <button onClick={loadCloudData} disabled={isLoading} className="text-blue-400 hover:bg-blue-500/10 border border-transparent hover:border-blue-500/20 px-4 py-2 rounded-lg transition-colors text-sm font-bold flex items-center gap-2 disabled:opacity-50">
+            <span className="material-symbols-outlined text-sm">refresh</span>
+            {isLoading ? '加载中...' : '刷新'}
+          </button>
           <button onClick={handleClear} className="text-red-400 hover:bg-red-500/10 border border-transparent hover:border-red-500/20 px-4 py-2 rounded-lg transition-colors text-sm font-bold flex items-center gap-2">
             <span className="material-symbols-outlined text-sm">delete</span>
-            清空数据
+            清空本地
           </button>
         </div>
       </div>
