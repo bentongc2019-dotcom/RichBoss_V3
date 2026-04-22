@@ -6,8 +6,8 @@ const RichBossLogo = ({ className = 'h-10' }: { className?: string }) => {
       <svg viewBox="0 0 100 100" className="h-full w-auto" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#A855F7" />
-            <stop offset="100%" stopColor="#6B21A8" />
+            <stop offset="0%" stopColor="#4c1e87" />
+            <stop offset="100%" stopColor="#28004f" />
           </linearGradient>
           <linearGradient id="yellowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#ffe999" />
@@ -23,10 +23,12 @@ const RichBossLogo = ({ className = 'h-10' }: { className?: string }) => {
         {/* Adjusted points for bottom-right to make the upper part narrower and slant exactly as the R leg in the design */}
         <polygon points="54,54 75,54 100,100 54,100" fill="url(#purpleGrad)" />
       </svg>
-      {/* Text - optimized for dark background */}
+      {/* Text - original color with white stroke for dark background visibility */}
       <span 
-        className="font-black tracking-tight text-white drop-shadow-sm" 
+        className="font-black tracking-tight drop-shadow-sm" 
         style={{ 
+          color: '#4c1e87', // 恢复原版深紫
+          WebkitTextStroke: '1px rgba(255, 255, 255, 0.95)', // 添加白色描边
           fontSize: '2.5em', 
           lineHeight: '1',
           fontFamily: "'Segoe UI', 'Montserrat', 'Inter', 'SF Pro Display', sans-serif" 
