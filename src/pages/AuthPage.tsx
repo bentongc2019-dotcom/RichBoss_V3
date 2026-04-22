@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { signup, login } from '../utils/auth';
+import { useNavigate } from 'react-router-dom';
 
 type AuthMode = 'login' | 'signup'
 
@@ -9,6 +10,7 @@ interface AuthPageProps {
 }
 
 export default function AuthPage({ onSuccess, redirectMessage }: AuthPageProps) {
+    const navigate = useNavigate();
     const [mode, setMode] = useState<AuthMode>('login')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -23,15 +25,19 @@ export default function AuthPage({ onSuccess, redirectMessage }: AuthPageProps) 
         setMessage('')
 
         try {
+            const trimmedEmail = email.trim();
+            const trimmedPassword = password;
             if (mode === 'signup') {
-                await signup(email, password);
+                await signup(trimmedEmail, trimmedPassword);
                 setMessage('✅ 注册成功！请直接登录');
             } else {
-                await login(email, password);
+                await login(trimmedEmail, trimmedPassword);
+                setMessage('登录成功');
+                // 登录完成后直接跳转首页
+                navigate('/');
                 onSuccess?.();
             }
         } catch (err: any) {
-            // err 已经是错误信息字符串
             setError(err.message || err);
         } finally {
             setLoading(false);
