@@ -1,5 +1,5 @@
 import { useState, MouseEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import HeroVisual from '../components/HeroVisual';
 
 function Home() {
@@ -30,8 +30,7 @@ function Home() {
                             href="#book">财富书籍</a>
                         <a className="text-sm font-medium hover:text-primary transition-colors text-slate-300"
                             href="#learning">成长模块</a>
-                        <a className="text-sm font-medium hover:text-primary transition-colors text-slate-300"
-                            onClick={() => navigate('/quiz')}>原型测验</a>
+                        <Link className="text-sm font-medium hover:text-primary transition-colors text-slate-300" to="/quiz">原型测验</Link>
                     </div>
                     <div className="flex items-center gap-4">
                         <button
