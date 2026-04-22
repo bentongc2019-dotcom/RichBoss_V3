@@ -8,7 +8,9 @@ import QuizView from './views/QuizView';
 import ProfileView from './views/ProfileView';
 import ResultsView from './views/ResultsView';
 import AdminDashboard from './views/AdminDashboard';
-import { saveSubmission, getSubmissions, clearSubmissions, QuizSubmission } from './utils/storage';
+import { saveSubmission, getSubmissions, QuizSubmission } from './utils/storage';
+import { getCurrentUser, User } from '../../utils/auth';
+import { useNavigate } from 'react-router-dom';
 
 type ViewState = 'INTRO' | 'QUIZ' | 'PROFILE' | 'RESULTS' | 'ADMIN';
 
@@ -17,25 +19,49 @@ const App: React.FC = () => {
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [profile, setProfile] = useState<Profile>({ name: '', contact: '' });
   const [submissions, setSubmissions] = useState<QuizSubmission[]>([]);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const navigate = useNavigate();
 
-  // Load submissions from storage on init
+  // Load submissions and check auth on init
   useEffect(() => {
     setSubmissions(getSubmissions());
+    
+    // Check if user is logged in
+    getCurrentUser().then(user => {
+      setCurrentUser(user);
+      
+      // Check if there is a pending quiz draft
+      const draft = localStorage.getItem('quiz_draft_answers');
+      if (draft && user) {
+        setAnswers(JSON.parse(draft));
+        setView('PROFILE');
+        localStorage.removeItem('quiz_draft_answers');
+      } else if (draft && !user) {
+        // Still not logged in? keep them in intro or redirect
+        setView('INTRO');
+      }
+    });
   }, []);
 
   const handleStart = () => setView('QUIZ');
 
   const handleFinishQuiz = (finalAnswers: Record<number, number>) => {
     setAnswers(finalAnswers);
-    setView('PROFILE');
+    if (!currentUser) {
+      // Save draft and go to login
+      localStorage.setItem('quiz_draft_answers', JSON.stringify(finalAnswers));
+      navigate('/auth');
+    } else {
+      setView('PROFILE');
+    }
   };
 
-  const handleProfileSubmit = (data: Profile) => {
+  const handleProfileSubmit = async (data: Profile) => {
     setProfile(data);
     const finalReport = calculateReport(data, answers);
     
-    // Save to local storage
-    saveSubmission(finalReport);
+    // Save to local storage and Supabase
+    await saveSubmission(finalReport, currentUser?.id);
     setSubmissions(getSubmissions());
     
     setView('RESULTS');

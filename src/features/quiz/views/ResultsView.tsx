@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FinalReport, PrototypeResult } from '../types';
 import { QUESTIONS, AXIS_MAP } from '../constants';
 
@@ -19,6 +20,7 @@ const PROTO_COLORS: Record<string, string> = {
 
 const ResultsView: React.FC<Props> = ({ report, onReset }) => {
   const [showRaw, setShowRaw] = useState(false);
+  const navigate = useNavigate();
 
   const radarData = report.axes.map(axis => ({
     subject: axis.name.split(' ')[0] + ' (' + axis.id + ')',
@@ -46,6 +48,16 @@ const ResultsView: React.FC<Props> = ({ report, onReset }) => {
       {/* Background Ambient Lights */}
       <div className="absolute top-0 left-0 w-full h-[800px] bg-gradient-to-b from-yellow-500/10 via-[#1A103C]/20 to-transparent pointer-events-none" />
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-yellow-500/5 rounded-full blur-[150px] pointer-events-none" />
+
+      {/* Top Home Button */}
+      <div className="mb-6 flex justify-start relative z-20">
+        <button 
+          onClick={() => navigate('/')}
+          className="text-slate-400 hover:text-white transition-colors text-sm flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/10 hover:bg-white/10"
+        >
+          <span className="material-symbols-outlined text-sm">home</span> 回到网站首页
+        </button>
+      </div>
 
       <div className="bg-[#1A103C]/80 backdrop-blur-xl rounded-[40px] shadow-2xl border border-white/10 overflow-hidden relative z-10" id="report-content">
         
@@ -279,13 +291,23 @@ const ResultsView: React.FC<Props> = ({ report, onReset }) => {
             </div>
           )}
 
-          <button 
-            onClick={onReset} 
-            className="text-slate-500 hover:text-white transition-colors font-semibold text-sm py-4 flex items-center gap-2 mx-auto"
-          >
-            <span className="material-symbols-outlined text-sm">restart_alt</span>
-            重新测试
-          </button>
+          <div className="flex flex-col md:flex-row items-center justify-center gap-6 mt-8">
+            <button 
+              onClick={onReset} 
+              className="text-slate-500 hover:text-white transition-colors font-semibold text-sm py-4 flex items-center gap-2"
+            >
+              <span className="material-symbols-outlined text-sm">restart_alt</span>
+              重新测试
+            </button>
+            <span className="hidden md:block text-white/20">|</span>
+            <button 
+              onClick={() => navigate('/')} 
+              className="text-yellow-500 hover:text-yellow-400 transition-colors font-semibold text-sm py-4 flex items-center gap-2"
+            >
+              <span className="material-symbols-outlined text-sm">home</span>
+              回到网站首页
+            </button>
+          </div>
         </div>
       </div>
     </div>
