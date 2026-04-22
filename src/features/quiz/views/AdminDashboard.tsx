@@ -173,24 +173,71 @@ const AdminDashboard: React.FC<Props> = ({ onBack }) => {
               {/* 1. Prototype Structure */}
               <div>
                 <h3 className="text-xl font-bold text-yellow-500 mb-6 border-b border-yellow-500/20 pb-2">一、{selectedSubmission.profile.name} 的信念原型结构概览</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                   {selectedSubmission.report.axes.map(axis => (
-                    <div key={axis.id} className="bg-white/5 border border-white/10 rounded-xl p-5">
-                      <h4 className="font-bold text-white mb-3 text-lg flex items-center gap-2">
-                        {axis.name} ({axis.id}) <span className="text-yellow-500 ml-auto font-mono text-xl">{axis.rawScore} 分</span>
+                    <div key={axis.id} className="bg-white/5 border border-white/10 rounded-xl p-5 relative overflow-hidden">
+                      {axis.isPrimary && <div className="absolute top-0 right-0 w-16 h-16 bg-yellow-500/20 blur-2xl rounded-full"></div>}
+                      <h4 className="font-bold text-white mb-3 text-lg flex items-center justify-between">
+                        <span className="flex items-center gap-2">
+                          <span className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-sm font-bold text-yellow-500">
+                            {axis.id}
+                          </span>
+                          {axis.name}
+                        </span>
+                        <span className="text-slate-400 font-mono text-sm">
+                          总计点数: <span className="text-yellow-500 font-bold">{axis.tutorPoint}</span>
+                        </span>
                       </h4>
-                      <p className="text-slate-300 text-sm leading-relaxed mb-4">
-                        此维度的基础得分体现了用户在应对该方面挑战时的底层反应模式。分数越高说明该模式激活越强。
-                      </p>
-                      <div className="bg-[#130B2A] rounded-lg p-4 text-sm text-slate-400 border border-white/5">
-                        <strong className="text-white block mb-2 flex items-center gap-1">
-                          <span className="material-symbols-outlined text-sm text-yellow-500">insight</span> 导师研判：
-                        </strong>
-                        根据当前分值，需特别关注其“{axis.id}”相关触发场景，可能存在潜在的{axis.rawScore > 20 ? '高阻力' : '平稳'}状态。
-                        {axis.isPrimary && <span className="block mt-2 text-yellow-500">🔥 此项为核心主导模式</span>}
+                      <div className="space-y-3 mt-4">
+                        {selectedSubmission.report.prototypes
+                          .filter(p => p.axis === axis.id)
+                          .map(p => (
+                            <div key={p.id} className="flex justify-between items-center bg-[#130B2A]/50 p-2 rounded-lg border border-white/5">
+                              <span className="text-slate-300 text-sm flex items-center gap-2">
+                                <span className={`w-2 h-2 rounded-full ${p.isPrimary ? 'bg-yellow-500' : p.isSecondary ? 'bg-blue-400' : 'bg-slate-600'}`}></span>
+                                {p.id} {p.name.split(' ')[0]}
+                              </span>
+                              <span className="text-yellow-500 font-mono text-sm font-bold">{p.tutorPoint}</span>
+                            </div>
+                        ))}
                       </div>
                     </div>
                   ))}
+                </div>
+
+                {/* Combined Prototype Conclusion */}
+                <div className="bg-[#130B2A] rounded-xl p-6 border border-white/10">
+                  <h4 className="text-white font-bold mb-4 flex items-center gap-2">
+                    <span className="material-symbols-outlined text-yellow-500 text-sm">psychology</span>
+                    主要 / 次要 / 辅助原型（工作结论）
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                    <div className="bg-white/5 rounded-lg p-3 border border-yellow-500/20">
+                      <div className="text-xs text-yellow-500 font-bold mb-1">双主原型</div>
+                      {selectedSubmission.report.primaryPrototypes.map(p => (
+                        <div key={p.id} className="text-white text-sm">{p.id}「{p.name.split(' ')[0]}」</div>
+                      ))}
+                      {selectedSubmission.report.primaryPrototypes.length === 0 && <div className="text-slate-500 text-sm">-</div>}
+                    </div>
+                    <div className="bg-white/5 rounded-lg p-3 border border-blue-400/20">
+                      <div className="text-xs text-blue-400 font-bold mb-1">重要辅轴原型</div>
+                      {selectedSubmission.report.secondaryPrototypes.map(p => (
+                        <div key={p.id} className="text-white text-sm">{p.id}「{p.name.split(' ')[0]}」</div>
+                      ))}
+                      {selectedSubmission.report.secondaryPrototypes.length === 0 && <div className="text-slate-500 text-sm">-</div>}
+                    </div>
+                    <div className="bg-white/5 rounded-lg p-3 border border-white/10">
+                      <div className="text-xs text-slate-400 font-bold mb-1">背景模式（轻度）</div>
+                      {selectedSubmission.report.prototypes.filter(p => !p.isPrimary && !p.isSecondary && p.tutorPoint > 0).slice(0, 3).map(p => (
+                        <div key={p.id} className="text-white text-sm">{p.id}「{p.name.split(' ')[0]}」</div>
+                      ))}
+                      {selectedSubmission.report.prototypes.filter(p => !p.isPrimary && !p.isSecondary && p.tutorPoint > 0).length === 0 && <div className="text-slate-500 text-sm">-</div>}
+                    </div>
+                  </div>
+                  <div className="bg-yellow-500/10 border-l-4 border-yellow-500 p-3 rounded-r-lg">
+                    <span className="text-xs text-yellow-500 font-bold block mb-1">一句话人物画像（导师内部用）：</span>
+                    <p className="text-slate-300 italic text-sm">{mentorAnalysis.oneLinePersona}</p>
+                  </div>
                 </div>
               </div>
 
@@ -212,23 +259,41 @@ const AdminDashboard: React.FC<Props> = ({ onBack }) => {
                 </div>
               </div>
 
-              {/* 3. Mentoring Scenarios */}
+              {/* 3. Growth Direction */}
+              <div>
+                <h3 className="text-xl font-bold text-emerald-400 mb-4 border-b border-emerald-400/20 pb-2 flex items-center gap-2">
+                  <span className="material-symbols-outlined">trending_up</span>
+                  三、与四大成长性原型的连接
+                </h3>
+                <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-xl p-6">
+                  <ul className="space-y-4">
+                    {mentorAnalysis.growthDirection.map((direction, idx) => (
+                      <li key={idx} className="flex gap-3 text-slate-300 leading-relaxed text-base">
+                        <span className="text-emerald-400 font-bold">{idx + 1}.</span>
+                        <span>{direction}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              {/* 4. Mentoring Scenarios */}
               <div>
                 <h3 className="text-xl font-bold text-amber-500 mb-6 border-b border-amber-500/20 pb-2 flex items-center gap-2">
                   <span className="material-symbols-outlined">forum</span>
-                  三、现场可直接使用的引导话术
+                  四、导师在不同场景中的引导词示例
                 </h3>
                 
                 <div className="space-y-6">
                   {mentorAnalysis.scenarios.map((scenario, idx) => (
                     <div key={idx} className="bg-gradient-to-r from-amber-500/10 to-transparent border-l-4 border-amber-500 p-6 rounded-r-xl">
-                      <div className="flex justify-between items-start mb-3">
+                      <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-3 gap-2">
                         <h5 className="font-bold text-white text-lg">{scenario.title}</h5>
-                        <span className="text-xs text-amber-500/70 border border-amber-500/20 px-2 py-1 rounded bg-amber-500/10">
-                          {scenario.goal}
+                        <span className="text-xs text-amber-500/80 border border-amber-500/30 px-2 py-1 rounded bg-amber-500/10 whitespace-nowrap self-start">
+                          目标: {scenario.goal}
                         </span>
                       </div>
-                      <div className="text-slate-300 leading-relaxed italic text-lg whitespace-pre-line">
+                      <div className="text-slate-300 leading-relaxed italic text-base whitespace-pre-line bg-[#130B2A]/50 p-4 rounded-lg border border-white/5">
                         {scenario.script}
                       </div>
                     </div>

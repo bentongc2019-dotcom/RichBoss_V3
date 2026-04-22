@@ -29,11 +29,11 @@ const QuizView: React.FC<Props> = ({ questions, onComplete }) => {
   };
 
   const options = [
-    { label: '极度不同意', value: 1 },
-    { label: '有点不同意', value: 2 },
+    { label: '非常不\n同意', value: 1 },
+    { label: '有点不\n同意', value: 2 },
     { label: '一般', value: 3 },
-    { label: '有点同意', value: 4 },
-    { label: '极度同意', value: 5 },
+    { label: '有点同\n意', value: 4 },
+    { label: '非常同\n意', value: 5 },
   ];
 
   return (
@@ -61,24 +61,19 @@ const QuizView: React.FC<Props> = ({ questions, onComplete }) => {
             "{currentQuestion.text}"
           </h3>
 
-          <div className="w-full space-y-6">
-            <div className="flex justify-between text-xs text-slate-500 font-medium px-2 uppercase tracking-wider">
-              <span>极度不同意</span>
-              <span>极度同意</span>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+          <div className="w-full">
+            <div className="grid grid-cols-5 gap-2 md:gap-4">
               {options.map((opt) => (
                 <button
                   key={opt.value}
                   onClick={() => handleSelect(opt.value)}
-                  className={`relative p-6 rounded-2xl border-2 transition-all flex flex-col items-center justify-center gap-3 font-bold text-xl md:text-2xl
+                  className={`relative aspect-square md:aspect-auto md:py-8 rounded-[16px] md:rounded-[24px] border-2 transition-all flex flex-col items-center justify-center font-bold text-xs md:text-base
                     ${answers[currentQuestion.id] === opt.value 
                       ? 'border-yellow-500 bg-yellow-500/20 text-yellow-500 scale-105 shadow-[0_0_20px_rgba(234,179,8,0.2)]' 
-                      : 'border-white/10 bg-white/5 hover:border-yellow-500/50 hover:bg-white/10 text-slate-400 hover:text-white'
+                      : 'border-white/10 bg-white/5 hover:border-yellow-500/50 hover:bg-white/10 text-slate-300 hover:text-white'
                     }`}
                 >
-                  <span>{opt.value}</span>
-                  <span className="text-[10px] uppercase tracking-wider opacity-60 font-normal">{opt.label}</span>
+                  <span className="whitespace-pre-line leading-snug">{opt.label}</span>
                 </button>
               ))}
             </div>

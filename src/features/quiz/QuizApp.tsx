@@ -8,6 +8,7 @@ import QuizView from './views/QuizView';
 import ProfileView from './views/ProfileView';
 import ResultsView from './views/ResultsView';
 import AdminDashboard from './views/AdminDashboard';
+import { saveSubmission, getSubmissions, clearSubmissions, QuizSubmission } from './utils/storage';
 
 type ViewState = 'INTRO' | 'QUIZ' | 'PROFILE' | 'RESULTS' | 'ADMIN';
 
@@ -15,18 +16,11 @@ const App: React.FC = () => {
   const [view, setView] = useState<ViewState>('INTRO');
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [profile, setProfile] = useState<Profile>({ name: '', contact: '' });
-  const [submissions, setSubmissions] = useState<FinalReport[]>([]);
+  const [submissions, setSubmissions] = useState<QuizSubmission[]>([]);
 
-  // Load submissions from localStorage on init
+  // Load submissions from storage on init
   useEffect(() => {
-    const saved = localStorage.getItem('by_submissions');
-    if (saved) {
-      try {
-        setSubmissions(JSON.parse(saved));
-      } catch (e) {
-        console.error("Failed to parse submissions", e);
-      }
-    }
+    setSubmissions(getSubmissions());
   }, []);
 
   const handleStart = () => setView('QUIZ');
@@ -40,10 +34,9 @@ const App: React.FC = () => {
     setProfile(data);
     const finalReport = calculateReport(data, answers);
     
-    // Save to local state and storage
-    const newSubmissions = [finalReport, ...submissions];
-    setSubmissions(newSubmissions);
-    localStorage.setItem('by_submissions', JSON.stringify(newSubmissions));
+    // Save to local storage
+    saveSubmission(finalReport);
+    setSubmissions(getSubmissions());
     
     setView('RESULTS');
   };
@@ -88,7 +81,6 @@ const App: React.FC = () => {
 
         {view === 'ADMIN' && (
           <AdminDashboard 
-            submissions={submissions} 
             onBack={() => setView('INTRO')} 
           />
         )}

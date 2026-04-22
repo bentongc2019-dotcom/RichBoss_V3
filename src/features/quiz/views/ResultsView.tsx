@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { FinalReport, PrototypeResult } from '../types';
 import { QUESTIONS, AXIS_MAP } from '../constants';
-import { Radar, RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer, PolarRadiusAxis, BarChart, Bar, XAxis, YAxis, Tooltip, Cell } from 'recharts';
 
 interface Props {
   report: FinalReport;
@@ -23,7 +22,7 @@ const ResultsView: React.FC<Props> = ({ report, onReset }) => {
 
   const radarData = report.axes.map(axis => ({
     subject: axis.name.split(' ')[0] + ' (' + axis.id + ')',
-    A: axis.rawScore,
+    score: axis.rawScore,
     fullMark: 45,
   }));
 
@@ -64,26 +63,27 @@ const ResultsView: React.FC<Props> = ({ report, onReset }) => {
 
         {/* Top Charts Section */}
         <div className="p-10 grid grid-cols-1 md:grid-cols-2 gap-10">
-          {/* Radar Column */}
-          <div className="bg-white/5 backdrop-blur border border-white/10 p-8 rounded-3xl shadow-sm">
+          {/* Radar Column - Replaced with Axis Bars */}
+          <div className="bg-white/5 backdrop-blur border border-white/10 p-8 rounded-3xl shadow-sm flex flex-col justify-center">
             <h3 className="text-center font-bold text-white text-xl mb-8 flex items-center justify-center gap-2">
               <span className="material-symbols-outlined text-yellow-500">radar</span>
               信念模式总览
             </h3>
-            <div className="h-[320px] w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <RadarChart cx="50%" cy="50%" outerRadius="80%" data={radarData}>
-                  <PolarGrid stroke="rgba(255,255,255,0.1)" />
-                  <PolarAngleAxis dataKey="subject" tick={{ fill: '#94a3b8', fontSize: 11, fontWeight: 600 }} />
-                  <PolarRadiusAxis angle={30} domain={[0, 45]} tick={false} axisLine={false} />
-                  <Radar
-                    dataKey="A"
-                    stroke={BRAND_YELLOW}
-                    fill={BRAND_YELLOW}
-                    fillOpacity={0.3}
-                  />
-                </RadarChart>
-              </ResponsiveContainer>
+            <div className="space-y-6">
+              {radarData.map((data, index) => (
+                <div key={index} className="relative">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-slate-300 font-bold text-sm">{data.subject}</span>
+                    <span className="text-yellow-500 font-mono font-bold text-sm">{data.score} / {data.fullMark}</span>
+                  </div>
+                  <div className="w-full bg-white/5 rounded-full h-3 border border-white/10 overflow-hidden">
+                    <div 
+                      className="bg-yellow-500 h-full rounded-full shadow-[0_0_10px_rgba(234,179,8,0.5)] transition-all duration-1000"
+                      style={{ width: `${(data.score / data.fullMark) * 100}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
@@ -119,34 +119,40 @@ const ResultsView: React.FC<Props> = ({ report, onReset }) => {
           </div>
         </div>
 
-        {/* Full Bar Chart */}
+        {/* Full Bar Chart - Replaced with custom HTML bars */}
         <div className="px-10 pb-10">
           <div className="bg-white/5 backdrop-blur border border-white/10 p-8 rounded-3xl shadow-sm">
             <h3 className="font-bold text-white text-xl mb-8 flex items-center gap-2">
               <span className="material-symbols-outlined text-yellow-500">bar_chart</span>
               细分维度透视
             </h3>
-            <div className="h-[350px] w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={barData} margin={{ top: 20, right: 30, left: 0, bottom: 20 }}>
-                  <XAxis 
-                    dataKey="id" 
-                    axisLine={false} 
-                    tickLine={false} 
-                    tick={{ fontSize: 11, fill: '#cbd5e1', fontWeight: 600 }} 
-                  />
-                  <YAxis hide domain={[0, 15]} />
-                  <Tooltip 
-                    cursor={{ fill: 'rgba(255,255,255,0.05)' }} 
-                    contentStyle={{ backgroundColor: '#1A103C', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }} 
-                  />
-                  <Bar dataKey="score" radius={[6, 6, 0, 0]} barSize={24}>
-                    {barData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={PROTO_COLORS[entry.id]} />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
+            <div className="flex items-end justify-between h-48 w-full gap-2 relative">
+              {/* Grid lines */}
+              <div className="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-10">
+                {[0, 1, 2, 3].map(line => (
+                  <div key={line} className="w-full border-b border-white" style={{ height: '25%' }}></div>
+                ))}
+              </div>
+              
+              {barData.map((entry, index) => (
+                <div key={index} className="flex flex-col items-center flex-1 h-full justify-end group">
+                  <div className="relative w-full max-w-[40px] flex flex-col justify-end h-full">
+                    <div 
+                      className="w-full rounded-t-md transition-all duration-700 opacity-80 group-hover:opacity-100"
+                      style={{ 
+                        height: `${(entry.score / 15) * 100}%`, 
+                        backgroundColor: PROTO_COLORS[entry.id] || BRAND_YELLOW 
+                      }}
+                    >
+                      {/* Tooltip on hover */}
+                      <div className="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 bg-[#130B2A] text-white text-xs font-bold py-1 px-2 rounded border border-white/20 whitespace-nowrap z-20 pointer-events-none transition-opacity">
+                        {entry.score} 分
+                      </div>
+                    </div>
+                  </div>
+                  <span className="text-[10px] md:text-xs font-bold text-slate-400 mt-3">{entry.id}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
