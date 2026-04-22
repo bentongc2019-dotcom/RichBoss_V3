@@ -2,9 +2,14 @@ import React from 'react';
 
 interface Props {
   onStart: () => void;
+  onAdmin: () => void;
+  onViewHistory?: () => void;
+  isLoggedIn?: boolean;
+  hasHistory?: boolean;
+  userName?: string;
 }
 
-const IntroView: React.FC<Props> = ({ onStart }) => {
+const IntroView: React.FC<Props> = ({ onStart, onAdmin, onViewHistory, isLoggedIn, hasHistory, userName }) => {
   return (
     <div className="bg-[#1A103C]/80 backdrop-blur-md rounded-[32px] shadow-2xl border border-white/10 overflow-hidden animate-fadeIn max-w-4xl mx-auto relative">
       {/* Background Glow */}
@@ -28,7 +33,7 @@ const IntroView: React.FC<Props> = ({ onStart }) => {
           <div className="absolute top-0 left-8 w-1 h-full bg-yellow-500/50"></div>
           <div className="pl-6 space-y-6">
             <p className="text-slate-300 leading-relaxed text-lg">
-              这份测试旨在帮你看见压力下真实的<strong className="text-yellow-500">“信念+应对模式”</strong>。了解底层逻辑，是进化的第一步。
+              这份测试旨在帮你看见压力下真实的<strong className="text-yellow-500">"信念+应对模式"</strong>。了解底层逻辑，是进化的第一步。
             </p>
             <div className="space-y-4">
               <p className="flex items-center gap-3 text-slate-400 font-medium">
@@ -43,12 +48,37 @@ const IntroView: React.FC<Props> = ({ onStart }) => {
           </div>
         </div>
 
-        <button 
-          onClick={onStart}
-          className="px-16 py-5 bg-gradient-to-r from-yellow-500 to-amber-400 hover:to-yellow-400 text-[#130B2A] text-xl font-bold rounded-full shadow-[0_0_20px_rgba(234,179,8,0.3)] hover:shadow-[0_0_30px_rgba(234,179,8,0.5)] transform hover:scale-105 transition-all flex items-center justify-center gap-2 mx-auto"
-        >
-          开始探索 <span className="material-symbols-outlined font-bold">arrow_forward</span>
-        </button>
+        {/* 主按钮区域 */}
+        <div className="flex flex-col items-center gap-4">
+          <button 
+            onClick={onStart}
+            className="px-16 py-5 bg-gradient-to-r from-yellow-500 to-amber-400 hover:to-yellow-400 text-[#130B2A] text-xl font-bold rounded-full shadow-[0_0_20px_rgba(234,179,8,0.3)] hover:shadow-[0_0_30px_rgba(234,179,8,0.5)] transform hover:scale-105 transition-all flex items-center justify-center gap-2 mx-auto"
+          >
+            开始探索 <span className="material-symbols-outlined font-bold">arrow_forward</span>
+          </button>
+
+          {/* 已登录用户且有历史报表 → 查看我的报告 */}
+          {isLoggedIn && hasHistory && (
+            <button
+              onClick={onViewHistory}
+              className="mt-2 px-10 py-3 bg-white/5 border border-white/10 text-white font-bold rounded-full hover:bg-white/10 hover:border-yellow-500/30 transition-all flex items-center justify-center gap-2 mx-auto text-sm"
+            >
+              <span className="material-symbols-outlined text-yellow-500 text-lg">description</span>
+              {userName ? `${userName}，查看我的报告` : '查看我的历史报告'}
+            </button>
+          )}
+        </div>
+
+        {/* 底部导师入口 */}
+        <div className="mt-12 pt-8 border-t border-white/5">
+          <button
+            onClick={onAdmin}
+            className="text-slate-500 hover:text-slate-300 transition-colors text-xs flex items-center gap-1.5 mx-auto opacity-60 hover:opacity-100"
+          >
+            <span className="material-symbols-outlined text-sm">admin_panel_settings</span>
+            导师入口
+          </button>
+        </div>
       </div>
     </div>
   );
