@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FinalReport, PrototypeResult } from '../types';
-import { QUESTIONS, AXIS_MAP } from '../constants';
+import { FinalReport } from '../types';
+import { QUESTIONS } from '../constants';
 
 interface Props {
   report: FinalReport;
@@ -9,7 +9,7 @@ interface Props {
 }
 
 const BRAND_YELLOW = '#EAB308'; // Tailwind yellow-500
-const BRAND_PURPLE = '#1A103C';
+
 
 const PROTO_COLORS: Record<string, string> = {
   V1: '#EAB308', V2: '#EAB308', V3: '#EAB308', // Gold

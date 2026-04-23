@@ -18,7 +18,7 @@ const App: React.FC = () => {
   const [view, setView] = useState<ViewState>('INTRO');
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [profile, setProfile] = useState<Profile>({ name: '', contact: '' });
-  const [submissions, setSubmissions] = useState<QuizSubmission[]>([]);
+
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [myLatestReport, setMyLatestReport] = useState<FinalReport | null>(null);
   const [hasHistory, setHasHistory] = useState(false);
@@ -59,7 +59,7 @@ const App: React.FC = () => {
 
   // Load submissions and check auth on init
   useEffect(() => {
-    setSubmissions(getSubmissions());
+    getSubmissions();
     
     // Check if user is logged in
     getCurrentUser().then(user => {
@@ -102,7 +102,7 @@ const App: React.FC = () => {
     
     // Save to local storage and Supabase
     await saveSubmission(finalReport, currentUser?.id);
-    setSubmissions(getSubmissions());
+
     
     // 同时更新历史报告状态
     setMyLatestReport(finalReport);

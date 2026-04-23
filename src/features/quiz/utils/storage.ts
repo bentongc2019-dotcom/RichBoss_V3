@@ -9,6 +9,36 @@ export interface QuizSubmission {
   user_id?: string;
 }
 
+/**
+ * 规范化 report 对象，确保所有数组字段都存在
+ * 防止 JSONB 反序列化后缺少字段导致 .map() 崩溃
+ */
+function normalizeReport(report: any): FinalReport {
+  if (!report) {
+    return {
+      profile: { name: '未知', contact: '' },
+      answers: {},
+      prototypes: [],
+      axes: [],
+      primaryPrototypes: [],
+      secondaryPrototypes: [],
+      potentialPrototypes: [],
+      primaryAxes: [],
+    };
+  }
+  return {
+    ...report,
+    profile: report.profile || { name: '未知', contact: '' },
+    answers: report.answers || {},
+    prototypes: Array.isArray(report.prototypes) ? report.prototypes : [],
+    axes: Array.isArray(report.axes) ? report.axes : [],
+    primaryPrototypes: Array.isArray(report.primaryPrototypes) ? report.primaryPrototypes : [],
+    secondaryPrototypes: Array.isArray(report.secondaryPrototypes) ? report.secondaryPrototypes : [],
+    potentialPrototypes: Array.isArray(report.potentialPrototypes) ? report.potentialPrototypes : [],
+    primaryAxes: Array.isArray(report.primaryAxes) ? report.primaryAxes : [],
+  };
+}
+
 export async function saveSubmission(report: FinalReport, userId?: string): Promise<void> {
   try {
     const newSubmission: QuizSubmission = {
@@ -47,7 +77,13 @@ export async function saveSubmission(report: FinalReport, userId?: string): Prom
 export function getSubmissions(): QuizSubmission[] {
   try {
     const data = localStorage.getItem('quiz_submissions');
-    return data ? JSON.parse(data) : [];
+    const parsed: QuizSubmission[] = data ? JSON.parse(data) : [];
+    // 规范化每条记录的 report
+    return parsed.map(sub => ({
+      ...sub,
+      profile: sub.profile || sub.report?.profile || { name: '未知', contact: '' },
+      report: normalizeReport(sub.report),
+    }));
   } catch (error) {
     console.error('Failed to get submissions', error);
     return [];
@@ -82,8 +118,8 @@ export async function getCloudSubmissions(): Promise<QuizSubmission[]> {
     return (data || []).map((row: any) => ({
       id: row.id,
       timestamp: new Date(row.created_at).getTime(),
-      profile: row.profile,
-      report: row.report,
+      profile: row.profile || row.report?.profile || { name: '未知', contact: '' },
+      report: normalizeReport(row.report),
       user_id: row.user_id,
     }));
   } catch (error) {

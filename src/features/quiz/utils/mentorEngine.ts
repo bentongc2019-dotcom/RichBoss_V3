@@ -1,4 +1,4 @@
-import { FinalReport, PrototypeResult } from '../types';
+import { FinalReport } from '../types';
 
 export interface MentorAnalysis {
   oneLinePersona: string;
@@ -12,20 +12,24 @@ export interface MentorAnalysis {
 }
 
 export function generateMentorAnalysis(report: FinalReport): MentorAnalysis {
-  const name = report.profile.name || '学员';
+  const name = report?.profile?.name || '学员';
+  
+  // 防御性：确保数组存在
+  const primaryPrototypes = report?.primaryPrototypes || [];
+  const secondaryPrototypes = report?.secondaryPrototypes || [];
   
   // Find top prototypes
-  const primary = report.primaryPrototypes.length > 0 ? report.primaryPrototypes[0] : null;
-  const secondary = report.primaryPrototypes.length > 1 ? report.primaryPrototypes[1] : (report.secondaryPrototypes[0] || null);
+  const primary = primaryPrototypes.length > 0 ? primaryPrototypes[0] : null;
+  const secondary = primaryPrototypes.length > 1 ? primaryPrototypes[1] : (secondaryPrototypes[0] || null);
   
   const primaryName = primary ? primary.name.split(' ')[0] : '核心';
   const primaryId = primary ? primary.id : '未知';
   
-  const secondaryName = secondary ? secondary.name.split(' ')[0] : '';
+  const _secondaryName = secondary ? secondary.name.split(' ')[0] : '';
   const secondaryId = secondary ? secondary.id : '';
 
   // Get background patterns (tutorPoint > 0 but not primary/secondary)
-  const bgPatterns = report.prototypes.filter(p => !p.isPrimary && !p.isSecondary && p.tutorPoint > 0);
+  const _bgPatterns = report.prototypes.filter(p => !p.isPrimary && !p.isSecondary && p.tutorPoint > 0);
 
   // Default values
   let oneLinePersona = `「这是一个以 ${primaryName} 模式为核心驱动的行动者。」`;
@@ -63,7 +67,7 @@ export function generateMentorAnalysis(report: FinalReport): MentorAnalysis {
   // Specific logic for Katherine's Archetype (V2 + A3 + S3)
   const isKatherineType = 
     (primaryId === 'V2' || secondaryId === 'V2') && 
-    (primaryId === 'A3' || secondaryId === 'A3' || report.secondaryPrototypes.some(p => p.id === 'A3'));
+    (primaryId === 'A3' || secondaryId === 'A3' || secondaryPrototypes.some(p => p.id === 'A3'));
 
   if (isKatherineType || primaryId === 'V2') {
     oneLinePersona = `「思考很多、标准不低，对自己略严苛，行动阈值偏高的稳定思考者。」`;

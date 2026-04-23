@@ -206,11 +206,11 @@ const AdminDashboard: React.FC<Props> = ({ onBack }) => {
               {submissions.map((sub) => (
                 <tr key={sub.id} className="hover:bg-white/5 transition-colors group cursor-pointer" onClick={() => setSelectedSubmission(sub)}>
                   <td className="p-5 text-sm text-slate-400 font-mono">{new Date(sub.timestamp).toLocaleString()}</td>
-                  <td className="p-5 font-bold text-white">{sub.profile.name}</td>
-                  <td className="p-5 text-sm text-slate-300">{sub.profile.contact || '-'}</td>
+                  <td className="p-5 font-bold text-white">{sub.profile?.name || sub.report?.profile?.name || '未知'}</td>
+                  <td className="p-5 text-sm text-slate-300">{sub.profile?.contact || sub.report?.profile?.contact || '-'}</td>
                   <td className="p-5">
                     <span className="inline-flex items-center px-3 py-1 rounded bg-yellow-500/10 border border-yellow-500/20 text-xs font-bold text-yellow-500">
-                      {sub.report.primaryAxes[0]?.name || '未知'}
+                      {sub.report?.primaryAxes?.[0]?.name || '未知'}
                     </span>
                   </td>
                   <td className="p-5 text-right">
@@ -246,7 +246,7 @@ const AdminDashboard: React.FC<Props> = ({ onBack }) => {
                   导师专属动态解读
                 </h2>
                 <p className="text-slate-400 text-sm mt-1">
-                  对象：<span className="text-yellow-500 font-bold">{selectedSubmission.profile.name}</span> | 联系：{selectedSubmission.profile.contact || '-'} | {mentorAnalysis.oneLinePersona}
+                  对象：<span className="text-yellow-500 font-bold">{selectedSubmission.profile?.name || '未知'}</span> | 联系：{selectedSubmission.profile?.contact || '-'} | {mentorAnalysis.oneLinePersona}
                 </p>
               </div>
               <button 
@@ -261,9 +261,9 @@ const AdminDashboard: React.FC<Props> = ({ onBack }) => {
               
               {/* 1. Prototype Structure */}
               <div>
-                <h3 className="text-xl font-bold text-yellow-500 mb-6 border-b border-yellow-500/20 pb-2">一、{selectedSubmission.profile.name} 的信念原型结构概览</h3>
+                <h3 className="text-xl font-bold text-yellow-500 mb-6 border-b border-yellow-500/20 pb-2">一、{selectedSubmission.profile?.name || '未知'} 的信念原型结构概览</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                  {selectedSubmission.report.axes.map(axis => (
+                  {(selectedSubmission.report?.axes || []).map(axis => (
                     <div key={axis.id} className="bg-white/5 border border-white/10 rounded-xl p-5 relative overflow-hidden">
                       {axis.isPrimary && <div className="absolute top-0 right-0 w-16 h-16 bg-yellow-500/20 blur-2xl rounded-full"></div>}
                       <h4 className="font-bold text-white mb-3 text-lg flex items-center justify-between">
@@ -278,7 +278,7 @@ const AdminDashboard: React.FC<Props> = ({ onBack }) => {
                         </span>
                       </h4>
                       <div className="space-y-3 mt-4">
-                        {selectedSubmission.report.prototypes
+                        {(selectedSubmission.report?.prototypes || [])
                           .filter(p => p.axis === axis.id)
                           .map(p => (
                             <div key={p.id} className="flex justify-between items-center bg-[#130B2A]/50 p-2 rounded-lg border border-white/5">
@@ -303,24 +303,24 @@ const AdminDashboard: React.FC<Props> = ({ onBack }) => {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                     <div className="bg-white/5 rounded-lg p-3 border border-yellow-500/20">
                       <div className="text-xs text-yellow-500 font-bold mb-1">双主原型</div>
-                      {selectedSubmission.report.primaryPrototypes.map(p => (
-                        <div key={p.id} className="text-white text-sm">{p.id}「{p.name.split(' ')[0]}」</div>
+                      {(selectedSubmission.report?.primaryPrototypes || []).map(p => (
+                        <div key={p.id} className="text-white text-sm">{p.id}「{p.name?.split(' ')[0] || '未知'}」</div>
                       ))}
-                      {selectedSubmission.report.primaryPrototypes.length === 0 && <div className="text-slate-500 text-sm">-</div>}
+                      {(selectedSubmission.report?.primaryPrototypes || []).length === 0 && <div className="text-slate-500 text-sm">-</div>}
                     </div>
                     <div className="bg-white/5 rounded-lg p-3 border border-blue-400/20">
                       <div className="text-xs text-blue-400 font-bold mb-1">重要辅轴原型</div>
-                      {selectedSubmission.report.secondaryPrototypes.map(p => (
-                        <div key={p.id} className="text-white text-sm">{p.id}「{p.name.split(' ')[0]}」</div>
+                      {(selectedSubmission.report?.secondaryPrototypes || []).map(p => (
+                        <div key={p.id} className="text-white text-sm">{p.id}「{p.name?.split(' ')[0] || '未知'}」</div>
                       ))}
-                      {selectedSubmission.report.secondaryPrototypes.length === 0 && <div className="text-slate-500 text-sm">-</div>}
+                      {(selectedSubmission.report?.secondaryPrototypes || []).length === 0 && <div className="text-slate-500 text-sm">-</div>}
                     </div>
                     <div className="bg-white/5 rounded-lg p-3 border border-white/10">
                       <div className="text-xs text-slate-400 font-bold mb-1">背景模式（轻度）</div>
-                      {selectedSubmission.report.prototypes.filter(p => !p.isPrimary && !p.isSecondary && p.tutorPoint > 0).slice(0, 3).map(p => (
-                        <div key={p.id} className="text-white text-sm">{p.id}「{p.name.split(' ')[0]}」</div>
+                      {(selectedSubmission.report?.prototypes || []).filter(p => !p.isPrimary && !p.isSecondary && p.tutorPoint > 0).slice(0, 3).map(p => (
+                        <div key={p.id} className="text-white text-sm">{p.id}「{p.name?.split(' ')[0] || '未知'}」</div>
                       ))}
-                      {selectedSubmission.report.prototypes.filter(p => !p.isPrimary && !p.isSecondary && p.tutorPoint > 0).length === 0 && <div className="text-slate-500 text-sm">-</div>}
+                      {(selectedSubmission.report?.prototypes || []).filter(p => !p.isPrimary && !p.isSecondary && p.tutorPoint > 0).length === 0 && <div className="text-slate-500 text-sm">-</div>}
                     </div>
                   </div>
                   <div className="bg-yellow-500/10 border-l-4 border-yellow-500 p-3 rounded-r-lg">
