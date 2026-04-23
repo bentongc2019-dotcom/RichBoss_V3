@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   onStart: () => void;
@@ -10,10 +11,23 @@ interface Props {
 }
 
 const IntroView: React.FC<Props> = ({ onStart, onAdmin, onViewHistory, isLoggedIn, hasHistory, userName }) => {
+  const navigate = useNavigate();
+
   return (
-    <div className="bg-[#1A103C]/80 backdrop-blur-md rounded-[32px] shadow-2xl border border-white/10 overflow-hidden animate-fadeIn max-w-4xl mx-auto relative">
-      {/* 登录状态指示 */}
-      {isLoggedIn && (
+    <div className="w-full max-w-4xl mx-auto">
+      {/* 顶部回到首页按钮 */}
+      <div className="mb-6 flex justify-start relative z-20">
+        <button 
+          onClick={() => navigate('/')}
+          className="text-slate-400 hover:text-white transition-colors text-sm flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/10 hover:bg-white/10"
+        >
+          <span className="material-symbols-outlined text-sm">home</span> 回到网站首页
+        </button>
+      </div>
+
+      <div className="bg-[#1A103C]/80 backdrop-blur-md rounded-[32px] shadow-2xl border border-white/10 overflow-hidden animate-fadeIn relative">
+        {/* 登录状态指示 */}
+        {isLoggedIn && (
         <div className="absolute top-4 right-6 z-20 flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs px-3 py-1.5 rounded-full">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
           已登录
@@ -87,6 +101,7 @@ const IntroView: React.FC<Props> = ({ onStart, onAdmin, onViewHistory, isLoggedI
           </button>
         </div>
       </div>
+    </div>
     </div>
   );
 };
