@@ -29,11 +29,11 @@ const QuizView: React.FC<Props> = ({ questions, onComplete }) => {
   };
 
   const options = [
-    { label: '非常不\n同意', value: 1 },
-    { label: '有点不\n同意', value: 2 },
+    { label: '非常不同意', value: 1 },
+    { label: '有点不同意', value: 2 },
     { label: '一般', value: 3 },
-    { label: '有点同\n意', value: 4 },
-    { label: '非常同\n意', value: 5 },
+    { label: '有点同意', value: 4 },
+    { label: '非常同意', value: 5 },
   ];
 
   return (
@@ -57,23 +57,26 @@ const QuizView: React.FC<Props> = ({ questions, onComplete }) => {
       {/* Question Card */}
       <div className="bg-[#1A103C]/80 backdrop-blur-md rounded-[32px] shadow-2xl border border-white/10 overflow-hidden relative z-10">
         <div className="p-10 md:p-20 text-center min-h-[450px] flex flex-col justify-center">
-          <h3 className="text-2xl md:text-3xl font-bold text-white leading-relaxed mb-20 px-4 md:px-12">
-            "{currentQuestion.text}"
+          <h3
+            className="text-xl md:text-3xl font-bold text-white mb-16 px-2 md:px-12"
+            style={{ lineHeight: '1.9', wordBreak: 'keep-all', overflowWrap: 'break-word' }}
+          >
+            &ldquo;{currentQuestion.text}&rdquo;
           </h3>
 
           <div className="w-full">
-            <div className="grid grid-cols-5 gap-2 md:gap-4">
+            <div className="flex flex-wrap justify-center gap-3 md:gap-4">
               {options.map((opt) => (
                 <button
                   key={opt.value}
                   onClick={() => handleSelect(opt.value)}
-                  className={`relative aspect-square md:aspect-auto md:py-8 rounded-[16px] md:rounded-[24px] border-2 transition-all flex flex-col items-center justify-center font-bold text-xs md:text-base
-                    ${answers[currentQuestion.id] === opt.value 
-                      ? 'border-yellow-500 bg-yellow-500/20 text-yellow-500 scale-105 shadow-[0_0_20px_rgba(234,179,8,0.2)]' 
+                  className={`py-3 px-4 md:py-5 md:px-8 rounded-2xl border-2 transition-all font-bold text-sm md:text-base whitespace-nowrap
+                    ${answers[currentQuestion.id] === opt.value
+                      ? 'border-yellow-500 bg-yellow-500/20 text-yellow-500 scale-105 shadow-[0_0_20px_rgba(234,179,8,0.2)]'
                       : 'border-white/10 bg-white/5 hover:border-yellow-500/50 hover:bg-white/10 text-slate-300 hover:text-white'
                     }`}
                 >
-                  <span className="whitespace-pre-line leading-snug">{opt.label}</span>
+                  {opt.label}
                 </button>
               ))}
             </div>

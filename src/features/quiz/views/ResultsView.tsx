@@ -114,17 +114,24 @@ const ResultsView: React.FC<Props> = ({ report, onReset }) => {
                       主要模式：<span className="text-yellow-500">{report.primaryAxes[0].name.split(' ')[0]}</span> <span className="text-slate-400 text-lg">({report.primaryAxes[0].id})</span>
                     </span>
                   </div>
-                  <p className="text-slate-300 text-base leading-relaxed mb-8">
+                  <p
+                    className="text-slate-300 text-base leading-relaxed mb-8"
+                    style={{ lineHeight: '2', wordBreak: 'keep-all', overflowWrap: 'break-word' }}
+                  >
                     核心恐惧：失控。倾向微观管理，担忧资源匮乏，过度承担责任。
                   </p>
                 </div>
                 
                 {/* Advice Box */}
-                <div className="bg-gradient-to-br from-yellow-500/20 to-amber-600/10 border border-yellow-500/20 p-8 rounded-[32px] shadow-lg relative mt-auto">
-                  <div className="absolute top-6 left-6 opacity-20 material-symbols-outlined text-6xl text-yellow-500">format_quote</div>
-                  <p className="text-white font-bold text-base md:text-lg leading-loose relative z-10 pl-4">
-                    当您觉察到自己处于{report.primaryAxes[0].id}模式时，试着停下来问问自己：我是不是正在被过去的恐惧所驱动？这个当下，最真实、最有利于长远发展的选择是什么？
-                  </p>
+                <div className="bg-[#0a0a0a]/40 border border-white/5 p-6 md:p-8 rounded-3xl shadow-inner relative mt-auto">
+                  <div className="relative z-10">
+                    <p
+                      className="text-slate-300 text-base md:text-lg"
+                      style={{ lineHeight: '2', wordBreak: 'keep-all', overflowWrap: 'break-word' }}
+                    >
+                      当您觉察到自己处于 <strong className="text-yellow-500 font-bold">{report.primaryAxes[0].id}模式</strong> 时，试着停下来问问自己：我是不是正在被过去的恐惧所驱动？这个当下，最真实、最有利于长远发展的选择是什么？
+                    </p>
+                  </div>
                 </div>
               </div>
             )}
@@ -177,21 +184,24 @@ const ResultsView: React.FC<Props> = ({ report, onReset }) => {
           </h3>
           <div className="space-y-4">
             {highTriggers.slice(0, 12).map((q, idx) => (
-              <div key={idx} className="bg-white/5 backdrop-blur p-5 rounded-xl border border-white/10 flex items-center justify-between group hover:bg-white/10 hover:border-white/20 transition-all">
-                <div className="flex items-start gap-4 flex-1">
-                  <span className={`text-[11px] font-bold px-3 py-1.5 rounded bg-opacity-20 min-w-[55px] text-center mt-1 border border-opacity-30
-                    ${q.axis === 'V' ? 'bg-yellow-500 text-yellow-500 border-yellow-500' : 
-                      q.axis === 'R' ? 'bg-pink-500 text-pink-400 border-pink-500' : 
+              <div key={idx} className="bg-white/5 backdrop-blur p-5 rounded-xl border border-white/10 group hover:bg-white/10 hover:border-white/20 transition-all">
+                <div className="flex items-start gap-4 mb-3">
+                  <span className={`text-[11px] font-bold px-3 py-1.5 rounded bg-opacity-20 min-w-[55px] text-center shrink-0 border border-opacity-30
+                    ${q.axis === 'V' ? 'bg-yellow-500 text-yellow-500 border-yellow-500' :
+                      q.axis === 'R' ? 'bg-pink-500 text-pink-400 border-pink-500' :
                       q.axis === 'S' ? 'bg-blue-500 text-blue-400 border-blue-500' : 'bg-purple-500 text-purple-400 border-purple-500'}`}
                   >
                     {q.code}
                   </span>
-                  <p className="text-slate-300 font-medium text-sm md:text-base leading-relaxed group-hover:text-white transition-colors">{q.text}</p>
+                  <div className="flex items-center gap-2 ml-auto shrink-0">
+                    <span className="text-xl font-bold text-yellow-500">{report.answers[q.id]}</span>
+                    <span className="text-[11px] text-slate-500 font-bold uppercase tracking-widest">分</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-3 ml-6 shrink-0">
-                  <span className="text-xl font-bold text-yellow-500">{report.answers[q.id]}</span>
-                  <span className="text-[11px] text-slate-500 font-bold uppercase tracking-widest">分</span>
-                </div>
+                <p
+                  className="text-slate-300 font-medium text-sm md:text-base group-hover:text-white transition-colors"
+                  style={{ lineHeight: '1.9', wordBreak: 'keep-all', overflowWrap: 'break-word' }}
+                >{q.text}</p>
               </div>
             ))}
           </div>

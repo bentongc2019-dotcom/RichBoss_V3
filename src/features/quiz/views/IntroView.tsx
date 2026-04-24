@@ -51,18 +51,25 @@ const IntroView: React.FC<Props> = ({ onStart, onAdmin, onViewHistory, isLoggedI
         <p className="text-slate-400 text-lg md:text-xl mb-12">（心智模式的底层逻辑）</p>
 
         <div className="max-w-3xl mx-auto bg-[#0a0a0a]/40 p-8 md:p-12 rounded-3xl text-left border border-white/5 shadow-inner mb-12 relative">
-          <div className="space-y-8 font-serif">
-            <p className="text-slate-300 leading-[2.2] text-lg md:text-xl tracking-[0.08em] indent-8">
-              这份测试旨在帮你看见压力下真实的<strong className="text-yellow-500 font-bold mx-1">"信念+应对模式"</strong>。了解底层逻辑，是进化的第一步。
+          <div className="space-y-6">
+            <p
+              className="text-slate-300 text-base md:text-lg"
+              style={{ lineHeight: '2', wordBreak: 'keep-all', overflowWrap: 'break-word' }}
+            >
+              这份测试旨在帮你看见压力下真实的《<strong className="text-yellow-500 font-bold">信念+应对模式</strong>》。了解底层逻辑，是进化的第一步。
             </p>
-            <div className="space-y-6 pl-2 md:pl-8 text-slate-400 text-base md:text-lg tracking-[0.08em]">
-              <p className="flex items-start gap-4">
-                <span className="text-yellow-500/80 mt-2 text-sm">◆</span>
-                <span className="flex-1 leading-[2.2]">请凭<strong className="text-white font-bold mx-1">第一直觉</strong>选择</span>
+            <div className="space-y-4">
+              <p
+                className="text-slate-400 text-base md:text-lg"
+                style={{ lineHeight: '2', wordBreak: 'keep-all', overflowWrap: 'break-word' }}
+              >
+                <span className="text-yellow-500 mr-2">◆</span>请凭<strong className="text-white">第一直觉</strong>选择
               </p>
-              <p className="flex items-start gap-4">
-                <span className="text-yellow-500/80 mt-2 text-sm">◆</span>
-                <span className="flex-1 leading-[2.2]">回答<strong className="text-white font-bold mx-1">真实的自己</strong>，而非理想中的自己</span>
+              <p
+                className="text-slate-400 text-base md:text-lg"
+                style={{ lineHeight: '2', wordBreak: 'keep-all', overflowWrap: 'break-word' }}
+              >
+                <span className="text-yellow-500 mr-2">◆</span>回答<strong className="text-white">真实的自己</strong>，而非理想中的自己
               </p>
             </div>
           </div>

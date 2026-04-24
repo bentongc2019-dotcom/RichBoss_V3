@@ -209,7 +209,7 @@ export default function EBookNarrator({ theme, currentTheme }: EBookNarratorProp
   };
 
   return (
-    <div className="fixed top-[55%] -translate-y-1/2 right-2 sm:right-6 z-[60] flex flex-col items-end gap-3">
+    <div className="fixed bottom-6 right-4 sm:bottom-10 sm:right-8 z-[60] flex flex-col items-end gap-3">
       {/* Expanded Controls Overlay */}
       <div 
         className={`transition-all duration-300 transform origin-bottom-right flex flex-col items-end gap-2 ${
