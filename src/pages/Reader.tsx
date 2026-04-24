@@ -487,6 +487,19 @@ function Reader() {
     ), [displayContent, markdownComponents])
 
     // 目錄內容組件
+    // 根据主题动态生成目录文字颜色，避免浅色主题下文字看不清
+    const tocItemColor = theme === 'dark'
+        ? 'text-gray-400 hover:text-yellow-400'
+        : theme === 'light'
+        ? 'text-gray-700 hover:text-royal-purple-700'
+        : 'text-[#1B5E20] hover:text-[#2E7D32]'
+
+    const tocActiveColor = theme === 'dark'
+        ? ''
+        : theme === 'light'
+        ? '!text-royal-purple-700 !border-l-royal-purple-600 !bg-royal-purple-100/50'
+        : '!text-[#1B5E20] !border-l-[#2E7D32] !bg-[#C8E6C9]/50'
+
     const TocContent = ({ containerRef }: { containerRef?: React.Ref<HTMLElement> }) => (
         <nav ref={containerRef} className="flex-1 overflow-y-auto toc-sidebar p-4 space-y-1">
             {tocItems.map((item, index) => (
@@ -494,8 +507,9 @@ function Reader() {
                     key={`${item.id}-${index}`}
                     data-toc-id={item.id}
                     onClick={() => scrollToHeading(item.id)}
-                    className={`toc-item ${item.level === 1 ? 'toc-item-h1' : item.level === 2 ? 'toc-item-h2' : 'toc-item-h3'} ${activeTocId === item.id ? 'active' : ''
-                        } w-full text-left`}
+                    className={`toc-item ${item.level === 1 ? 'toc-item-h1' : item.level === 2 ? 'toc-item-h2' : 'toc-item-h3'} ${
+                        activeTocId === item.id ? `active ${tocActiveColor}` : tocItemColor
+                    } w-full text-left`}
                 >
                     {item.text}
                 </button>
@@ -537,7 +551,9 @@ function Reader() {
                 {/* 桌面端固定目錄側邊欄 */}
                 <aside className={`hidden md:flex md:flex-col md:w-72 lg:w-80 fixed left-0 top-[57px] bottom-0 ${currentTheme.sidebarBg} border-r ${currentTheme.border} z-30 transition-opacity duration-500 ${isUiVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
                     <div className={`p-4 border-b ${currentTheme.border}`}>
-                        <h2 className={`text-lg font-semibold ${currentTheme.heading}`}>📚 目錄</h2>
+                        <h2 className={`text-lg font-semibold ${currentTheme.heading} ${
+                            theme !== 'dark' ? 'text-gray-800' : ''
+                        }`}>📚 目錄</h2>
                     </div>
                     <TocContent containerRef={tocDesktopRef} />
                 </aside>
