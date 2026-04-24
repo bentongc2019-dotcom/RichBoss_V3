@@ -524,7 +524,7 @@ function Reader() {
                 <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
                     <Link
                         to="/"
-                        className={`flex items-center gap-2 ${currentTheme.textMuted} hover:text-gold-400 transition-colors`}
+                        className="flex items-center gap-2 text-white/80 hover:text-white transition-colors"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -532,12 +532,12 @@ function Reader() {
                         <span className="hidden sm:inline">返回</span>
                     </Link>
 
-                    <h1 className={`text-lg font-semibold ${currentTheme.heading}`}>富老板 · 窮老板</h1>
+                    <h1 className="text-lg font-semibold text-white/90">富老板 · 穷老板</h1>
 
                     {/* 移動端目錄按鈕 */}
                     <button
                         onClick={() => setShowMobileToc(true)}
-                        className={`md:hidden flex items-center gap-2 ${currentTheme.textMuted} hover:text-gold-400 transition-colors`}
+                        className="md:hidden flex items-center gap-2 text-white/80 hover:text-white transition-colors"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h7" />
@@ -603,7 +603,7 @@ function Reader() {
                         {/* 內容渲染 */}
                         {!isLoading && !error && content && (
                             <>
-                                <EBookNarrator theme={theme} currentTheme={currentTheme} />
+                                {/* <EBookNarrator theme={theme} currentTheme={currentTheme} /> */}
                                 <motion.article
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
