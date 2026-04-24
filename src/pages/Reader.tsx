@@ -593,11 +593,16 @@ function Reader() {
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.5 }}
                                     className={`prose max-w-none ereader-content ${theme === 'dark' ? 'prose-invert' : ''} text-lg leading-loose`}
+                                    onContextMenu={(e) => e.preventDefault()}
                                     style={{
                                         fontSize: `${fontSize}px`,
                                         lineHeight: '1.75',
                                         fontFamily: '"Georgia", "Merriweather", -apple-system, "PingFang SC", sans-serif',
-                                        color: theme === 'dark' ? '#e5e5e5' : '#000000'
+                                        // 根据主题动态设置颜色，避免切换主题时文字看不清
+                                        color: theme === 'dark' ? '#e5e5e5' : theme === 'light' ? '#111111' : '#1B5E20',
+                                        // 禁止文字选中，保护内容不被一键复制
+                                        userSelect: 'none',
+                                        WebkitUserSelect: 'none',
                                     }}
                                 >
                                     {/* Force Inherit 樣式 - 讓子元素繼承字體大小和顏色，消除缩进并增加段间距 */}
@@ -615,6 +620,13 @@ function Reader() {
                                             text-indent: 0 !important;
                                             text-align: justify;
                                             margin-bottom: 2em !important;
+                                        }
+                                        /* 禁止全文选中与复制 */
+                                        .ereader-content {
+                                            -webkit-user-select: none !important;
+                                            -moz-user-select: none !important;
+                                            -ms-user-select: none !important;
+                                            user-select: none !important;
                                         }
                                     `}</style>
 
