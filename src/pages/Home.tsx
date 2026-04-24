@@ -18,7 +18,7 @@ function Home() {
                 <nav className="mx-auto flex max-w-7xl items-center justify-between">
                     <div className="flex items-center">
                         <img
-                            src={`${import.meta.env.BASE_URL}images/logo.png`}
+                            src="/images/logo.png"
                             alt="Rich Boss Logo"
                             className="h-[75px] lg:h-[95px] w-auto object-contain transform origin-left hover:scale-[1.02] transition-transform"
                         />
@@ -269,7 +269,7 @@ function Home() {
                                     <div
                                         className="relative w-72 lg:w-96 aspect-[3/4] bg-surface-dark border-4 border-white/10 rounded-2xl shadow-2xl overflow-hidden transform rotate-2 group-hover:rotate-0 transition-transform duration-500">
                                         <img className="w-full h-full object-cover" alt="富老板，穷老板 书籍封面"
-                                            src={`${import.meta.env.BASE_URL}images/cover.jpg`} />
+                                            src="/images/cover.jpg" />
                                     </div>
                                 </div>
                             </div>
@@ -389,7 +389,7 @@ function Home() {
                     <div className="col-span-1 md:col-span-2">
                         <div className="flex items-center mb-6">
                             <img
-                                src={`${import.meta.env.BASE_URL}images/logo.png`}
+                                src="/images/logo.png"
                                 alt="Rich Boss Logo"
                                 className="h-[90px] lg:h-[120px] w-auto object-contain transform origin-left"
                             />

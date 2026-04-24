@@ -57,13 +57,13 @@ const IntroView: React.FC<Props> = ({ onStart, onAdmin, onViewHistory, isLoggedI
               这份测试旨在帮你看见压力下真实的<strong className="text-yellow-500">"信念+应对模式"</strong>。了解底层逻辑，是进化的第一步。
             </p>
             <div className="space-y-4">
-              <p className="flex items-center gap-3 text-slate-400 font-medium">
-                <span className="w-1.5 h-1.5 rounded-full bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.8)]"></span>
-                请凭<strong className="text-white">第一直觉</strong>选择
+              <p className="flex items-start gap-3 text-slate-400 font-medium">
+                <span className="w-1.5 h-1.5 rounded-full bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.8)] shrink-0 mt-2"></span>
+                <span className="flex-1">请凭<strong className="text-white">第一直觉</strong>选择</span>
               </p>
-              <p className="flex items-center gap-3 text-slate-400 font-medium">
-                <span className="w-1.5 h-1.5 rounded-full bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.8)]"></span>
-                回答<strong className="text-white">真实的自己</strong>，而非理想中的自己
+              <p className="flex items-start gap-3 text-slate-400 font-medium">
+                <span className="w-1.5 h-1.5 rounded-full bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.8)] shrink-0 mt-2"></span>
+                <span className="flex-1">回答<strong className="text-white">真实的自己</strong>，而非理想中的自己</span>
               </p>
             </div>
           </div>
