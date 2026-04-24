@@ -19,7 +19,7 @@ function App() {
                 <Route path="/reader" element={
                     <>
                         <Reader />
-                        <ChatWidget />
+                        {/* <ChatWidget /> */}
                     </>
                 } />
                 {/* 信念原型测验 */}

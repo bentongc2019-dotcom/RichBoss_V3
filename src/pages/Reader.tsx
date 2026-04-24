@@ -603,7 +603,7 @@ function Reader() {
                         {/* 內容渲染 */}
                         {!isLoading && !error && content && (
                             <>
-                                {/* <EBookNarrator theme={theme} currentTheme={currentTheme} /> */}
+                                <EBookNarrator theme={theme} currentTheme={currentTheme} />
                                 <motion.article
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
